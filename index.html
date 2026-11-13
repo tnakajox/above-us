@@ -7,206 +7,100 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/satellite.js/5.0.0/satellite.min.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Noto+Sans+JP:wght@300;400;500;700&family=Barlow+Condensed:wght@300;400;500;600;700&display=swap');
-
-:root{
- --bg:#05090e;
- --panel:#09131b;
- --line:#17313e;
- --cyan:#70eaff;
- --amber:#e6b76c;
- --white:#e4f1f3;
- --muted:#78909a;
- --red:#ff6464;
-}
+:root{--bg:#05090e;--panel:#09131b;--line:#17313e;--cyan:#70eaff;--amber:#e6b76c;--white:#e4f1f3;--muted:#78909a;--red:#ff6464}
 *{box-sizing:border-box}
-body{
- margin:0;background:var(--bg);color:var(--white);
- font-family:'Share Tech Mono','Noto Sans JP',monospace;
- overflow-x:hidden;
-}
-body:before{
- content:"";position:fixed;inset:0;pointer-events:none;z-index:20;
- background:repeating-linear-gradient(
-  0deg,transparent 0 3px,rgba(90,180,210,.025) 4px
- );
-}
-header{
- padding:22px 4vw 18px;border-bottom:1px solid var(--line);
- display:flex;justify-content:space-between;align-items:flex-end;gap:20px;
-}
+body{margin:0;background:var(--bg);color:var(--white);font-family:'Share Tech Mono','Noto Sans JP',monospace;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:20;background:repeating-linear-gradient(0deg,transparent 0 3px,rgba(90,180,210,.025) 4px)}
+header{padding:22px 4vw 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:flex-end;gap:20px}
 .eyebrow{font-size:10px;letter-spacing:3px;color:var(--cyan)}
-h1{
- font:500 clamp(42px,7vw,82px)/.9 'Barlow Condensed',sans-serif;
- letter-spacing:4px;margin:10px 0 5px;
-}
-.subtitle{
- font:300 15px 'Noto Sans JP',sans-serif;
- letter-spacing:4px;color:var(--muted);
-}
+h1{font:500 clamp(42px,7vw,82px)/.9 'Barlow Condensed',sans-serif;letter-spacing:4px;margin:10px 0 5px}
+.subtitle{font:300 15px 'Noto Sans JP',sans-serif;letter-spacing:4px;color:var(--muted)}
 .header-right{text-align:right;font-size:10px;color:var(--muted);line-height:2}
 .live{color:var(--cyan);letter-spacing:2px}
-.live:before{
- content:"";display:inline-block;width:7px;height:7px;border-radius:50%;
- background:var(--cyan);margin-right:8px;
- box-shadow:0 0 12px var(--cyan);
- animation:blink 1.5s infinite;
-}
+.live:before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--cyan);margin-right:8px;box-shadow:0 0 12px var(--cyan);animation:blink 1.5s infinite}
 @keyframes blink{50%{opacity:.3}}
 main{padding:20px 4vw 40px;max-width:1600px;margin:auto}
-.topline{
- display:flex;justify-content:space-between;gap:15px;
- flex-wrap:wrap;margin-bottom:12px;
-}
+.topline{display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap;margin-bottom:12px}
 .label{font-size:10px;letter-spacing:2px;color:var(--muted)}
 .location{font-size:10px;color:var(--amber)}
-.layout{
- display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:14px;
-}
-.globe-panel{
- position:relative;min-height:570px;border:1px solid var(--line);
- overflow:hidden;
- background:radial-gradient(ellipse at 50% 48%,#102b38 0%,#07141e 48%,#04080d 100%);
-}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:14px}
+.globe-panel{position:relative;min-height:570px;border:1px solid var(--line);overflow:hidden;background:radial-gradient(ellipse at 50% 48%,#102b38 0%,#07141e 48%,#04080d 100%)}
 #globe{width:100%;height:570px;display:block}
-.globe-caption{
- position:absolute;top:15px;left:18px;font-size:10px;
- line-height:1.9;color:var(--muted);pointer-events:none;
-}
+.globe-caption{position:absolute;top:15px;left:18px;font-size:10px;line-height:1.9;color:var(--muted);pointer-events:none;z-index:2}
 .globe-caption strong{color:var(--cyan);font-weight:normal}
-.globe-bottom{
- position:absolute;bottom:14px;left:18px;right:18px;
- display:flex;justify-content:space-between;gap:10px;
- font-size:9px;color:var(--muted);pointer-events:none;
-}
+.globe-bottom{position:absolute;bottom:14px;left:18px;right:18px;display:flex;justify-content:space-between;gap:10px;font-size:9px;color:var(--muted);pointer-events:none}
 .side{display:flex;flex-direction:column;gap:12px}
 .panel{border:1px solid var(--line);background:var(--panel);padding:16px}
 .panel-title{font-size:10px;letter-spacing:2px;color:var(--muted);margin-bottom:13px}
 .big-number{font:400 48px/.95 'Barlow Condensed';color:var(--cyan)}
-.big-unit{font-size:10px;color:var(--muted);margin-top:7px}
-.stat-row{
- display:flex;justify-content:space-between;gap:8px;
- border-top:1px solid #142832;padding:9px 0;font-size:9px;
-}
+.big-unit{font-size:10px;color:var(--muted);margin-top:7px;line-height:1.7}
+.stat-row{display:flex;justify-content:space-between;gap:8px;border-top:1px solid #142832;padding:9px 0;font-size:9px}
 .stat-row span:first-child{color:var(--muted)}
 .stat-row span:last-child{text-align:right}
-.selected-name{
- font:500 22px/1.2 'Barlow Condensed';color:var(--cyan);
- min-height:25px;overflow-wrap:anywhere;
-}
-.selected-sub{font-size:9px;color:var(--muted);margin:6px 0 13px}
+.selected-name{font:500 22px/1.2 'Barlow Condensed';color:var(--cyan);min-height:25px;overflow-wrap:anywhere}
+.selected-sub{font-size:9px;color:var(--muted);margin:6px 0 13px;line-height:1.7}
 .data-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .data-cell{border-top:1px solid #142832;padding-top:8px}
 .data-cell small{display:block;color:var(--muted);font-size:9px;margin-bottom:5px}
 .data-cell strong{font:400 20px 'Barlow Condensed'}
-button{
- background:transparent;border:1px solid var(--line);color:var(--cyan);
- font:10px 'Share Tech Mono';letter-spacing:1px;padding:9px 11px;cursor:pointer;
-}
+.purpose-box{border-top:1px solid #142832;margin-top:13px;padding-top:11px}
+.purpose-name{font:500 17px 'Barlow Condensed';color:var(--amber)}
+.purpose-text{font:300 10px/1.8 'Noto Sans JP',sans-serif;color:#a9bbc0;margin-top:5px}
+.pass-box{border:1px solid #29434d;background:#071018;padding:10px;margin-top:12px}
+.pass-label{font-size:9px;color:var(--amber);letter-spacing:1px}
+.pass-result{font:400 17px 'Barlow Condensed';color:var(--cyan);margin-top:5px}
+.pass-detail{font:300 10px/1.8 'Noto Sans JP',sans-serif;color:#a9bbc0;margin-top:4px}
+button{background:transparent;border:1px solid var(--line);color:var(--cyan);font:10px 'Share Tech Mono';letter-spacing:1px;padding:9px 11px;cursor:pointer}
 button:hover{background:#102532}
-.services{
- display:grid;grid-template-columns:repeat(4,1fr);
- gap:10px;margin-top:14px;
-}
-.service{
- border:1px solid var(--line);background:#071018;
- padding:15px;min-height:130px;
-}
+button:disabled{opacity:.45;cursor:wait}
+.services{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}
+.service{border:1px solid var(--line);background:#071018;padding:15px;min-height:130px}
 .service-icon{font-size:20px;color:var(--cyan);margin-bottom:10px}
-.service h3{
- font:500 18px 'Noto Sans JP',sans-serif;
- letter-spacing:1px;margin:0 0 9px;
-}
-.service p{
- font:300 11px/1.9 'Noto Sans JP',sans-serif;
- color:#9aadb4;margin:0;
-}
+.service h3{font:500 18px 'Noto Sans JP',sans-serif;letter-spacing:1px;margin:0 0 9px}
+.service p{font:300 11px/1.9 'Noto Sans JP',sans-serif;color:#9aadb4;margin:0}
 .radar-section{margin-top:28px}
-.radar-layout{
- display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:14px;
-}
-.radar-panel{
- border:1px solid var(--line);
- background:radial-gradient(ellipse at center,#0b202b,#050a10 75%);
- position:relative;overflow:hidden;
-}
-#radar{width:100%;height:360px;display:block}
+.radar-layout{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:14px}
+.radar-panel{border:1px solid var(--line);background:radial-gradient(ellipse at center,#0b202b,#050a10 75%);position:relative;overflow:hidden}
+#radar{width:100%;height:390px;display:block}
 .radar-info{border:1px solid var(--line);background:var(--panel);padding:18px}
-.radar-info p{
- font:300 11px/2 'Noto Sans JP',sans-serif;color:#9aadb4;
-}
+.radar-info p{font:300 11px/2 'Noto Sans JP',sans-serif;color:#9aadb4;margin:8px 0}
 .radar-info .panel-title{margin-top:20px}
-.status{font-size:10px;color:var(--muted);margin:12px 0;min-height:16px}
+.status{font-size:10px;color:var(--muted);margin:12px 0;min-height:16px;line-height:1.8}
 .status.error{color:var(--red)}
-.footer{
- display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap;
- margin-top:30px;border-top:1px solid var(--line);
- padding-top:15px;color:#526b75;font-size:9px;letter-spacing:1px;
-}
+.legend{display:flex;gap:15px;flex-wrap:wrap;margin-top:8px;font-size:9px;color:var(--muted)}
+.legend span:before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:6px;background:var(--cyan)}
+.legend .yoko:before{background:var(--amber);border-radius:0;transform:rotate(45deg)}
+.method{margin-top:15px;padding:14px;border:1px solid var(--line);background:#071018}
+.method h3{font:500 15px 'Noto Sans JP',sans-serif;margin:0 0 7px;color:var(--amber)}
+.method p{font:300 10px/1.9 'Noto Sans JP',sans-serif;color:#9aadb4;margin:0}
+.footer{display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap;margin-top:30px;border-top:1px solid var(--line);padding-top:15px;color:#526b75;font-size:9px;letter-spacing:1px}
 .footer a{color:var(--muted);text-decoration:none}
-@media(max-width:900px){
- .layout,.radar-layout{grid-template-columns:1fr}
- .side{display:grid;grid-template-columns:1fr 1fr}
- .services{grid-template-columns:1fr 1fr}
-}
-@media(max-width:550px){
- header{align-items:flex-start;flex-direction:column}
- .header-right{text-align:left}
- main{padding:18px 12px 30px}
- .side{grid-template-columns:1fr}
- .services{grid-template-columns:1fr 1fr}
- .globe-panel{min-height:390px}
- #globe{height:390px}
- .globe-bottom{font-size:8px}
- #radar{height:300px}
-}
+@media(max-width:900px){.layout,.radar-layout{grid-template-columns:1fr}.side{display:grid;grid-template-columns:1fr 1fr}.services{grid-template-columns:1fr 1fr}}
+@media(max-width:550px){header{align-items:flex-start;flex-direction:column}.header-right{text-align:left}main{padding:18px 12px 30px}.side{grid-template-columns:1fr}.services{grid-template-columns:1fr 1fr}.globe-panel{min-height:390px}#globe{height:390px}.globe-bottom{font-size:8px}#radar{height:310px}}
 </style>
 </head>
-
 <body>
 <header>
- <div>
-  <div class="eyebrow">NAKAJOX EXPERIMENT / 002</div>
-  <h1>ABOVE US</h1>
-  <div class="subtitle">空は、空っぽではない。</div>
- </div>
- <div class="header-right">
-  <div class="live">軌道監視システム / LIVE</div>
-  <div id="clock">--:--:--</div>
-  <div>観測地点 / 横浜</div>
- </div>
+ <div><div class="eyebrow">NAKAJOX EXPERIMENT / 002</div><h1>ABOVE US</h1><div class="subtitle">空は、空っぽではない。</div></div>
+ <div class="header-right"><div class="live">軌道監視システム / LIVE</div><div id="clock">--:--:--</div><div>観測地点 / 横浜・神奈川</div></div>
 </header>
-
 <main>
- <div class="topline">
-  <div class="label">01 / 地球を取り巻く衛星</div>
-  <div class="location">35.4437° N　139.6380° E</div>
- </div>
-
+ <div class="topline"><div class="label">01 / 地球を取り巻く衛星</div><div class="location">YOKOHAMA / 35.4437° N　139.6380° E</div></div>
  <div class="layout">
   <section class="globe-panel">
-   <div class="globe-caption">
-    <strong>EARTH / ORBITAL VIEW</strong><br>
-    地球周辺の衛星位置<br>
-    観測地点：横浜
-   </div>
+   <div class="globe-caption"><strong>EARTH / ORBITAL VIEW</strong><br>地球周辺の衛星位置<br>観測地点：横浜・中心マーカー</div>
    <canvas id="globe"></canvas>
-   <div class="globe-bottom">
-    <span id="globe-count">追跡対象：--</span>
-    <span>衛星位置 / 軌道計算</span>
-    <span>地球 / 立体投影</span>
-   </div>
+   <div class="globe-bottom"><span id="globe-count">追跡対象：--</span><span>衛星位置 / 軌道計算</span><span>横浜を中心とした投影</span></div>
   </section>
-
   <aside class="side">
    <section class="panel">
     <div class="panel-title">現在、横浜から見える衛星</div>
     <div class="big-number" id="visible-count">--</div>
-    <div class="big-unit">地平線より上にある衛星</div>
+    <div class="big-unit">仰角0°以上 / 横浜の地平線より上にある衛星</div>
     <div class="stat-row"><span>追跡中の衛星</span><span id="tracked-count">--</span></div>
-    <div class="stat-row"><span>データ提供元</span><span>CELESTRAK</span></div>
+    <div class="stat-row"><span>データ提供元</span><span>CELESTRAK / VISUAL</span></div>
     <div class="stat-row"><span>軌道データ取得</span><span id="update-time">--</span></div>
    </section>
-
    <section class="panel">
     <div class="panel-title">選択した衛星</div>
     <div class="selected-name" id="selected-name">衛星を選択してください</div>
@@ -217,65 +111,50 @@ button:hover{background:#102532}
      <div class="data-cell"><small>仰角</small><strong id="elevation">--</strong></div>
      <div class="data-cell"><small>方位角</small><strong id="azimuth">--</strong></div>
     </div>
+    <div class="purpose-box"><div class="panel-title">衛星の用途 / PURPOSE</div><div class="purpose-name" id="purpose-name">未選択</div><div class="purpose-text" id="purpose-text">衛星を選択すると、公開されている衛星名から用途を分類します。特定できない場合は不明と表示します。</div></div>
+    <div class="pass-box"><div class="pass-label">YOKOHAMA / NEXT PASS FORECAST</div><div class="pass-result" id="pass-result">衛星を選択してください</div><div class="pass-detail" id="pass-detail">選択した衛星について、今後24時間の軌道を計算します。</div></div>
    </section>
-
    <section class="panel">
     <div class="panel-title">システム状態</div>
     <div class="stat-row"><span>軌道計算</span><span id="engine-status">準備中</span></div>
     <div class="stat-row"><span>位置更新</span><span>毎秒</span></div>
-    <div class="stat-row"><span>軌跡表示</span><span>移動履歴</span></div>
+    <div class="stat-row"><span>次回通過予測</span><span>選択時に計算</span></div>
     <button id="reload">軌道データを再取得 ↻</button>
    </section>
   </aside>
  </div>
-
  <div class="status" id="status">衛星データを読み込んでいます...</div>
+ <div class="legend"><span>衛星 / 軌道データから計算</span><span class="yoko">横浜 / 観測地点</span></div>
 
  <div class="services">
-  <article class="service">
-   <div class="service-icon">⌖</div>
-   <h3>GPS・位置情報</h3>
-   <p>スマートフォンや自動車の位置情報。人工衛星からの信号が、私たちの現在地を知る手がかりになる。</p>
-  </article>
-  <article class="service">
-   <div class="service-icon">⌁</div>
-   <h3>通信</h3>
-   <p>海を越え、遠隔地をつなぐ衛星通信。地上の通信網だけでは届きにくい場所にも情報を届ける。</p>
-  </article>
-  <article class="service">
-   <div class="service-icon">◉</div>
-   <h3>気象・気候観測</h3>
-   <p>雲、台風、海、地表の変化。宇宙から地球を観測することで、天気や環境の変化を捉える。</p>
-  </article>
-  <article class="service">
-   <div class="service-icon">✳</div>
-   <h3>災害対応</h3>
-   <p>災害発生後の地表の撮影や位置情報。被害状況の把握や救援活動を支える。</p>
-  </article>
+  <article class="service"><div class="service-icon">⌖</div><h3>測位・航法</h3><p>GPSなどの測位衛星は、時刻と位置の情報を地上へ送る。スマートフォンや自動車の現在地を知る仕組みを支えている。</p></article>
+  <article class="service"><div class="service-icon">⌁</div><h3>通信</h3><p>通信衛星は、地上の通信網が届きにくい地域や船舶・航空機などをつなぐ。低軌道衛星コンステレーションも広がっている。</p></article>
+  <article class="service"><div class="service-icon">◉</div><h3>気象・地球観測</h3><p>雲、台風、海、森林、地表の変化を宇宙から観測する。天気予報や環境の監視、防災に利用される。</p></article>
+  <article class="service"><div class="service-icon">✳</div><h3>科学・有人活動</h3><p>宇宙望遠鏡は遠い天体を観測し、有人宇宙船や宇宙ステーションは人の滞在と実験を支える。</p></article>
  </div>
 
  <section class="radar-section">
-  <div class="topline">
-   <div class="label">02 / 横浜の上空を通過する衛星</div>
-   <div class="location">LOCAL SKY / 360° RADAR</div>
-  </div>
+  <div class="topline"><div class="label">02 / 横浜の上空を通過する衛星</div><div class="location">LOCAL SKY / 360° RADAR</div></div>
   <div class="radar-layout">
-   <div class="radar-panel">
-    <canvas id="radar"></canvas>
-   </div>
+   <div class="radar-panel"><canvas id="radar"></canvas></div>
    <div class="radar-info">
     <div class="panel-title">レーダーの見方</div>
-    <p>横浜を中心に、現在見える衛星を表示しています。</p>
-    <p>中央は真上。外側の円は地平線です。衛星の点が動くことで、空を通過していく様子がわかります。</p>
-    <p>点をクリックすると、その衛星の高度や速度を確認できます。</p>
+    <p>このレーダーの中心が横浜です。中心に近い衛星ほど真上にあり、外側の円に近いほど地平線に近い位置にあります。</p>
+    <p>方角は上が北、右が東、下が南、左が西。点は現在、横浜から見える衛星です。</p>
+    <p>衛星をクリックすると、用途と今後24時間の横浜上空の通過予測を表示します。</p>
+    <div class="panel-title">「横浜上空を通る」とは</div>
+    <p>ここでは、横浜から見た仰角が0°を超える状態を「横浜から見える」としています。仰角60°以上なら、かなり高い位置を通る予測です。真上を通ることと、上空を見える範囲に通ることは区別しています。</p>
     <div class="panel-title">この作品について</div>
-    <p>表示している衛星の位置は、公開された軌道データから計算しています。</p>
-    <p>地球の図は作品用の模式的な立体表現です。正確な地形図ではありません。</p>
-    <p>生活との関係は衛星インフラ全体の一般的な役割を説明しています。表示された個々の衛星の用途を特定するものではありません。</p>
+    <p>衛星位置は公開されたTLE（軌道要素）を使い、ブラウザ内で計算しています。現在位置や通過予測は実際の観測画像ではありません。</p>
+    <p>衛星の用途は衛星名に基づく分類です。名称だけでは用途を特定できない衛星もあるため、不明なものは不明と表示します。</p>
    </div>
   </div>
  </section>
 
+ <div class="method">
+  <h3>データと予測について</h3>
+  <p>軌道データはCELESTRAKの「VISUAL」グループを使用します。この一覧は可視対象として整理された衛星群であり、地球上のすべての衛星を網羅するものではありません。TLEは更新時点の軌道情報なので、予測には誤差があります。特に軌道変更や大気抵抗の影響を受ける低軌道衛星では、通過時刻や位置がずれることがあります。実際に肉眼で見えるかどうかは、太陽光の当たり方、観測地点の暗さ、天候などにも左右されます。</p>
+ </div>
  <div class="footer">
   <span>NAKAJOX EXPERIMENT / 002</span>
   <span>軌道データ：<a href="https://celestrak.org/" target="_blank" rel="noopener">CELESTRAK</a> / 計算：SATELLITE.JS</span>
@@ -285,496 +164,246 @@ button:hover{background:#102532}
 
 <script>
 (() => {
+'use strict';
 const $ = id => document.getElementById(id);
-const observer = {
- latitude:35.4437*Math.PI/180,
- longitude:139.6380*Math.PI/180,
- height:0.02
-};
-
-const globe=$('globe'),gc=globe.getContext('2d');
-const radar=$('radar'),rc=radar.getContext('2d');
-
-let satellites=[];
-let positions=[];
-let selectedName=null;
-let lastFetch=null;
-let fetching=false;
-let lastPositionUpdate=0;
-let frame=0;
-let history=new Map();
-let globeSize={},radarSize={};
-
-const DEG=Math.PI/180;
-const radToDeg=x=>x/DEG;
-
+const observer = {latitude:35.4437*Math.PI/180,longitude:139.6380*Math.PI/180,height:0.02};
+const globe=$('globe'),gc=globe.getContext('2d'),radar=$('radar'),rc=radar.getContext('2d');
+let satellites=[],positions=[],selectedName=null,lastFetch=null,fetching=false,lastPositionUpdate=0;
+let history=new Map(),globeSize={},radarSize={},passCache=new Map(),passJob=0;
+const DEG=Math.PI/180,radToDeg=x=>x/DEG;
 function resizeCanvas(canvas,ctx,store){
- const r=canvas.getBoundingClientRect();
- const dpr=Math.min(devicePixelRatio||1,2);
- canvas.width=Math.round(r.width*dpr);
- canvas.height=Math.round(r.height*dpr);
- ctx.setTransform(dpr,0,0,dpr,0,0);
- store.w=r.width;
- store.h=r.height;
+ const r=canvas.getBoundingClientRect(),dpr=Math.min(window.devicePixelRatio||1,2);
+ canvas.width=Math.round(r.width*dpr);canvas.height=Math.round(r.height*dpr);
+ ctx.setTransform(dpr,0,0,dpr,0,0);store.w=r.width;store.h=r.height;
 }
-
-function resize(){
- resizeCanvas(globe,gc,globeSize);
- resizeCanvas(radar,rc,radarSize);
-}
-window.addEventListener('resize',resize);
-resize();
+function resize(){resizeCanvas(globe,gc,globeSize);resizeCanvas(radar,rc,radarSize)}
+window.addEventListener('resize',resize);resize();
 
 function parseTLE(text){
- const lines=text.trim().split(/\r?\n/);
- const out=[];
+ const lines=text.trim().split(/\r?\n/),out=[];
  for(let i=0;i<lines.length-2;i++){
   if(lines[i+1].startsWith('1 ')&&lines[i+2].startsWith('2 ')){
-   try{
-    out.push({
-     name:lines[i].trim().replace(/^0 /,''),
-     satrec:satellite.twoline2satrec(lines[i+1],lines[i+2])
-    });
-    i+=2;
-   }catch(e){}
+   try{out.push({name:lines[i].trim().replace(/^0 /,''),satrec:satellite.twoline2satrec(lines[i+1],lines[i+2])});i+=2}catch(e){}
   }
  }
  return out;
 }
-
 async function loadData(){
- if(fetching)return;
- fetching=true;
- $('status').className='status';
- $('status').textContent='CELESTRAKに接続中 / 軌道データを取得しています...';
- $('engine-status').textContent='接続中';
-
+ if(fetching)return;fetching=true;$('reload').disabled=true;
+ $('status').className='status';$('status').textContent='CELESTRAKに接続中 / 軌道データを取得しています...';$('engine-status').textContent='接続中';
  try{
   const url='https://celestrak.org/NORAD/elements/gp.php?GROUP=visual&FORMAT=tle&_='+Date.now();
-  const res=await fetch(url,{cache:'no-store'});
-  if(!res.ok)throw Error('HTTP '+res.status);
-
-  const parsed=parseTLE(await res.text());
-  if(!parsed.length)throw Error('軌道データを読み込めませんでした');
-
-  satellites=parsed;
-  lastFetch=new Date();
-  history.clear();
-  positions=[];
-  lastPositionUpdate=0;
-
-  $('tracked-count').textContent=satellites.length;
-  $('update-time').textContent=lastFetch.toLocaleTimeString('ja-JP');
-  $('engine-status').textContent='稼働中';
-  $('status').textContent='軌道データ取得成功 / '+satellites.length+'機を追跡中 / 現在位置を計算しています';
+  const res=await fetch(url,{cache:'no-store'});if(!res.ok)throw Error('HTTP '+res.status);
+  const parsed=parseTLE(await res.text());if(!parsed.length)throw Error('軌道データを読み込めませんでした');
+  satellites=parsed;lastFetch=new Date();history.clear();passCache.clear();positions=[];lastPositionUpdate=0;
+  $('tracked-count').textContent=satellites.length;$('update-time').textContent=lastFetch.toLocaleTimeString('ja-JP');
+  $('engine-status').textContent='稼働中';$('status').textContent='軌道データ取得成功 / '+satellites.length+'機を追跡中 / 現在位置を計算しています';
+  if(selectedName&&!satellites.some(s=>s.name===selectedName)){selectedName=null;resetSelected()}
  }catch(e){
-  $('engine-status').textContent='停止';
-  $('status').className='status error';
-  $('status').textContent='データ取得失敗：'+e.message+' / 架空の衛星位置は表示していません。';
- }finally{
-  fetching=false;
- }
+  $('engine-status').textContent='停止';$('status').className='status error';
+  $('status').textContent='データ取得失敗：'+e.message+' / 架空の衛星位置は表示していません。'
+ }finally{fetching=false;$('reload').disabled=false}
 }
-
 function calculate(sat,now){
  try{
-  const pv=satellite.propagate(sat.satrec,now);
-  if(!pv.position||!pv.velocity)return null;
-
-  const gmst=satellite.gstime(now);
-  const geo=satellite.eciToGeodetic(pv.position,gmst);
-  const ecf=satellite.eciToEcf(pv.position,gmst);
+  const pv=satellite.propagate(sat.satrec,now);if(!pv.position||!pv.velocity)return null;
+  const gmst=satellite.gstime(now),geo=satellite.eciToGeodetic(pv.position,gmst),ecf=satellite.eciToEcf(pv.position,gmst);
   const look=satellite.ecfToLookAngles(observer,ecf);
-
-  return {
-   name:sat.name,
-   lat:geo.latitude,
-   lon:geo.longitude,
-   alt:geo.height,
+  return {name:sat.name,lat:geo.latitude,lon:geo.longitude,alt:geo.height,
    velocity:Math.hypot(pv.velocity.x,pv.velocity.y,pv.velocity.z),
-   elevation:radToDeg(look.elevation),
-   azimuth:(radToDeg(look.azimuth)+360)%360
-  };
- }catch(e){return null;}
+   elevation:radToDeg(look.elevation),azimuth:(radToDeg(look.azimuth)+360)%360};
+ }catch(e){return null}
 }
-
 function updatePositions(now){
  positions=[];
  satellites.forEach(sat=>{
-  const obj=calculate(sat,now);
-  if(!obj)return;
-  positions.push(obj);
-
+  const obj=calculate(sat,now);if(!obj)return;positions.push(obj);
   const arr=history.get(obj.name)||[];
-  if(obj.elevation>=0){
-   arr.push({lat:obj.lat,lon:obj.lon,alt:obj.alt});
-   if(arr.length>45)arr.shift();
-  }
+  if(obj.elevation>=0){arr.push({lat:obj.lat,lon:obj.lon,alt:obj.alt});if(arr.length>36)arr.shift()}
   history.set(obj.name,arr);
  });
  lastPositionUpdate=now.getTime();
 }
-
-// Earth projection centered on Yokohama.
 function project(lat,lon,alt=0){
- const lat0=observer.latitude;
- const lon0=observer.longitude;
- const dl=lon-lon0;
-
- const z=Math.sin(lat0)*Math.sin(lat)+
- Math.cos(lat0)*Math.cos(lat)*Math.cos(dl);
- const x=Math.cos(lat)*Math.sin(dl);
- const y=Math.cos(lat0)*Math.sin(lat)-
- Math.sin(lat0)*Math.cos(lat)*Math.cos(dl);
-
- const scale=1+Math.max(0,Math.min(3000,alt))/6371;
- const R=globeSize.R||150;
-
- return {
-  x:globeSize.cx+x*R*scale,
-  y:globeSize.cy-y*R*scale,
-  z
- };
+ const lat0=observer.latitude,lon0=observer.longitude,dl=lon-lon0;
+ const z=Math.sin(lat0)*Math.sin(lat)+Math.cos(lat0)*Math.cos(lat)*Math.cos(dl);
+ const x=Math.cos(lat)*Math.sin(dl),y=Math.cos(lat0)*Math.sin(lat)-Math.sin(lat0)*Math.cos(lat)*Math.cos(dl);
+ const scale=1+Math.max(0,Math.min(3000,alt))/6371,R=globeSize.R||150;
+ return {x:globeSize.cx+x*R*scale,y:globeSize.cy-y*R*scale,z};
 }
-
 function drawGlobe(now){
- const w=globeSize.w,h=globeSize.h;
- gc.clearRect(0,0,w,h);
-
- const R=Math.min(w*.34,h*.36);
- const cx=w/2,cy=h/2+10;
- globeSize={...globeSize,R,cx,cy};
-
- // Atmospheric glow
+ const w=globeSize.w,h=globeSize.h;gc.clearRect(0,0,w,h);
+ const R=Math.min(w*.34,h*.36),cx=w/2,cy=h/2+10;globeSize={...globeSize,R,cx,cy};
  const glow=gc.createRadialGradient(cx,cy,R*.7,cx,cy,R*1.4);
- glow.addColorStop(0,'rgba(30,145,190,.12)');
- glow.addColorStop(.7,'rgba(30,145,190,.07)');
- glow.addColorStop(1,'rgba(30,145,190,0)');
- gc.fillStyle=glow;
- gc.beginPath();
- gc.arc(cx,cy,R*1.4,0,Math.PI*2);
- gc.fill();
-
- // Earth
+ glow.addColorStop(0,'rgba(30,145,190,.12)');glow.addColorStop(.7,'rgba(30,145,190,.07)');glow.addColorStop(1,'rgba(30,145,190,0)');
+ gc.fillStyle=glow;gc.beginPath();gc.arc(cx,cy,R*1.4,0,Math.PI*2);gc.fill();
  const earth=gc.createRadialGradient(cx-R*.35,cy-R*.4,R*.05,cx,cy,R*1.1);
- earth.addColorStop(0,'#1b5365');
- earth.addColorStop(.55,'#0c2a39');
- earth.addColorStop(1,'#030b12');
- gc.fillStyle=earth;
- gc.beginPath();
- gc.arc(cx,cy,R,0,Math.PI*2);
- gc.fill();
-
- gc.save();
- gc.beginPath();
- gc.arc(cx,cy,R,0,Math.PI*2);
- gc.clip();
-
- // Stylized landforms
+ earth.addColorStop(0,'#1b5365');earth.addColorStop(.55,'#0c2a39');earth.addColorStop(1,'#030b12');
+ gc.fillStyle=earth;gc.beginPath();gc.arc(cx,cy,R,0,Math.PI*2);gc.fill();
+ gc.save();gc.beginPath();gc.arc(cx,cy,R,0,Math.PI*2);gc.clip();
  gc.fillStyle='rgba(65,139,130,.19)';
  [[-.35,-.22,.20,.30],[.12,-.38,.20,.12],[.38,.10,.18,.25],[-.12,.35,.16,.22]].forEach(([x,y,rx,ry])=>{
-  gc.beginPath();
-  gc.ellipse(cx+x*R,cy+y*R,rx*R,ry*R,-.4,0,Math.PI*2);
-  gc.fill();
+  gc.beginPath();gc.ellipse(cx+x*R,cy+y*R,rx*R,ry*R,-.4,0,Math.PI*2);gc.fill()
  });
-
- // Latitude and longitude grid
- gc.strokeStyle='rgba(100,210,230,.20)';
- gc.lineWidth=.7;
-
- for(let lat=-60;lat<=60;lat+=30){
-  gc.beginPath();
-  for(let lon=-90;lon<=90;lon+=3){
-   const p=project(lat*DEG,lon*DEG);
-   if(lon===-90)gc.moveTo(p.x,p.y);
-   else gc.lineTo(p.x,p.y);
-  }
-  gc.stroke();
- }
-
- for(let lon=-75;lon<=75;lon+=25){
-  gc.beginPath();
-  for(let lat=-90;lat<=90;lat+=3){
-   const p=project(lat*DEG,lon*DEG);
-   if(lat===-90)gc.moveTo(p.x,p.y);
-   else gc.lineTo(p.x,p.y);
-  }
-  gc.stroke();
- }
+ gc.strokeStyle='rgba(100,210,230,.20)';gc.lineWidth=.7;
+ for(let lat=-60;lat<=60;lat+=30){gc.beginPath();for(let lon=-90;lon<=90;lon+=3){const p=project(lat*DEG,lon*DEG);if(lon===-90)gc.moveTo(p.x,p.y);else gc.lineTo(p.x,p.y)}gc.stroke()}
+ for(let lon=-75;lon<=75;lon+=25){gc.beginPath();for(let lat=-90;lat<=90;lat+=3){const p=project(lat*DEG,lon*DEG);if(lat===-90)gc.moveTo(p.x,p.y);else gc.lineTo(p.x,p.y)}gc.stroke()}
  gc.restore();
-
- // Earth outline
- gc.strokeStyle='rgba(100,220,240,.65)';
- gc.lineWidth=1;
- gc.beginPath();
- gc.arc(cx,cy,R,0,Math.PI*2);
- gc.stroke();
-
- // Yokohama marker
- const pulse=(Math.sin(now/500)+1)/2;
- gc.fillStyle='#e6b76c';
- gc.shadowColor='#e6b76c';
- gc.shadowBlur=14;
- gc.beginPath();
- gc.arc(cx,cy,3.5,0,Math.PI*2);
- gc.fill();
- gc.shadowBlur=0;
- gc.strokeStyle=`rgba(230,183,108,${.25+pulse*.45})`;
- gc.beginPath();
- gc.arc(cx,cy,8+pulse*9,0,Math.PI*2);
- gc.stroke();
-
- gc.fillStyle='#e6b76c';
- gc.font='9px Share Tech Mono';
- gc.textAlign='center';
- gc.fillText('YOKOHAMA',cx,cy+18);
-
- // Orbit rings
- const rotation=now/15000;
- gc.save();
- gc.translate(cx,cy);
- gc.rotate(rotation);
- gc.strokeStyle='rgba(80,180,210,.13)';
- gc.setLineDash([3,8]);
- gc.beginPath();
- gc.ellipse(0,0,R*1.17,R*.37,-.4,0,Math.PI*2);
- gc.stroke();
- gc.beginPath();
- gc.ellipse(0,0,R*1.22,R*.48,.8,0,Math.PI*2);
- gc.stroke();
- gc.restore();
- gc.setLineDash([]);
-
- // Satellite trails and moving points
+ gc.strokeStyle='rgba(100,220,240,.65)';gc.lineWidth=1;gc.beginPath();gc.arc(cx,cy,R,0,Math.PI*2);gc.stroke();
+ // Decorative orbital reference rings
+ gc.save();gc.translate(cx,cy);gc.rotate(now/15000);gc.strokeStyle='rgba(80,180,210,.13)';gc.setLineDash([3,8]);
+ gc.beginPath();gc.ellipse(0,0,R*1.17,R*.37,-.4,0,Math.PI*2);gc.stroke();
+ gc.beginPath();gc.ellipse(0,0,R*1.22,R*.48,.8,0,Math.PI*2);gc.stroke();gc.restore();gc.setLineDash([]);
+ // Satellite positions and restrained trails
  positions.forEach(obj=>{
-  const p=project(obj.lat,obj.lon,obj.alt);
-  if(p.z<=-.05)return;
-
+  const p=project(obj.lat,obj.lon,obj.alt);if(p.z<=-.05)return;
   const arr=history.get(obj.name)||[];
-  if(arr.length>2){
-   gc.beginPath();
-   let started=false;
-   arr.forEach(pt=>{
-    const q=project(pt.lat,pt.lon,pt.alt);
-    if(q.z>-.05){
-     if(!started){gc.moveTo(q.x,q.y);started=true;}
-     else gc.lineTo(q.x,q.y);
-    }else started=false;
-   });
-   gc.strokeStyle='rgba(95,220,255,.38)';
-   gc.lineWidth=1.2;
-   gc.stroke();
-  }
-
-  const active=selectedName===obj.name;
-  const pulse=(Math.sin(now/280+obj.alt)+1)/2;
-  const size=active?5:2.5+pulse*1.3;
-
-  gc.save();
-  gc.shadowColor=active?'#ffffff':'#70eaff';
-  gc.shadowBlur=active?22:12+pulse*8;
-  gc.fillStyle=active?'#ffffff':'#70eaff';
-  gc.beginPath();
-  gc.arc(p.x,p.y,size,0,Math.PI*2);
-  gc.fill();
-  gc.restore();
-
-  // Satellite pulse ring
-  gc.beginPath();
-  gc.arc(p.x,p.y,7+pulse*9,0,Math.PI*2);
-  gc.strokeStyle=`rgba(112,234,255,${.42-pulse*.25})`;
-  gc.lineWidth=1;
-  gc.stroke();
-
-  if(active){
-   gc.strokeStyle='rgba(255,255,255,.9)';
-   gc.beginPath();
-   gc.arc(p.x,p.y,13,0,Math.PI*2);
-   gc.stroke();
-
-   gc.fillStyle='#fff';
-   gc.font='10px Share Tech Mono';
-   gc.fillText(obj.name.slice(0,22),p.x+14,p.y-10);
-  }
+  if(arr.length>2){gc.beginPath();let started=false;arr.forEach(pt=>{const q=project(pt.lat,pt.lon,pt.alt);if(q.z>-.05){if(!started){gc.moveTo(q.x,q.y);started=true}else gc.lineTo(q.x,q.y)}else started=false});
+   gc.strokeStyle='rgba(95,220,255,.25)';gc.lineWidth=.75;gc.stroke()}
+  const active=selectedName===obj.name,pulse=(Math.sin(now/500+obj.alt)+1)/2,size=active?4.8:2.4+pulse*.8;
+  gc.save();gc.shadowColor=active?'#fff':'#70eaff';gc.shadowBlur=active?17:8+pulse*4;gc.fillStyle=active?'#fff':'#70eaff';
+  gc.beginPath();gc.arc(p.x,p.y,size,0,Math.PI*2);gc.fill();gc.restore();
+  if(active){gc.strokeStyle='rgba(255,255,255,.95)';gc.lineWidth=1;gc.beginPath();gc.arc(p.x,p.y,10,0,Math.PI*2);gc.stroke();gc.fillStyle='#fff';gc.font='10px Share Tech Mono';gc.textAlign='left';gc.fillText(obj.name.slice(0,22),p.x+13,p.y-9)}
  });
+ // Yokohama: fixed central observation marker, emphasized over satellite layer
+ const pulse=(Math.sin(now/420)+1)/2;
+ gc.save();gc.strokeStyle='rgba(230,183,108,.65)';gc.lineWidth=1;
+ gc.beginPath();gc.moveTo(cx-22,cy);gc.lineTo(cx-7,cy);gc.moveTo(cx+7,cy);gc.lineTo(cx+22,cy);gc.moveTo(cx,cy-22);gc.lineTo(cx,cy-7);gc.moveTo(cx,cy+7);gc.lineTo(cx,cy+22);gc.stroke();
+ gc.shadowColor='#e6b76c';gc.shadowBlur=17;gc.fillStyle='#e6b76c';gc.beginPath();gc.arc(cx,cy,4.5,0,Math.PI*2);gc.fill();gc.shadowBlur=0;
+ gc.strokeStyle=`rgba(230,183,108,${.35+pulse*.45})`;gc.beginPath();gc.arc(cx,cy,11+pulse*7,0,Math.PI*2);gc.stroke();
+ gc.fillStyle='#e6b76c';gc.font='bold 11px Share Tech Mono';gc.textAlign='center';gc.fillText('YOKOHAMA',cx,cy+34);
+ gc.font='8px Share Tech Mono';gc.fillStyle='rgba(230,183,108,.8)';gc.fillText('35.4437 N / 139.6380 E',cx,cy+46);gc.restore();
 }
-
 function drawRadar(now){
- const w=radarSize.w,h=radarSize.h;
- rc.clearRect(0,0,w,h);
-
- const cx=w/2,cy=h/2+8;
- const R=Math.min(w*.37,h*.38);
- radarSize={...radarSize,cx,cy,R};
-
- // Radar circles
- rc.strokeStyle='rgba(75,180,210,.20)';
- rc.lineWidth=1;
-
- [1,.75,.5,.25].forEach((s,i)=>{
-  rc.beginPath();
-  rc.arc(cx,cy,R*s,0,Math.PI*2);
-  rc.stroke();
-  rc.fillStyle='rgba(100,180,200,.55)';
-  rc.font='9px Share Tech Mono';
-  rc.fillText((90-i*22.5)+'°',cx+5,cy-R*s-4);
- });
-
- // Direction lines
- for(let a=0;a<360;a+=30){
-  const r=a*DEG;
-  rc.beginPath();
-  rc.moveTo(cx,cy);
-  rc.lineTo(cx+Math.sin(r)*R,cy-Math.cos(r)*R);
-  rc.strokeStyle='rgba(75,180,210,.10)';
-  rc.stroke();
- }
-
- // Rotating radar sweep
+ const w=radarSize.w,h=radarSize.h;rc.clearRect(0,0,w,h);
+ const cx=w/2,cy=h/2+8,R=Math.min(w*.37,h*.38);radarSize={...radarSize,cx,cy,R};
+ rc.strokeStyle='rgba(75,180,210,.20)';rc.lineWidth=1;
+ [1,.75,.5,.25].forEach((s,i)=>{rc.beginPath();rc.arc(cx,cy,R*s,0,Math.PI*2);rc.stroke();rc.fillStyle='rgba(100,180,200,.55)';rc.font='9px Share Tech Mono';rc.textAlign='left';rc.fillText((90-i*22.5)+'°',cx+5,cy-R*s-4)});
+ for(let a=0;a<360;a+=30){const r=a*DEG;rc.beginPath();rc.moveTo(cx,cy);rc.lineTo(cx+Math.sin(r)*R,cy-Math.cos(r)*R);rc.strokeStyle='rgba(75,180,210,.10)';rc.stroke()}
+ // Cardinal directions
+ rc.fillStyle='#8daeb6';rc.font='10px Share Tech Mono';rc.textAlign='center';
+ rc.fillText('N',cx,cy-R-13);rc.fillText('E',cx+R+13,cy+3);rc.fillText('S',cx,cy+R+18);rc.fillText('W',cx-R-13,cy+3);
  const sweep=(now/1800)%(Math.PI*2);
  const gradient=rc.createConicGradient(sweep,cx,cy);
- gradient.addColorStop(0,'rgba(70,220,255,0)');
- gradient.addColorStop(.82,'rgba(70,220,255,0)');
- gradient.addColorStop(.96,'rgba(70,220,255,.02)');
- gradient.addColorStop(1,'rgba(70,220,255,.23)');
-
- rc.fillStyle=gradient;
- rc.beginPath();
- rc.arc(cx,cy,R,0,Math.PI*2);
- rc.fill();
-
- // Sweep line
- rc.beginPath();
- rc.moveTo(cx,cy);
- rc.lineTo(cx+Math.sin(sweep)*R,cy-Math.cos(sweep)*R);
- rc.strokeStyle='rgba(112,234,255,.55)';
- rc.lineWidth=1.3;
- rc.stroke();
-
- // Satellites
+ gradient.addColorStop(0,'rgba(70,220,255,0)');gradient.addColorStop(.82,'rgba(70,220,255,0)');gradient.addColorStop(.96,'rgba(70,220,255,.02)');gradient.addColorStop(1,'rgba(70,220,255,.23)');
+ rc.fillStyle=gradient;rc.beginPath();rc.arc(cx,cy,R,0,Math.PI*2);rc.fill();
+ rc.beginPath();rc.moveTo(cx,cy);rc.lineTo(cx+Math.sin(sweep)*R,cy-Math.cos(sweep)*R);rc.strokeStyle='rgba(112,234,255,.55)';rc.lineWidth=1.3;rc.stroke();
  let visible=0;
-
  positions.forEach(obj=>{
-  if(obj.elevation<0)return;
-  visible++;
-
-  const r=R*(1-Math.min(90,obj.elevation)/90);
-  const a=obj.azimuth*DEG;
-  const x=cx+Math.sin(a)*r;
-  const y=cy-Math.cos(a)*r;
-  const active=selectedName===obj.name;
-  const pulse=(Math.sin(now/280+obj.alt)+1)/2;
-
-  rc.save();
-  rc.shadowColor=active?'#fff':'#70eaff';
-  rc.shadowBlur=active?22:10+pulse*8;
-  rc.fillStyle=active?'#fff':'#70eaff';
-  rc.beginPath();
-  rc.arc(x,y,active?5:3+pulse,0,Math.PI*2);
-  rc.fill();
-  rc.restore();
-
-  rc.beginPath();
-  rc.arc(x,y,7+pulse*8,0,Math.PI*2);
-  rc.strokeStyle=`rgba(112,234,255,${.38-pulse*.2})`;
-  rc.stroke();
-
-  if(active){
-   rc.strokeStyle='#fff';
-   rc.beginPath();
-   rc.arc(x,y,12,0,Math.PI*2);
-   rc.stroke();
-  }
+  if(obj.elevation<0)return;visible++;
+  const r=R*(1-Math.min(90,obj.elevation)/90),a=obj.azimuth*DEG,x=cx+Math.sin(a)*r,y=cy-Math.cos(a)*r;
+  const active=selectedName===obj.name,pulse=(Math.sin(now/400+obj.alt)+1)/2;
+  rc.save();rc.shadowColor=active?'#fff':'#70eaff';rc.shadowBlur=active?17:8+pulse*4;rc.fillStyle=active?'#fff':'#70eaff';
+  rc.beginPath();rc.arc(x,y,active?4.5:2.7+pulse*.7,0,Math.PI*2);rc.fill();rc.restore();
+  if(active){rc.strokeStyle='#fff';rc.lineWidth=1;rc.beginPath();rc.arc(x,y,10,0,Math.PI*2);rc.stroke()}
  });
-
- // Center marker
+ // The center is Yokohama, not an abstract radar origin
  const pulse=(Math.sin(now/500)+1)/2;
- rc.fillStyle='#e6b76c';
- rc.beginPath();
- rc.arc(cx,cy,3.5,0,Math.PI*2);
- rc.fill();
- rc.strokeStyle=`rgba(230,183,108,${.25+pulse*.4})`;
- rc.beginPath();
- rc.arc(cx,cy,8+pulse*8,0,Math.PI*2);
- rc.stroke();
-
- rc.fillStyle='#e6b76c';
- rc.font='9px Share Tech Mono';
- rc.textAlign='center';
- rc.fillText('YOKOHAMA',cx,cy+18);
-
+ rc.fillStyle='#e6b76c';rc.beginPath();rc.arc(cx,cy,4,0,Math.PI*2);rc.fill();
+ rc.strokeStyle=`rgba(230,183,108,${.3+pulse*.45})`;rc.lineWidth=1.3;rc.beginPath();rc.arc(cx,cy,10+pulse*6,0,Math.PI*2);rc.stroke();
+ rc.fillStyle='#e6b76c';rc.font='bold 9px Share Tech Mono';rc.textAlign='center';rc.fillText('YOKOHAMA',cx,cy+25);
  $('visible-count').textContent=visible.toString().padStart(2,'0');
- $('globe-count').textContent='追跡対象：'+satellites.length+'機 / 現在見える衛星：'+visible+'機';
+ $('globe-count').textContent='追跡対象：'+satellites.length+'機 / 横浜から見える衛星：'+visible+'機';
 }
-
+function classifyPurpose(name){
+ const n=name.toUpperCase();
+ const rules=[
+  [/ISS|ZARYA|TIANHE|SHENZHOU|CREW|SOYUZ|PROGRESS/,'有人宇宙活動・宇宙ステーション','宇宙飛行士の滞在、物資輸送、微小重力環境での実験などに関係する衛星・宇宙機です。'],
+  [/HST|HUBBLE|JWST|WEBB/,'宇宙望遠鏡・天文学','地球大気の外から天体を観測し、星や銀河、宇宙の成り立ちを研究するための宇宙望遠鏡です。'],
+  [/STARLINK/,'通信・インターネット','低軌道衛星による通信ネットワークの一部です。地上局や利用者端末と接続し、広域の通信サービスを提供します。'],
+  [/ONEWEB/,'通信・インターネット','低軌道衛星コンステレーションによるブロードバンド通信サービスを構成する衛星です。'],
+  [/IRIDIUM/,'通信','衛星電話やデータ通信など、地上ネットワークが届きにくい地域を含む通信サービスに利用されます。'],
+  [/ORBCOMM/,'通信・IoTデータ','遠隔地の機器や移動体からデータを送る衛星通信サービスに利用されます。'],
+  [/NOAA|METEOR|FENGYUN|GOES|HIMAWARI|METOP|JPSS|SUOMI/,'気象観測','雲、気温、水蒸気、台風などの気象情報を観測し、天気予報や気候監視を支える衛星群に属する可能性が高いです。'],
+  [/LANDSAT|SENTINEL|TERRA|AQUA|WORLDVIEW|PLEIADES|SPOT|RESOURCESAT/,'地球観測・リモートセンシング','地表、森林、海洋、都市、農地などを撮影・観測し、環境監視や地図作成、防災などに利用されます。'],
+  [/GPS|NAVSTAR/,'測位・航法','衛星測位システムの一部として、位置と時刻を求めるための信号を提供する衛星です。'],
+  [/GALILEO/,'測位・航法','欧州の衛星測位システムを構成する衛星です。位置・航法・時刻情報の提供に利用されます。'],
+  [/GLONASS/,'測位・航法','ロシアの衛星測位システムを構成する衛星です。位置・航法・時刻情報の提供に利用されます。'],
+  [/BEIDOU|COMPASS/,'測位・航法','中国の衛星測位システムを構成する衛星です。位置・航法・時刻情報の提供に利用されます。'],
+  [/CUBESAT|LEMUR|FLOCK|DOVE/,'小型衛星・用途個別確認','小型衛星の名称に該当します。地球観測、通信、科学実験など用途は機体ごとに異なるため、名称だけでは特定できません。']
+ ];
+ for(const [re,title,desc] of rules){if(re.test(n))return {title,desc,confidence:'衛星名に基づく分類'}}
+ return {title:'用途を特定できません',desc:'公開されている衛星名だけでは、用途を確実に判断できません。軍事・研究・技術実証などを含め、推測で分類していません。',confidence:'未確認'}
+}
+function resetSelected(){
+ $('selected-name').textContent='衛星を選択してください';$('selected-sub').textContent='地球またはレーダー上の点をクリック';
+ ['altitude','velocity','elevation','azimuth'].forEach(id=>$(id).textContent='--');
+ $('purpose-name').textContent='未選択';$('purpose-text').textContent='衛星を選択すると、公開されている衛星名から用途を分類します。';
+ $('pass-result').textContent='衛星を選択してください';$('pass-detail').textContent='選択した衛星について、今後24時間の軌道を計算します。';
+}
 function updateSelected(obj){
  selectedName=obj.name;
- $('selected-name').textContent=obj.name;
- $('selected-sub').textContent='公開軌道データ / 現在位置を計算中';
+ $('selected-name').textContent=obj.name;$('selected-sub').textContent='公開TLE / 現在位置を軌道計算';
  $('altitude').textContent=Math.round(obj.alt).toLocaleString()+' km';
  $('velocity').textContent=obj.velocity.toFixed(2)+' km/s';
  $('elevation').textContent=obj.elevation.toFixed(1)+'°';
  $('azimuth').textContent=obj.azimuth.toFixed(1)+'°';
+ const purpose=classifyPurpose(obj.name);
+ $('purpose-name').textContent=purpose.title;$('purpose-text').textContent=purpose.desc+'（'+purpose.confidence+'）';
+ if(passCache.has(obj.name))renderPass(passCache.get(obj.name));
+ else predictPass(obj.name);
 }
-
+function renderPass(result){
+ if(!result){$('pass-result').textContent='予測できません';$('pass-detail').textContent='軌道計算に必要なデータがありません。';return}
+ if(!result.found){$('pass-result').textContent='24時間以内の通過予測なし';$('pass-detail').textContent='現在のTLEを使った計算では、今後24時間に横浜の地平線より上へ来る予測はありません。';return}
+ const d=result.peakTime;
+ const time=d.toLocaleString('ja-JP',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false});
+ let level=result.maxElevation>=60?'高い位置を通過':result.maxElevation>=20?'空の中ほどを通過':'地平線に近い通過';
+ $('pass-result').textContent=level+' / 最大仰角 '+result.maxElevation.toFixed(1)+'°';
+ $('pass-detail').textContent='予測時刻：'+time+'（日本時間） / 方位：'+result.azimuth.toFixed(0)+'°。仰角0°以上を横浜から見える範囲としています。';
+}
+function predictPass(name){
+ const sat=satellites.find(s=>s.name===name);if(!sat)return;
+ const job=++passJob;$('pass-result').textContent='計算中...';$('pass-detail').textContent='今後24時間を60秒間隔で軌道計算しています。';
+ // Run only for the selected satellite to avoid burdening the live display.
+ setTimeout(()=>{
+  if(job!==passJob)return;
+  const now=new Date(),step=60*1000,horizon=24*60*60*1000;
+  let current=calculate(sat,now),currentlyVisible=current&&current.elevation>=0;
+  let inPass=currentlyVisible,peak=currentlyVisible?now:null;
+  let peakElevation=currentlyVisible?current.elevation:-90;
+  let peakAzimuth=currentlyVisible?current.azimuth:0,found=false;
+  for(let t=step;t<=horizon;t+=step){
+   const dt=new Date(now.getTime()+t),p=calculate(sat,dt);if(!p)continue;
+   if(!inPass&&p.elevation>=0){inPass=true;passStarted=true;peak=null;peakElevation=-90}
+   if(inPass&&p.elevation>=0){
+    if(p.elevation>peakElevation){peakElevation=p.elevation;peak=dt;peakAzimuth=p.azimuth}
+   }else if(inPass&&p.elevation<0){
+    if(peak){found=true;break}
+    inPass=false
+   }
+  }
+  const result={found,peakTime:peak,maxElevation:peakElevation,azimuth:peakAzimuth,currentlyVisible};
+  passCache.set(name,result);
+  if(selectedName===name&&job===passJob)renderPass(result);
+ },40);
+}
 function hitTest(canvas,e,kind){
- const rect=canvas.getBoundingClientRect();
- const x=e.clientX-rect.left;
- const y=e.clientY-rect.top;
- let nearest=null,min=25;
-
+ const rect=canvas.getBoundingClientRect(),x=e.clientX-rect.left,y=e.clientY-rect.top;
+ let nearest=null,min=22;
  positions.forEach(obj=>{
   let p;
-  if(kind==='globe'){
-   p=project(obj.lat,obj.lon,obj.alt);
-   if(p.z<-.05)return;
-  }else{
-   if(obj.elevation<0)return;
-   const {cx,cy,R}=radarSize;
-   const r=R*(1-Math.min(90,obj.elevation)/90);
-   const a=obj.azimuth*DEG;
-   p={x:cx+Math.sin(a)*r,y:cy-Math.cos(a)*r};
-  }
-  const d=Math.hypot(p.x-x,p.y-y);
-  if(d<min){min=d;nearest=obj;}
+  if(kind==='globe'){p=project(obj.lat,obj.lon,obj.alt);if(p.z<-.05)return}
+  else{if(obj.elevation<0)return;const {cx,cy,R}=radarSize,r=R*(1-Math.min(90,obj.elevation)/90),a=obj.azimuth*DEG;p={x:cx+Math.sin(a)*r,y:cy-Math.cos(a)*r}}
+  const d=Math.hypot(p.x-x,p.y-y);if(d<min){min=d;nearest=obj}
  });
- if(nearest)updateSelected(nearest);
+ if(nearest)updateSelected(nearest)
 }
-globe.addEventListener('click',e=>hitTest(globe,e,'globe'));
-radar.addEventListener('click',e=>hitTest(radar,e,'radar'));
-
+globe.addEventListener('click',e=>hitTest(globe,e,'globe'));radar.addEventListener('click',e=>hitTest(radar,e,'radar'));
 function animate(){
- frame++;
  const now=Date.now();
-
- // Satellite orbital calculations run once per second.
- if(now-lastPositionUpdate>=1000){
-  updatePositions(new Date());
- }
-
- // Visual animation runs independently.
- drawGlobe(now);
- drawRadar(now);
-
- if(selectedName){
-  const obj=positions.find(o=>o.name===selectedName);
-  if(obj)updateSelected(obj);
- }
-
+ if(now-lastPositionUpdate>=1000)updatePositions(new Date());
+ drawGlobe(now);drawRadar(now);
+ if(selectedName){const obj=positions.find(o=>o.name===selectedName);if(obj){
+  $('altitude').textContent=Math.round(obj.alt).toLocaleString()+' km';$('velocity').textContent=obj.velocity.toFixed(2)+' km/s';
+  $('elevation').textContent=obj.elevation.toFixed(1)+'°';$('azimuth').textContent=obj.azimuth.toFixed(1)+'°';
+ }}
  $('clock').textContent=new Date().toLocaleTimeString('ja-JP');
- requestAnimationFrame(animate);
+ requestAnimationFrame(animate)
 }
-
 $('reload').addEventListener('click',loadData);
-
-setInterval(()=>{
- if(lastFetch&&Date.now()-lastFetch.getTime()>30*60*1000){
-  loadData();
- }
-},60000);
-
-animate();
-loadData();
+setInterval(()=>{if(lastFetch&&Date.now()-lastFetch.getTime()>30*60*1000)loadData()},60000);
+animate();loadData();
 })();
 </script>
 </body>
