@@ -3,407 +3,926 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#05090e">
 <title>002 — ABOVE US | NAKAJOX EXPERIMENT</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/satellite.js/5.0.0/satellite.min.js"></script>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Noto+Sans+JP:wght@300;400;500;700&family=Barlow+Condensed:wght@300;400;500;600;700&display=swap');
-:root{--bg:#05090e;--panel:#09131b;--line:#17313e;--cyan:#70eaff;--amber:#e6b76c;--white:#e4f1f3;--muted:#78909a;--red:#ff6464}
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Noto+Sans+JP:wght@300;400;500;700&family=Barlow+Condensed:wght@400;500;600&display=swap');
+:root{--bg:#05090e;--panel:#081118;--line:#162e3a;--cyan:#70eaff;--amber:#e6b76c;--white:#e4f1f3;--muted:#768e98;--red:#ff6464;--green:#65c99c}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--white);font-family:'Share Tech Mono','Noto Sans JP',monospace;overflow-x:hidden}
-body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:20;background:repeating-linear-gradient(0deg,transparent 0 3px,rgba(90,180,210,.025) 4px)}
-header{padding:22px 4vw 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:flex-end;gap:20px}
+body{margin:0;background:var(--bg);color:var(--white);font-family:'Share Tech Mono','Noto Sans JP',monospace;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:20;background:repeating-linear-gradient(0deg,transparent 0 3px,rgba(90,180,210,.02) 4px)}
+header{padding:24px 4vw 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:flex-end;gap:20px}
 .eyebrow{font-size:10px;letter-spacing:3px;color:var(--cyan)}
-h1{font:500 clamp(42px,7vw,82px)/.9 'Barlow Condensed',sans-serif;letter-spacing:4px;margin:10px 0 5px}
+h1{font:500 clamp(44px,7vw,84px)/.88 'Barlow Condensed',sans-serif;letter-spacing:4px;margin:10px 0 6px}
 .subtitle{font:300 15px 'Noto Sans JP',sans-serif;letter-spacing:4px;color:var(--muted)}
 .header-right{text-align:right;font-size:10px;color:var(--muted);line-height:2}
 .live{color:var(--cyan);letter-spacing:2px}
-.live:before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--cyan);margin-right:8px;box-shadow:0 0 12px var(--cyan);animation:blink 1.5s infinite}
-@keyframes blink{50%{opacity:.3}}
-main{padding:20px 4vw 40px;max-width:1600px;margin:auto}
-.topline{display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap;margin-bottom:12px}
-.label{font-size:10px;letter-spacing:2px;color:var(--muted)}
-.location{font-size:10px;color:var(--amber)}
-.layout{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:14px}
-.globe-panel{position:relative;min-height:570px;border:1px solid var(--line);overflow:hidden;background:radial-gradient(ellipse at 50% 48%,#102b38 0%,#07141e 48%,#04080d 100%)}
-#globe{width:100%;height:570px;display:block}
-.globe-caption{position:absolute;top:15px;left:18px;font-size:10px;line-height:1.9;color:var(--muted);pointer-events:none;z-index:2}
+.live:before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--cyan);margin-right:8px;box-shadow:0 0 10px var(--cyan);animation:blink 1.6s infinite}
+@keyframes blink{50%{opacity:.25}}
+main{padding:24px 4vw 52px;max-width:1520px;margin:auto}
+
+/* STATEMENT */
+.statement{border:1px solid var(--line);border-left:3px solid var(--cyan);background:linear-gradient(160deg,#0a1720,#050a0f);padding:24px 26px;margin-bottom:28px}
+.statement-kicker{font-size:10px;letter-spacing:3px;color:var(--cyan)}
+.statement-copy{font:500 clamp(18px,2.4vw,25px)/1.75 'Noto Sans JP',sans-serif;color:var(--white);margin:10px 0 12px;letter-spacing:.04em}
+.statement-sub{font:300 13px/1.85 'Noto Sans JP',sans-serif;color:#9eb1b8;max-width:860px;margin:0}
+.statement-punch{margin-top:14px;padding-top:12px;border-top:1px solid #132833;font-size:11px;letter-spacing:3px;color:var(--amber)}
+
+.topline{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.label{font-size:10px;letter-spacing:2.5px;color:var(--muted)}
+.loc-bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.location{font-size:10px;color:var(--amber);letter-spacing:1.5px}
+
+/* 01 / LOCAL SKY RADAR（最上段） */
+.radar-section{margin-bottom:24px}
+.radar-layout{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:16px}
+.radar-panel{border:1px solid var(--line);background:radial-gradient(circle at center,#0a1e29,#05090e 74%);position:relative;overflow:hidden}
+#radar{width:100%;height:430px;display:block;cursor:crosshair}
+.radar-badge{position:absolute;top:14px;left:16px;font-size:10px;line-height:1.8;color:var(--muted);pointer-events:none;z-index:2}
+.radar-badge strong{color:var(--amber);font-weight:normal;letter-spacing:1.5px}
+.radar-info{border:1px solid var(--line);background:var(--panel);padding:20px;display:flex;flex-direction:column;justify-content:space-between}
+.radar-info p{font:300 12px/1.85 'Noto Sans JP',sans-serif;color:#9eb1b8;margin:0 0 12px}
+.radar-info .panel-title{margin-top:16px}
+.radar-info .panel-title:first-child{margin-top:0}
+.radar-stat{border-top:1px solid #122530;padding-top:12px;margin-top:8px;display:flex;justify-content:space-between;align-items:baseline}
+.radar-stat span{font-size:10px;color:var(--muted);letter-spacing:1.5px}
+.radar-stat strong{font:400 34px/1 'Barlow Condensed';color:var(--cyan)}
+
+/* 02 / MACRO ROLES（レーダーのすぐ下に配置） */
+.roles-section{margin-bottom:36px;padding-bottom:32px;border-bottom:1px solid var(--line)}
+.roles-lead{font:300 13px/1.85 'Noto Sans JP',sans-serif;color:#b8c8cd;max-width:820px;margin:0 0 14px}
+.roles-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.role-card{text-align:left;border:1px solid var(--line);background:var(--panel);padding:16px;display:flex;flex-direction:column;justify-content:space-between;min-height:128px;transition:all .18s ease}
+.role-card:hover{background:#0d1c26;border-color:#2c5669}
+.role-card.active{border-color:var(--amber);background:#121b1d;box-shadow:inset 0 0 0 1px rgba(230,183,108,.35)}
+.role-top{display:flex;justify-content:space-between;align-items:center;font-size:9px;letter-spacing:1.5px;color:var(--cyan)}
+.role-card.active .role-top{color:var(--amber)}
+.role-title{font:500 16px 'Noto Sans JP',sans-serif;color:var(--white);margin:8px 0 6px}
+.role-desc{font:300 11.5px/1.75 'Noto Sans JP',sans-serif;color:#8fa3aa}
+.role-count{font-size:9px;color:var(--muted);margin-top:10px;padding-top:8px;border-top:1px solid #122530}
+
+/* 03 / ORBITAL FIELD */
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:16px}
+.globe-panel{position:relative;min-height:610px;border:1px solid var(--line);overflow:hidden;background:radial-gradient(circle at 50% 50%,#0e2632 0%,#06111a 52%,#04080d 100%)}
+#globe{width:100%;height:610px;display:block;cursor:crosshair}
+.globe-caption{position:absolute;top:16px;left:18px;font-size:10px;line-height:1.9;color:var(--muted);pointer-events:none;z-index:2}
 .globe-caption strong{color:var(--cyan);font-weight:normal}
-.globe-bottom{position:absolute;bottom:14px;left:18px;right:18px;display:flex;justify-content:space-between;gap:10px;font-size:9px;color:var(--muted);pointer-events:none}
-.side{display:flex;flex-direction:column;gap:12px}
-.panel{border:1px solid var(--line);background:var(--panel);padding:16px}
-.panel-title{font-size:10px;letter-spacing:2px;color:var(--muted);margin-bottom:13px}
-.big-number{font:400 48px/.95 'Barlow Condensed';color:var(--cyan)}
-.big-unit{font-size:10px;color:var(--muted);margin-top:7px;line-height:1.7}
-.stat-row{display:flex;justify-content:space-between;gap:8px;border-top:1px solid #142832;padding:9px 0;font-size:9px}
+.globe-bottom{position:absolute;bottom:14px;left:18px;right:18px;display:flex;justify-content:space-between;gap:10px;font-size:9px;color:var(--muted);pointer-events:none;letter-spacing:1px}
+.side{display:flex;flex-direction:column;gap:14px}
+.panel{border:1px solid var(--line);background:var(--panel);padding:18px}
+.panel-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:12px}
+.panel-head .panel-title{margin-bottom:0}
+.panel-title{font-size:10px;letter-spacing:2px;color:var(--muted);margin-bottom:12px}
+.big-number{font:400 52px/.9 'Barlow Condensed';color:var(--cyan)}
+.big-unit{font:300 11.5px/1.6 'Noto Sans JP',sans-serif;color:var(--muted);margin-top:8px}
+.stat-row{display:flex;justify-content:space-between;gap:8px;border-top:1px solid #122530;padding:9px 0;font-size:10px}
 .stat-row span:first-child{color:var(--muted)}
 .stat-row span:last-child{text-align:right}
-.selected-name{font:500 22px/1.2 'Barlow Condensed';color:var(--cyan);min-height:25px;overflow-wrap:anywhere}
-.selected-sub{font-size:9px;color:var(--muted);margin:6px 0 13px;line-height:1.7}
+.selected-name{font:500 24px/1.15 'Barlow Condensed';color:var(--cyan);min-height:27px;overflow-wrap:anywhere;letter-spacing:1px}
+.selected-sub{font:300 11px/1.6 'Noto Sans JP',sans-serif;color:var(--muted);margin:6px 0 14px}
 .data-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.data-cell{border-top:1px solid #142832;padding-top:8px}
-.data-cell small{display:block;color:var(--muted);font-size:9px;margin-bottom:5px}
-.data-cell strong{font:400 20px 'Barlow Condensed'}
-.purpose-box{border-top:1px solid #142832;margin-top:13px;padding-top:11px}
-.purpose-name{font:500 17px 'Barlow Condensed';color:var(--amber)}
-.purpose-text{font:300 10px/1.8 'Noto Sans JP',sans-serif;color:#a9bbc0;margin-top:5px}
-.pass-box{border:1px solid #29434d;background:#071018;padding:10px;margin-top:12px}
-.pass-label{font-size:9px;color:var(--amber);letter-spacing:1px}
-.pass-result{font:400 17px 'Barlow Condensed';color:var(--cyan);margin-top:5px}
-.pass-detail{font:300 10px/1.8 'Noto Sans JP',sans-serif;color:#a9bbc0;margin-top:4px}
-button{background:transparent;border:1px solid var(--line);color:var(--cyan);font:10px 'Share Tech Mono';letter-spacing:1px;padding:9px 11px;cursor:pointer}
-button:hover{background:#102532}
-button:disabled{opacity:.45;cursor:wait}
-.services{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}
-.service{border:1px solid var(--line);background:#071018;padding:15px;min-height:130px}
-.service-icon{font-size:20px;color:var(--cyan);margin-bottom:10px}
-.service h3{font:500 18px 'Noto Sans JP',sans-serif;letter-spacing:1px;margin:0 0 9px}
-.service p{font:300 11px/1.9 'Noto Sans JP',sans-serif;color:#9aadb4;margin:0}
-.radar-section{margin-top:28px}
-.radar-layout{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:14px}
-.radar-panel{border:1px solid var(--line);background:radial-gradient(ellipse at center,#0b202b,#050a10 75%);position:relative;overflow:hidden}
-#radar{width:100%;height:390px;display:block}
-.radar-info{border:1px solid var(--line);background:var(--panel);padding:18px}
-.radar-info p{font:300 11px/2 'Noto Sans JP',sans-serif;color:#9aadb4;margin:8px 0}
-.radar-info .panel-title{margin-top:20px}
-.status{font-size:10px;color:var(--muted);margin:12px 0;min-height:16px;line-height:1.8}
+.data-cell{border-top:1px solid #122530;padding-top:8px}
+.data-cell small{display:block;color:var(--muted);font-size:10px;margin-bottom:4px}
+.data-cell strong{font:400 22px 'Barlow Condensed';letter-spacing:.5px}
+
+/* 3-TIER CLASSIFICATION BADGE */
+.purpose-box{border-top:1px solid #122530;margin-top:14px;padding-top:12px}
+.tier-badge{display:inline-block;font-size:9px;letter-spacing:1.5px;padding:3px 7px;border:1px solid #2b4a56;color:var(--muted);margin-top:4px}
+.tier-badge.confirmed{border-color:var(--green);color:var(--green)}
+.tier-badge.estimated{border-color:var(--cyan);color:var(--cyan)}
+.tier-badge.unknown{border-color:var(--amber);color:var(--amber)}
+.purpose-name{font:500 16px 'Noto Sans JP',sans-serif;color:var(--white);margin-top:7px}
+.purpose-text{font:300 12px/1.85 'Noto Sans JP',sans-serif;color:#a9bbc0;margin-top:6px}
+
+/* NEXT PASS BOX */
+.pass-box{border:1px solid #243e48;background:#060e15;padding:12px;margin-top:14px}
+.pass-label{font-size:9px;color:var(--amber);letter-spacing:1.5px}
+.pass-result{font:500 16px 'Noto Sans JP',sans-serif;color:var(--cyan);margin-top:6px}
+.pass-meta{font-size:10px;color:var(--white);margin-top:6px;line-height:1.7}
+.pass-detail{font:300 11.5px/1.8 'Noto Sans JP',sans-serif;color:#9eb1b8;margin-top:6px;padding-top:6px;border-top:1px solid #132530}
+
+button{background:transparent;border:1px solid var(--line);color:var(--cyan);font:10px 'Share Tech Mono','Noto Sans JP',monospace;letter-spacing:1px;padding:7px 11px;cursor:pointer;transition:background .15s,border-color .15s,opacity .15s}
+button:hover:not(:disabled){background:#0f232f;border-color:#2b5568}
+button:disabled{opacity:.35;cursor:default}
+.btn-clear{padding:3px 8px;font-size:9px;color:var(--amber);border-color:#3a3222}
+.btn-clear:hover:not(:disabled){background:#1c1912;border-color:var(--amber)}
+.btn-full{width:100%;margin-top:8px;padding:10px}
+
+/* 04 & 05 / DATA INTEGRITY & WHAT WE DON'T KNOW */
+.integrity-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:36px;border-top:1px solid var(--line);padding-top:28px}
+.integrity-box{border:1px solid var(--line);background:var(--panel);padding:22px}
+.integrity-box.unknown-box{border-color:#3a2f22}
+.integrity-box h3{font:500 17px 'Noto Sans JP',sans-serif;color:var(--white);margin:8px 0 12px}
+.integrity-box p{font:300 12.5px/1.9 'Noto Sans JP',sans-serif;color:#a4b6bc;margin:0 0 12px}
+.integrity-list{margin:0;padding-left:1.2rem;font:300 12px/1.85 'Noto Sans JP',sans-serif;color:#9eb1b8}
+.integrity-list li+li{margin-top:6px}
+
+.status{font-size:10px;color:var(--muted);margin:12px 0 4px;min-height:16px;line-height:1.8}
 .status.error{color:var(--red)}
-.legend{display:flex;gap:15px;flex-wrap:wrap;margin-top:8px;font-size:9px;color:var(--muted)}
-.legend span:before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:6px;background:var(--cyan)}
+.legend{display:flex;gap:18px;flex-wrap:wrap;margin-top:8px;font-size:10px;color:var(--muted)}
+.legend span:before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:7px;background:var(--cyan);vertical-align:middle}
 .legend .yoko:before{background:var(--amber);border-radius:0;transform:rotate(45deg)}
-.method{margin-top:15px;padding:14px;border:1px solid var(--line);background:#071018}
-.method h3{font:500 15px 'Noto Sans JP',sans-serif;margin:0 0 7px;color:var(--amber)}
-.method p{font:300 10px/1.9 'Noto Sans JP',sans-serif;color:#9aadb4;margin:0}
-.footer{display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap;margin-top:30px;border-top:1px solid var(--line);padding-top:15px;color:#526b75;font-size:9px;letter-spacing:1px}
+.legend .orbit-leg:before{width:14px;height:1px;border-radius:0;background:var(--amber)}
+.footer{display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap;margin-top:42px;border-top:1px solid var(--line);padding-top:18px;color:#526b75;font-size:9px;letter-spacing:1.2px}
 .footer a{color:var(--muted);text-decoration:none}
-@media(max-width:900px){.layout,.radar-layout{grid-template-columns:1fr}.side{display:grid;grid-template-columns:1fr 1fr}.services{grid-template-columns:1fr 1fr}}
-@media(max-width:550px){header{align-items:flex-start;flex-direction:column}.header-right{text-align:left}main{padding:18px 12px 30px}.side{grid-template-columns:1fr}.services{grid-template-columns:1fr 1fr}.globe-panel{min-height:390px}#globe{height:390px}.globe-bottom{font-size:8px}#radar{height:310px}}
+.footer a:hover{color:var(--cyan)}
+@media(max-width:980px){.layout,.radar-layout{grid-template-columns:1fr}.side{display:grid;grid-template-columns:1fr 1fr}.roles-grid{grid-template-columns:1fr 1fr}.integrity-grid{grid-template-columns:1fr}}
+@media(max-width:580px){header{align-items:flex-start;flex-direction:column}.header-right{text-align:left}main{padding:18px 14px 36px}.side,.roles-grid{grid-template-columns:1fr}.globe-panel{min-height:420px}#globe{height:420px}#radar{height:340px}}
 </style>
 </head>
 <body>
 <header>
- <div><div class="eyebrow">NAKAJOX EXPERIMENT / 002</div><h1>ABOVE US</h1><div class="subtitle">空は、空っぽではない。</div></div>
- <div class="header-right"><div class="live">軌道監視システム / LIVE</div><div id="clock">--:--:--</div><div>観測地点 / 横浜・神奈川</div></div>
+ <div>
+  <div class="eyebrow">NAKAJOX EXPERIMENT / 002</div>
+  <h1>ABOVE US</h1>
+  <div class="subtitle">横浜の空は、空っぽではない。</div>
+ </div>
+ <div class="header-right">
+  <div class="live">ORBITAL PROPAGATION / SGP4</div>
+  <div id="clock">--:--:--</div>
+  <div id="obs-label">OBSERVER / YOKOHAMA SKY</div>
+ </div>
 </header>
+
 <main>
- <div class="topline"><div class="label">01 / 地球を取り巻く衛星</div><div class="location">YOKOHAMA / 35.4437° N　139.6380° E</div></div>
- <div class="layout">
-  <section class="globe-panel">
-   <div class="globe-caption"><strong>EARTH / ORBITAL VIEW</strong><br>地球周辺の衛星位置<br>観測地点：横浜・中心マーカー</div>
-   <canvas id="globe"></canvas>
-   <div class="globe-bottom"><span id="globe-count">追跡対象：--</span><span>衛星位置 / 軌道計算</span><span>横浜を中心とした投影</span></div>
-  </section>
-  <aside class="side">
-   <section class="panel">
-    <div class="panel-title">現在、横浜から見える衛星</div>
-    <div class="big-number" id="visible-count">--</div>
-    <div class="big-unit">仰角0°以上 / 横浜の地平線より上にある衛星</div>
-    <div class="stat-row"><span>追跡中の衛星</span><span id="tracked-count">--</span></div>
-    <div class="stat-row"><span>データ提供元</span><span>CELESTRAK / VISUAL</span></div>
-    <div class="stat-row"><span>軌道データ取得</span><span id="update-time">--</span></div>
-   </section>
-   <section class="panel">
-    <div class="panel-title">選択した衛星</div>
-    <div class="selected-name" id="selected-name">衛星を選択してください</div>
-    <div class="selected-sub" id="selected-sub">地球またはレーダー上の点をクリック</div>
-    <div class="data-grid">
-     <div class="data-cell"><small>高度</small><strong id="altitude">--</strong></div>
-     <div class="data-cell"><small>速度</small><strong id="velocity">--</strong></div>
-     <div class="data-cell"><small>仰角</small><strong id="elevation">--</strong></div>
-     <div class="data-cell"><small>方位角</small><strong id="azimuth">--</strong></div>
-    </div>
-    <div class="purpose-box"><div class="panel-title">衛星の用途 / PURPOSE</div><div class="purpose-name" id="purpose-name">未選択</div><div class="purpose-text" id="purpose-text">衛星を選択すると、公開されている衛星名から用途を分類します。特定できない場合は不明と表示します。</div></div>
-    <div class="pass-box"><div class="pass-label">YOKOHAMA / NEXT PASS FORECAST</div><div class="pass-result" id="pass-result">衛星を選択してください</div><div class="pass-detail" id="pass-detail">選択した衛星について、今後24時間の軌道を計算します。</div></div>
-   </section>
-   <section class="panel">
-    <div class="panel-title">システム状態</div>
-    <div class="stat-row"><span>軌道計算</span><span id="engine-status">準備中</span></div>
-    <div class="stat-row"><span>位置更新</span><span>毎秒</span></div>
-    <div class="stat-row"><span>次回通過予測</span><span>選択時に計算</span></div>
-    <button id="reload">軌道データを再取得 ↻</button>
-   </section>
-  </aside>
- </div>
- <div class="status" id="status">衛星データを読み込んでいます...</div>
- <div class="legend"><span>衛星 / 軌道データから計算</span><span class="yoko">横浜 / 観測地点</span></div>
+ <!-- 問いのセクション -->
+ <section class="statement" aria-label="ステートメント">
+  <div class="statement-kicker">THE INVISIBLE ORBITAL LAYER — YOKOHAMA</div>
+  <div class="statement-copy">私たちが何気なく横浜の空を見上げているとき、<br>頭上では無数の人工物が通過している。</div>
+  <p class="statement-sub">現在地を知らせる測位信号、遠くの海を越える通信、明日の天気を描く観測データ。私たちの日常は、地上だけでなく軌道上の見えないインフラに支えられている。しかし、そこを飛ぶ機体のすべてが何を担っているのか、私たちは全体像を知っているわけではない。</p>
+  <div class="statement-punch">THE SKY ABOVE YOKOHAMA IS NOT EMPTY. — NOR IS IT FULLY KNOWN.</div>
+ </section>
 
- <div class="services">
-  <article class="service"><div class="service-icon">⌖</div><h3>測位・航法</h3><p>GPSなどの測位衛星は、時刻と位置の情報を地上へ送る。スマートフォンや自動車の現在地を知る仕組みを支えている。</p></article>
-  <article class="service"><div class="service-icon">⌁</div><h3>通信</h3><p>通信衛星は、地上の通信網が届きにくい地域や船舶・航空機などをつなぐ。低軌道衛星コンステレーションも広がっている。</p></article>
-  <article class="service"><div class="service-icon">◉</div><h3>気象・地球観測</h3><p>雲、台風、海、森林、地表の変化を宇宙から観測する。天気予報や環境の監視、防災に利用される。</p></article>
-  <article class="service"><div class="service-icon">✳</div><h3>科学・有人活動</h3><p>宇宙望遠鏡は遠い天体を観測し、有人宇宙船や宇宙ステーションは人の滞在と実験を支える。</p></article>
- </div>
-
+ <!-- 01 / LOCAL SKY RADAR（一番上：横浜の上空レーダー） -->
  <section class="radar-section">
-  <div class="topline"><div class="label">02 / 横浜の上空を通過する衛星</div><div class="location">LOCAL SKY / 360° RADAR</div></div>
+  <div class="topline">
+   <div class="label" id="radar-section-label">01 / SKY ABOVE YOKOHAMA — 360° LOCAL RADAR（横浜の上空）</div>
+   <div class="loc-bar">
+    <span class="location" id="loc-coords">YOKOHAMA / 35.4437° N  139.6380° E</span>
+    <button id="use-gps" type="button">現在地で観測 ⌖</button>
+   </div>
+  </div>
   <div class="radar-layout">
-   <div class="radar-panel"><canvas id="radar"></canvas></div>
+   <div class="radar-panel">
+    <div class="radar-badge" id="radar-badge"><strong>YOKOHAMA ZENITH / 横浜上空</strong><br>中心＝横浜の真上（仰角90°） / 外周＝地平線（0°）</div>
+    <canvas id="radar"></canvas>
+   </div>
    <div class="radar-info">
-    <div class="panel-title">レーダーの見方</div>
-    <p>このレーダーの中心が横浜です。中心に近い衛星ほど真上にあり、外側の円に近いほど地平線に近い位置にあります。</p>
-    <p>方角は上が北、右が東、下が南、左が西。点は現在、横浜から見える衛星です。</p>
-    <p>衛星をクリックすると、用途と今後24時間の横浜上空の通過予測を表示します。</p>
-    <div class="panel-title">「横浜上空を通る」とは</div>
-    <p>ここでは、横浜から見た仰角が0°を超える状態を「横浜から見える」としています。仰角60°以上なら、かなり高い位置を通る予測です。真上を通ることと、上空を見える範囲に通ることは区別しています。</p>
-    <div class="panel-title">この作品について</div>
-    <p>衛星位置は公開されたTLE（軌道要素）を使い、ブラウザ内で計算しています。現在位置や通過予測は実際の観測画像ではありません。</p>
-    <p>衛星の用途は衛星名に基づく分類です。名称だけでは用途を特定できない衛星もあるため、不明なものは不明と表示します。</p>
+    <div>
+     <div class="panel-title" id="radar-info-title">横浜上空の投影図</div>
+     <p>レーダーの中心が<strong>横浜の真上</strong>（天頂・仰角90°）、外周が横浜から見た地平線（仰角0°）です。上は北、右は東を示します。</p>
+     <p>下の4つの役割カードを選ぶと、いま横浜の上空を通過している衛星がリアルタイムに絞り込まれます。点をクリックすると詳細と次回通過を表示します。</p>
+     <div class="panel-title">「通過」と「肉眼視認」の違い</div>
+     <p>仰角0°以上（上空通過）であっても、昼間や地球の影に入っている時間は肉眼で見えません。視認には「地上（横浜）が暗いこと」と「上空の衛星に太陽光が当たっていること」の両方が必要です。</p>
+    </div>
+    <div class="radar-stat">
+     <span id="radar-visible-label">横浜の上空を通過中</span>
+     <strong id="visible-count-top">--</strong>
+    </div>
    </div>
   </div>
  </section>
 
- <div class="method">
-  <h3>データと予測について</h3>
-  <p>軌道データはCELESTRAKの「VISUAL」グループを使用します。この一覧は可視対象として整理された衛星群であり、地球上のすべての衛星を網羅するものではありません。TLEは更新時点の軌道情報なので、予測には誤差があります。特に軌道変更や大気抵抗の影響を受ける低軌道衛星では、通過時刻や位置がずれることがあります。実際に肉眼で見えるかどうかは、太陽光の当たり方、観測地点の暗さ、天候などにも左右されます。</p>
+ <!-- 02 / MACRO ROLES（2番目：役割フィルタ） -->
+ <section class="roles-section">
+  <div class="topline">
+   <div class="label">02 / MACRO ROLES — WHAT ARE THEY DOING?（役割で上空を絞り込む）</div>
+   <div class="location" id="filter-status">FILTER: ALL（カード選択で上のレーダーと地球儀を強調）</div>
+  </div>
+  <p class="roles-lead">個々の衛星の任務はすべてが公開されているわけではありません。しかし軌道上の衛星群は、総体として私たちの日常を支える<strong>4つの基盤</strong>を構成しています。</p>
+  <div class="roles-grid">
+   <button type="button" class="role-card" data-role="nav">
+    <div>
+     <div class="role-top"><span>01 / POSITIONING</span><span>FILTER ⌖</span></div>
+     <div class="role-title">測位・時刻同期</div>
+     <div class="role-desc">原子時計の時刻信号を地上へ送り、地図アプリ・移動・通信網の時刻同期を支える。</div>
+    </div>
+    <div class="role-count" id="count-nav">CLASSIFIED: --</div>
+   </button>
+   <button type="button" class="role-card" data-role="comm">
+    <div>
+     <div class="role-top"><span>02 / COMMUNICATION</span><span>FILTER ⌁</span></div>
+     <div class="role-title">通信・ネットワーク</div>
+     <div class="role-desc">海底ケーブルの届かない海域や航空機、災害時の通信網を軌道上から中継する。</div>
+    </div>
+    <div class="role-count" id="count-comm">CLASSIFIED: --</div>
+   </button>
+   <button type="button" class="role-card" data-role="earth">
+    <div>
+     <div class="role-top"><span>03 / OBSERVATION</span><span>FILTER ◉</span></div>
+     <div class="role-title">気象・地球観測</div>
+     <div class="role-desc">雲、台風、海面温度、森林や都市の変化を宇宙から継続的に観測・記録する。</div>
+    </div>
+    <div class="role-count" id="count-earth">CLASSIFIED: --</div>
+   </button>
+   <button type="button" class="role-card" data-role="science">
+    <div>
+     <div class="role-top"><span>04 / SCIENCE &amp; CREW</span><span>FILTER ✳</span></div>
+     <div class="role-title">宇宙科学・有人滞在</div>
+     <div class="role-desc">宇宙ステーションでの実験や宇宙望遠鏡による深宇宙の観測を行う。</div>
+    </div>
+    <div class="role-count" id="count-science">CLASSIFIED: --</div>
+   </button>
+  </div>
+ </section>
+
+ <!-- 03 / ORBITAL FIELD（3番目：地球儀） -->
+ <div class="topline">
+  <div class="label">03 / ORBITAL FIELD — EARTH &amp; ORBITS (SGP4 ESTIMATION)</div>
+  <div class="location" id="globe-observer-label">CENTERED ON YOKOHAMA / ORTHOGRAPHIC</div>
  </div>
- <div class="footer">
-  <span>NAKAJOX EXPERIMENT / 002</span>
-  <span>軌道データ：<a href="https://celestrak.org/" target="_blank" rel="noopener">CELESTRAK</a> / 計算：SATELLITE.JS</span>
+
+ <div class="layout">
+  <section class="globe-panel">
+   <div class="globe-caption"><strong>EARTH / ORTHOGRAPHIC PROJECTION</strong><br>横浜を中心とした地球投影と軌道推算<br>衛星を選択すると実際の軌道と次回通過を表示</div>
+   <canvas id="globe"></canvas>
+   <div class="globe-bottom"><span id="globe-count">TRACKING: --</span><span>CALCULATED FROM PUBLIC TLE</span><span id="globe-bottom-obs">OBSERVER: YOKOHAMA</span></div>
+  </section>
+
+  <aside class="side">
+   <section class="panel">
+    <div class="panel-title" id="horizon-panel-title">ABOVE YOKOHAMA HORIZON</div>
+    <div class="big-number" id="visible-count">--</div>
+    <div class="big-unit" id="horizon-unit">仰角0°以上 / 横浜の地平線より上に推算される衛星</div>
+    <div class="stat-row"><span>推算対象の衛星群</span><span id="tracked-count">--</span></div>
+    <div class="stat-row"><span>軌道要素ソース</span><span>CELESTRAK / VISUAL</span></div>
+    <div class="stat-row"><span>TLE取得時刻</span><span id="update-time">--</span></div>
+   </section>
+
+   <section class="panel">
+    <div class="panel-head">
+     <div class="panel-title">SELECTED OBJECT</div>
+     <button id="clear-selection" class="btn-clear" type="button" disabled>選択解除 ×</button>
+    </div>
+    <div class="selected-name" id="selected-name">NO TARGET SELECTED</div>
+    <div class="selected-sub" id="selected-sub">レーダーまたは地球儀上の衛星をクリックして抽出</div>
+    <div class="data-grid">
+     <div class="data-cell"><small>推算高度 / ALT</small><strong id="altitude">--</strong></div>
+     <div class="data-cell"><small>対地速度 / VEL</small><strong id="velocity">--</strong></div>
+     <div class="data-cell"><small>仰角 / EL</small><strong id="elevation">--</strong></div>
+     <div class="data-cell"><small>方位角 / AZ</small><strong id="azimuth">--</strong></div>
+    </div>
+    <div class="purpose-box">
+     <div class="panel-title" style="margin-bottom:2px">ROLE CLASSIFICATION / 用途の確度</div>
+     <span class="tier-badge" id="tier-badge">STANDBY</span>
+     <div class="purpose-name" id="purpose-name">未選択</div>
+     <div class="purpose-text" id="purpose-text">衛星名に基づき「CONFIRMED（公式確認）」「ESTIMATED（名称推定）」「UNKNOWN（用途不明）」の3段階で分類します。</div>
+    </div>
+    <div class="pass-box">
+     <div class="pass-label" id="pass-label">NEXT PASS / 横浜上空の通過予測</div>
+     <div class="pass-result" id="pass-result">--</div>
+     <div class="pass-meta" id="pass-meta"></div>
+     <div class="pass-detail" id="pass-detail">選択した衛星について、今後24時間の横浜上空の通過時刻・最大仰角・観測可能時間を推算します。</div>
+    </div>
+   </section>
+
+   <section class="panel">
+    <div class="panel-title">DATA INTEGRITY</div>
+    <div class="stat-row"><span>推算モデル</span><span>SGP4 / SATELLITE.JS</span></div>
+    <div class="stat-row"><span>計算ステータス</span><span id="engine-status">STANDBY</span></div>
+    <button id="reload" class="btn-full" type="button">軌道要素を再取得 ↻</button>
+   </section>
+  </aside>
+ </div>
+
+ <div class="status" id="status">CELESTRAKから公開軌道要素（TLE）を取得しています...</div>
+ <div class="legend">
+  <span>衛星（SGP4推算位置）</span>
+  <span class="orbit-leg">選択衛星の推算軌道（前後45分）</span>
+  <span class="yoko" id="legend-obs">横浜 / 観測地点</span>
+ </div>
+
+ <!-- 04 & 05 / DATA INTEGRITY & WHAT WE DON'T KNOW -->
+ <section class="integrity-grid" aria-label="データの正確性と分からないこと">
+  <div class="integrity-box">
+   <div class="eyebrow">04 / DATA INTEGRITY</div>
+   <h3>データの正確性と推算の仕組み</h3>
+   <p>この画面は、衛星からリアルタイムにGPS電波を直接受信しているわけではありません。公開データに基づく軌道力学の推算です。</p>
+   <ul class="integrity-list">
+    <li><strong>軌道要素の取得：</strong>CelesTrakが公開する「VISUAL」グループのTLE（2行軌道要素形式）を取得しています。</li>
+    <li><strong>SGP4モデルによる計算：</strong>ブラウザ内の `satellite.js` により、地球の重力や大気抵抗を考慮したSGP4モデルで現在位置を毎秒推算しています。</li>
+    <li><strong>観測地点の設定：</strong>初期状態では横浜（35.4437°N, 139.6380°E）を基準に仰角・方位角を算出しています。</li>
+   </ul>
+  </div>
+
+  <div class="integrity-box unknown-box">
+   <div class="eyebrow" style="color:var(--amber)">05 / WHAT WE DON'T KNOW</div>
+   <h3>見えないもの、分からないこと</h3>
+   <p>私たちは高度なテクノロジーに囲まれていますが、頭上を飛ぶインフラの全体像を知っているわけではありません。</p>
+   <ul class="integrity-list">
+    <li><strong>観測の限界：</strong>「VISUAL」一覧は比較的明るい主要衛星群であり、地球周回軌道上のすべての人工衛星を網羅していません。</li>
+    <li><strong>用途の非公開性：</strong>衛星名から任務を特定できない機体（`UNKNOWN`）は、推測で分類せず不明のまま提示しています。</li>
+    <li><strong>通信内容の不可視性：</strong>その衛星が今この瞬間にどこを撮影し、誰の通信を中継しているかは、地上からは分かりません。</li>
+   </ul>
+  </div>
+ </section>
+
+ <footer class="footer">
+  <span>NAKAJOX EXPERIMENT / 002 — ABOVE US</span>
+  <span>SOURCE: <a href="https://celestrak.org/" target="_blank" rel="noopener">CELESTRAK</a> / SGP4: SATELLITE.JS</span>
   <a href="https://electriclady.xyz" target="_blank" rel="noopener">© electriclady.xyz</a>
- </div>
+ </footer>
 </main>
 
 <script>
 (() => {
 'use strict';
 const $ = id => document.getElementById(id);
-const observer = {latitude:35.4437*Math.PI/180,longitude:139.6380*Math.PI/180,height:0.02};
-const globe=$('globe'),gc=globe.getContext('2d'),radar=$('radar'),rc=radar.getContext('2d');
-let satellites=[],positions=[],selectedName=null,lastFetch=null,fetching=false,lastPositionUpdate=0;
-let history=new Map(),globeSize={},radarSize={},passCache=new Map(),passJob=0;
-const DEG=Math.PI/180,radToDeg=x=>x/DEG;
-function resizeCanvas(canvas,ctx,store){
- const r=canvas.getBoundingClientRect(),dpr=Math.min(window.devicePixelRatio||1,2);
- canvas.width=Math.round(r.width*dpr);canvas.height=Math.round(r.height*dpr);
- ctx.setTransform(dpr,0,0,dpr,0,0);store.w=r.width;store.h=r.height;
-}
-function resize(){resizeCanvas(globe,gc,globeSize);resizeCanvas(radar,rc,radarSize)}
-window.addEventListener('resize',resize);resize();
+const DEG = Math.PI / 180, radToDeg = x => x / DEG;
+const DEFAULT_OBS = { name: 'YOKOHAMA', jpName: '横浜', latitude: 35.4437 * DEG, longitude: 139.6380 * DEG, height: 0.02 };
+const observer = { ...DEFAULT_OBS };
+let usingGps = false;
 
-function parseTLE(text){
- const lines=text.trim().split(/\r?\n/),out=[];
- for(let i=0;i<lines.length-2;i++){
-  if(lines[i+1].startsWith('1 ')&&lines[i+2].startsWith('2 ')){
-   try{out.push({name:lines[i].trim().replace(/^0 /,''),satrec:satellite.twoline2satrec(lines[i+1],lines[i+2])});i+=2}catch(e){}
+const globe = $('globe'), gc = globe.getContext('2d');
+const radar = $('radar'), rc = radar.getContext('2d');
+let satellites = [], positions = [], selectedName = null, selectedOrbit = [], activeRoleFilter = null;
+let lastFetch = null, fetching = false, lastPositionUpdate = 0;
+let globeSize = {}, radarSize = {}, passCache = new Map(), passJob = 0;
+
+// 軽量な背景星フィールド
+const stars = Array.from({ length: 52 }, (_, i) => ({
+ x: ((i * 73 + 19) % 100) / 100,
+ y: ((i * 41 + 53) % 100) / 100,
+ r: (i % 3 === 0) ? 1.1 : 0.65,
+ phase: i * 0.7
+}));
+
+function resizeCanvas(canvas, ctx, store) {
+ const r = canvas.getBoundingClientRect(), dpr = Math.min(window.devicePixelRatio || 1, 2);
+ canvas.width = Math.round(r.width * dpr);
+ canvas.height = Math.round(r.height * dpr);
+ ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+ store.w = r.width; store.h = r.height;
+}
+function resize() { resizeCanvas(globe, gc, globeSize); resizeCanvas(radar, rc, radarSize); }
+window.addEventListener('resize', resize);
+resize();
+
+function classifyPurpose(name) {
+ const n = name.toUpperCase();
+ const rules = [
+  [/ISS|ZARYA|TIANHE|SHENZHOU|CREW|SOYUZ|PROGRESS/, 'science', 'CONFIRMED', '有人宇宙活動・宇宙ステーション', '宇宙飛行士の滞在、物資輸送、微小重力実験を担う公式確認済みの宇宙機です。'],
+  [/HST|HUBBLE|JWST|WEBB/, 'science', 'CONFIRMED', '宇宙望遠鏡・天文学', '大気圏外から深宇宙を観測する公式確認済みの科学観測機です。'],
+  [/HIMAWARI/, 'earth', 'CONFIRMED', '静止気象衛星（ひまわり）', '日本および東アジアの気象・台風監視を担う公式確認済みの気象衛星です。'],
+  [/STARLINK|ONEWEB/, 'comm', 'ESTIMATED', '低軌道通信コンステレーション', '衛星群の名称から、広域インターネット通信網を構成する機体と推定されます。'],
+  [/IRIDIUM|ORBCOMM/, 'comm', 'ESTIMATED', '衛星通信・IoTデータ', '衛星群の名称から、遠隔地・海域を結ぶ通信インフラと推定されます。'],
+  [/NOAA|METEOR|FENGYUN|GOES|METOP|JPSS|SUOMI/, 'earth', 'ESTIMATED', '気象観測衛星群', '機関・シリーズ名から、雲や気温の観測を担う気象衛星と推定されます。'],
+  [/LANDSAT|SENTINEL|TERRA|AQUA|WORLDVIEW|PLEIADES|SPOT/, 'earth', 'ESTIMATED', '地球観測・リモートセンシング', 'シリーズ名から、地表・海洋の継続監視を行う観測衛星と推定されます。'],
+  [/GPS|NAVSTAR|GALILEO|GLONASS|BEIDOU|COMPASS/, 'nav', 'ESTIMATED', '測位・航法システム (GNSS)', '測位衛星群の名称から、時刻と位置信号を地上へ送る機体と推定されます。']
+ ];
+ for (const [re, role, tier, title, desc] of rules) {
+  if (re.test(n)) return { role, tier, title, desc };
+ }
+ return {
+  role: 'unknown',
+  tier: 'UNKNOWN',
+  title: '用途不明 / UNCLASSIFIED',
+  desc: '公開されている衛星名だけでは任務を特定できません。推測による分類は行わず不明のまま提示しています。'
+ };
+}
+
+function parseTLE(text) {
+ const lines = text.trim().split(/\r?\n/), out = [];
+ for (let i = 0; i < lines.length - 2; i++) {
+  if (lines[i + 1].startsWith('1 ') && lines[i + 2].startsWith('2 ')) {
+   try {
+    const name = lines[i].trim().replace(/^0 /, '');
+    const meta = classifyPurpose(name);
+    out.push({ name, role: meta.role, tier: meta.tier, satrec: satellite.twoline2satrec(lines[i + 1], lines[i + 2]) });
+    i += 2;
+   } catch (e) {}
   }
  }
  return out;
 }
-async function loadData(){
- if(fetching)return;fetching=true;$('reload').disabled=true;
- $('status').className='status';$('status').textContent='CELESTRAKに接続中 / 軌道データを取得しています...';$('engine-status').textContent='接続中';
- try{
-  const url='https://celestrak.org/NORAD/elements/gp.php?GROUP=visual&FORMAT=tle&_='+Date.now();
-  const res=await fetch(url,{cache:'no-store'});if(!res.ok)throw Error('HTTP '+res.status);
-  const parsed=parseTLE(await res.text());if(!parsed.length)throw Error('軌道データを読み込めませんでした');
-  satellites=parsed;lastFetch=new Date();history.clear();passCache.clear();positions=[];lastPositionUpdate=0;
-  $('tracked-count').textContent=satellites.length;$('update-time').textContent=lastFetch.toLocaleTimeString('ja-JP');
-  $('engine-status').textContent='稼働中';$('status').textContent='軌道データ取得成功 / '+satellites.length+'機を追跡中 / 現在位置を計算しています';
-  if(selectedName&&!satellites.some(s=>s.name===selectedName)){selectedName=null;resetSelected()}
- }catch(e){
-  $('engine-status').textContent='停止';$('status').className='status error';
-  $('status').textContent='データ取得失敗：'+e.message+' / 架空の衛星位置は表示していません。'
- }finally{fetching=false;$('reload').disabled=false}
+
+function updateRoleCounts() {
+ const counts = { nav: 0, comm: 0, earth: 0, science: 0 };
+ satellites.forEach(s => { if (counts[s.role] !== undefined) counts[s.role]++; });
+ $('count-nav').textContent = 'CLASSIFIED IN LIST: ' + counts.nav;
+ $('count-comm').textContent = 'CLASSIFIED IN LIST: ' + counts.comm;
+ $('count-earth').textContent = 'CLASSIFIED IN LIST: ' + counts.earth;
+ $('count-science').textContent = 'CLASSIFIED IN LIST: ' + counts.science;
 }
-function calculate(sat,now){
- try{
-  const pv=satellite.propagate(sat.satrec,now);if(!pv.position||!pv.velocity)return null;
-  const gmst=satellite.gstime(now),geo=satellite.eciToGeodetic(pv.position,gmst),ecf=satellite.eciToEcf(pv.position,gmst);
-  const look=satellite.ecfToLookAngles(observer,ecf);
-  return {name:sat.name,lat:geo.latitude,lon:geo.longitude,alt:geo.height,
-   velocity:Math.hypot(pv.velocity.x,pv.velocity.y,pv.velocity.z),
-   elevation:radToDeg(look.elevation),azimuth:(radToDeg(look.azimuth)+360)%360};
- }catch(e){return null}
+
+async function loadData() {
+ if (fetching) return;
+ fetching = true; $('reload').disabled = true;
+ $('status').className = 'status';
+ $('status').textContent = 'CELESTRAKに接続中 / 公開TLEを取得しています...';
+ $('engine-status').textContent = 'SYNCING';
+ try {
+  const url = 'https://celestrak.org/NORAD/elements/gp.php?GROUP=visual&FORMAT=tle&_=' + Date.now();
+  const res = await fetch(url, { cache: 'no-store' });
+  if (!res.ok) throw Error('HTTP ' + res.status);
+  const parsed = parseTLE(await res.text());
+  if (!parsed.length) throw Error('軌道データを解析できませんでした');
+  satellites = parsed; lastFetch = new Date(); passCache.clear(); positions = []; lastPositionUpdate = 0;
+  updateRoleCounts();
+  $('tracked-count').textContent = satellites.length + ' OBJECTS';
+  $('update-time').textContent = lastFetch.toLocaleTimeString('ja-JP');
+  $('engine-status').textContent = 'ACTIVE (SGP4)';
+  $('status').textContent = '同期完了 / ' + satellites.length + '機の軌道要素から現在位置を推算中';
+  if (selectedName) {
+   if (satellites.some(s => s.name === selectedName)) buildSelectedOrbit(selectedName);
+   else clearSelection();
+  }
+ } catch (e) {
+  $('engine-status').textContent = 'OFFLINE';
+  $('status').className = 'status error';
+  $('status').textContent = '取得失敗：' + e.message + ' / 架空の位置データは表示していません。';
+ } finally {
+  fetching = false; $('reload').disabled = false;
+ }
 }
-function updatePositions(now){
- positions=[];
- satellites.forEach(sat=>{
-  const obj=calculate(sat,now);if(!obj)return;positions.push(obj);
-  const arr=history.get(obj.name)||[];
-  if(obj.elevation>=0){arr.push({lat:obj.lat,lon:obj.lon,alt:obj.alt});if(arr.length>36)arr.shift()}
-  history.set(obj.name,arr);
- });
- lastPositionUpdate=now.getTime();
+
+function calculate(sat, date) {
+ try {
+  const pv = satellite.propagate(sat.satrec, date);
+  if (!pv.position || !pv.velocity) return null;
+  const gmst = satellite.gstime(date);
+  const geo = satellite.eciToGeodetic(pv.position, gmst);
+  const ecf = satellite.eciToEcf(pv.position, gmst);
+  const look = satellite.ecfToLookAngles(observer, ecf);
+  return {
+   name: sat.name, role: sat.role, lat: geo.latitude, lon: geo.longitude, alt: geo.height,
+   velocity: Math.hypot(pv.velocity.x, pv.velocity.y, pv.velocity.z),
+   elevation: radToDeg(look.elevation), azimuth: (radToDeg(look.azimuth) + 360) % 360
+  };
+ } catch (e) { return null; }
 }
-function project(lat,lon,alt=0){
- const lat0=observer.latitude,lon0=observer.longitude,dl=lon-lon0;
- const z=Math.sin(lat0)*Math.sin(lat)+Math.cos(lat0)*Math.cos(lat)*Math.cos(dl);
- const x=Math.cos(lat)*Math.sin(dl),y=Math.cos(lat0)*Math.sin(lat)-Math.sin(lat0)*Math.cos(lat)*Math.cos(dl);
- const scale=1+Math.max(0,Math.min(3000,alt))/6371,R=globeSize.R||150;
- return {x:globeSize.cx+x*R*scale,y:globeSize.cy-y*R*scale,z};
+
+function buildSelectedOrbit(name) {
+ const sat = satellites.find(s => s.name === name);
+ if (!sat) { selectedOrbit = []; return; }
+ const now = Date.now(), pts = [];
+ for (let m = -45; m <= 45; m += 1.5) {
+  const p = calculate(sat, new Date(now + m * 60000));
+  if (p) pts.push({ lat: p.lat, lon: p.lon, alt: p.alt });
+ }
+ selectedOrbit = pts;
 }
-function drawGlobe(now){
- const w=globeSize.w,h=globeSize.h;gc.clearRect(0,0,w,h);
- const R=Math.min(w*.34,h*.36),cx=w/2,cy=h/2+10;globeSize={...globeSize,R,cx,cy};
- const glow=gc.createRadialGradient(cx,cy,R*.7,cx,cy,R*1.4);
- glow.addColorStop(0,'rgba(30,145,190,.12)');glow.addColorStop(.7,'rgba(30,145,190,.07)');glow.addColorStop(1,'rgba(30,145,190,0)');
- gc.fillStyle=glow;gc.beginPath();gc.arc(cx,cy,R*1.4,0,Math.PI*2);gc.fill();
- const earth=gc.createRadialGradient(cx-R*.35,cy-R*.4,R*.05,cx,cy,R*1.1);
- earth.addColorStop(0,'#1b5365');earth.addColorStop(.55,'#0c2a39');earth.addColorStop(1,'#030b12');
- gc.fillStyle=earth;gc.beginPath();gc.arc(cx,cy,R,0,Math.PI*2);gc.fill();
- gc.save();gc.beginPath();gc.arc(cx,cy,R,0,Math.PI*2);gc.clip();
- gc.fillStyle='rgba(65,139,130,.19)';
- [[-.35,-.22,.20,.30],[.12,-.38,.20,.12],[.38,.10,.18,.25],[-.12,.35,.16,.22]].forEach(([x,y,rx,ry])=>{
-  gc.beginPath();gc.ellipse(cx+x*R,cy+y*R,rx*R,ry*R,-.4,0,Math.PI*2);gc.fill()
- });
- gc.strokeStyle='rgba(100,210,230,.20)';gc.lineWidth=.7;
- for(let lat=-60;lat<=60;lat+=30){gc.beginPath();for(let lon=-90;lon<=90;lon+=3){const p=project(lat*DEG,lon*DEG);if(lon===-90)gc.moveTo(p.x,p.y);else gc.lineTo(p.x,p.y)}gc.stroke()}
- for(let lon=-75;lon<=75;lon+=25){gc.beginPath();for(let lat=-90;lat<=90;lat+=3){const p=project(lat*DEG,lon*DEG);if(lat===-90)gc.moveTo(p.x,p.y);else gc.lineTo(p.x,p.y)}gc.stroke()}
+
+function updatePositions(now) {
+ const next = [];
+ for (let i = 0; i < satellites.length; i++) {
+  const obj = calculate(satellites[i], now);
+  if (obj) next.push(obj);
+ }
+ positions = next;
+ lastPositionUpdate = now.getTime();
+ if (selectedName && Math.floor(lastPositionUpdate / 1000) % 15 === 0) buildSelectedOrbit(selectedName);
+}
+
+function project(lat, lon, alt = 0) {
+ const lat0 = observer.latitude, lon0 = observer.longitude, dl = lon - lon0;
+ const z = Math.sin(lat0) * Math.sin(lat) + Math.cos(lat0) * Math.cos(lat) * Math.cos(dl);
+ const x = Math.cos(lat) * Math.sin(dl);
+ const y = Math.cos(lat0) * Math.sin(lat) - Math.sin(lat0) * Math.cos(lat) * Math.cos(dl);
+ const scale = 1 + Math.max(0, Math.min(3000, alt)) / 6371, R = globeSize.R || 150;
+ return { x: globeSize.cx + x * R * scale, y: globeSize.cy - y * R * scale, z };
+}
+
+function drawGlobe(now) {
+ const w = globeSize.w, h = globeSize.h;
+ gc.clearRect(0, 0, w, h);
+ const R = Math.min(w * .34, h * .36), cx = w / 2, cy = h / 2 + 8;
+ globeSize = { ...globeSize, R, cx, cy };
+
+ for (let i = 0; i < stars.length; i++) {
+  const st = stars[i], sx = st.x * w, sy = st.y * h;
+  if (Math.hypot(sx - cx, sy - cy) < R * 1.06) continue;
+  const tw = 0.14 + 0.24 * ((Math.sin(now / 1400 + st.phase) + 1) * 0.5);
+  gc.fillStyle = `rgba(180,225,240,${tw.toFixed(3)})`;
+  gc.beginPath(); gc.arc(sx, sy, st.r, 0, Math.PI * 2); gc.fill();
+ }
+
+ const glow = gc.createRadialGradient(cx, cy, R * .85, cx, cy, R * 1.28);
+ glow.addColorStop(0, 'rgba(50,180,220,.14)');
+ glow.addColorStop(1, 'rgba(50,180,220,0)');
+ gc.fillStyle = glow; gc.beginPath(); gc.arc(cx, cy, R * 1.28, 0, Math.PI * 2); gc.fill();
+
+ const earth = gc.createRadialGradient(cx - R * .3, cy - R * .35, R * .05, cx, cy, R * 1.05);
+ earth.addColorStop(0, '#164454'); earth.addColorStop(.6, '#0a222f'); earth.addColorStop(1, '#030a10');
+ gc.fillStyle = earth; gc.beginPath(); gc.arc(cx, cy, R, 0, Math.PI * 2); gc.fill();
+
+ gc.save(); gc.beginPath(); gc.arc(cx, cy, R, 0, Math.PI * 2); gc.clip();
+ gc.strokeStyle = 'rgba(100,210,230,.14)'; gc.lineWidth = .7;
+ for (let lat = -60; lat <= 60; lat += 30) {
+  gc.beginPath(); let started = false;
+  for (let lon = -180; lon <= 180; lon += 4) {
+   const p = project(lat * DEG, lon * DEG);
+   if (p.z > 0) { if (!started) { gc.moveTo(p.x, p.y); started = true; } else gc.lineTo(p.x, p.y); }
+   else started = false;
+  }
+  gc.stroke();
+ }
+ for (let lon = -180; lon < 180; lon += 30) {
+  gc.beginPath(); let started = false;
+  for (let lat = -90; lat <= 90; lat += 4) {
+   const p = project(lat * DEG, lon * DEG);
+   if (p.z > 0) { if (!started) { gc.moveTo(p.x, p.y); started = true; } else gc.lineTo(p.x, p.y); }
+   else started = false;
+  }
+  gc.stroke();
+ }
  gc.restore();
- gc.strokeStyle='rgba(100,220,240,.65)';gc.lineWidth=1;gc.beginPath();gc.arc(cx,cy,R,0,Math.PI*2);gc.stroke();
- // Decorative orbital reference rings
- gc.save();gc.translate(cx,cy);gc.rotate(now/15000);gc.strokeStyle='rgba(80,180,210,.13)';gc.setLineDash([3,8]);
- gc.beginPath();gc.ellipse(0,0,R*1.17,R*.37,-.4,0,Math.PI*2);gc.stroke();
- gc.beginPath();gc.ellipse(0,0,R*1.22,R*.48,.8,0,Math.PI*2);gc.stroke();gc.restore();gc.setLineDash([]);
- // Satellite positions and restrained trails
- positions.forEach(obj=>{
-  const p=project(obj.lat,obj.lon,obj.alt);if(p.z<=-.05)return;
-  const arr=history.get(obj.name)||[];
-  if(arr.length>2){gc.beginPath();let started=false;arr.forEach(pt=>{const q=project(pt.lat,pt.lon,pt.alt);if(q.z>-.05){if(!started){gc.moveTo(q.x,q.y);started=true}else gc.lineTo(q.x,q.y)}else started=false});
-   gc.strokeStyle='rgba(95,220,255,.25)';gc.lineWidth=.75;gc.stroke()}
-  const active=selectedName===obj.name,pulse=(Math.sin(now/500+obj.alt)+1)/2,size=active?4.8:2.4+pulse*.8;
-  gc.save();gc.shadowColor=active?'#fff':'#70eaff';gc.shadowBlur=active?17:8+pulse*4;gc.fillStyle=active?'#fff':'#70eaff';
-  gc.beginPath();gc.arc(p.x,p.y,size,0,Math.PI*2);gc.fill();gc.restore();
-  if(active){gc.strokeStyle='rgba(255,255,255,.95)';gc.lineWidth=1;gc.beginPath();gc.arc(p.x,p.y,10,0,Math.PI*2);gc.stroke();gc.fillStyle='#fff';gc.font='10px Share Tech Mono';gc.textAlign='left';gc.fillText(obj.name.slice(0,22),p.x+13,p.y-9)}
+
+ gc.strokeStyle = 'rgba(112,234,255,.45)'; gc.lineWidth = 1;
+ gc.beginPath(); gc.arc(cx, cy, R, 0, Math.PI * 2); gc.stroke();
+
+ if (selectedOrbit.length > 1) {
+  gc.save();
+  gc.beginPath();
+  let started = false;
+  for (let i = 0; i < selectedOrbit.length; i++) {
+   const pt = selectedOrbit[i], p = project(pt.lat, pt.lon, pt.alt);
+   const occluded = p.z < 0 && Math.hypot(p.x - cx, p.y - cy) < R;
+   if (!occluded) {
+    if (!started) { gc.moveTo(p.x, p.y); started = true; }
+    else gc.lineTo(p.x, p.y);
+   } else started = false;
+  }
+  gc.strokeStyle = 'rgba(230,183,108,.78)';
+  gc.lineWidth = 1.4;
+  gc.setLineDash([5, 5]);
+  gc.lineDashOffset = -(now / 90) % 10;
+  gc.stroke();
+  gc.restore();
+ }
+
+ for (let i = 0; i < positions.length; i++) {
+  const obj = positions[i], p = project(obj.lat, obj.lon, obj.alt);
+  const occluded = p.z < 0 && Math.hypot(p.x - cx, p.y - cy) < R;
+  if (occluded) continue;
+
+  const active = selectedName === obj.name;
+  const roleMatch = !activeRoleFilter || obj.role === activeRoleFilter;
+  const alpha = active ? 1 : (roleMatch ? 0.95 : 0.16);
+  const size = active ? 4.5 : (activeRoleFilter && roleMatch ? 3.1 : 2.1);
+
+  if (active && obj.elevation >= 0) {
+   gc.save();
+   gc.strokeStyle = 'rgba(230,183,108,.35)';
+   gc.lineWidth = 1;
+   gc.setLineDash([2, 3]);
+   gc.beginPath(); gc.moveTo(cx, cy); gc.lineTo(p.x, p.y); gc.stroke();
+   gc.restore();
+  }
+
+  gc.save();
+  gc.globalAlpha = alpha;
+  gc.shadowColor = active ? '#e6b76c' : (activeRoleFilter && roleMatch ? '#e6b76c' : '#70eaff');
+  gc.shadowBlur = active ? 16 : 6;
+  gc.fillStyle = active ? '#fff' : (activeRoleFilter && roleMatch ? '#e6b76c' : '#70eaff');
+  gc.beginPath(); gc.arc(p.x, p.y, size, 0, Math.PI * 2); gc.fill();
+  gc.restore();
+
+  if (active) {
+   const ringPulse = 10 + Math.sin(now / 320) * 2;
+   gc.strokeStyle = '#e6b76c'; gc.lineWidth = 1.2;
+   gc.beginPath(); gc.arc(p.x, p.y, ringPulse, 0, Math.PI * 2); gc.stroke();
+   gc.fillStyle = '#fff'; gc.font = '11px Share Tech Mono'; gc.textAlign = 'left';
+   gc.fillText(obj.name.slice(0, 24), p.x + 15, p.y + 4);
+  }
+ }
+
+ const pulse = (Math.sin(now / 500) + 1) / 2;
+ gc.save();
+ gc.strokeStyle = 'rgba(230,183,108,.55)'; gc.lineWidth = 1;
+ gc.beginPath();
+ gc.moveTo(cx - 18, cy); gc.lineTo(cx - 6, cy); gc.moveTo(cx + 6, cy); gc.lineTo(cx + 18, cy);
+ gc.moveTo(cx, cy - 18); gc.lineTo(cx, cy - 6); gc.moveTo(cx, cy + 6); gc.lineTo(cx, cy + 18);
+ gc.stroke();
+ gc.fillStyle = '#e6b76c'; gc.beginPath(); gc.arc(cx, cy, 3.8, 0, Math.PI * 2); gc.fill();
+ gc.strokeStyle = `rgba(230,183,108,${.25 + pulse * .4})`;
+ gc.beginPath(); gc.arc(cx, cy, 9 + pulse * 6, 0, Math.PI * 2); gc.stroke();
+ gc.fillStyle = '#e6b76c'; gc.font = 'bold 10px Share Tech Mono'; gc.textAlign = 'center';
+ gc.fillText(observer.name, cx, cy + 30);
+ gc.restore();
+}
+
+function drawRadar(now) {
+ const w = radarSize.w, h = radarSize.h;
+ rc.clearRect(0, 0, w, h);
+ const cx = w / 2, cy = h / 2 + 6, R = Math.min(w * .37, h * .38);
+ radarSize = { ...radarSize, cx, cy, R };
+
+ rc.strokeStyle = 'rgba(112,234,255,.16)'; rc.lineWidth = 1;
+ for (let a = 0; a < 360; a += 15) {
+  const rad = a * DEG, inner = (a % 45 === 0) ? R - 5 : R - 2.5;
+  rc.beginPath();
+  rc.moveTo(cx + Math.sin(rad) * inner, cy - Math.cos(rad) * inner);
+  rc.lineTo(cx + Math.sin(rad) * R, cy - Math.cos(rad) * R);
+  rc.stroke();
+ }
+
+ rc.strokeStyle = 'rgba(75,180,210,.18)'; rc.lineWidth = 1;
+ [1, .66, .33].forEach((s, i) => {
+  rc.beginPath(); rc.arc(cx, cy, R * s, 0, Math.PI * 2); rc.stroke();
+  rc.fillStyle = 'rgba(118,142,152,.7)'; rc.font = '9px Share Tech Mono'; rc.textAlign = 'left';
+  rc.fillText((i * 30) + '°', cx + 5, cy - R * s - 4);
  });
- // Yokohama: fixed central observation marker, emphasized over satellite layer
- const pulse=(Math.sin(now/420)+1)/2;
- gc.save();gc.strokeStyle='rgba(230,183,108,.65)';gc.lineWidth=1;
- gc.beginPath();gc.moveTo(cx-22,cy);gc.lineTo(cx-7,cy);gc.moveTo(cx+7,cy);gc.lineTo(cx+22,cy);gc.moveTo(cx,cy-22);gc.lineTo(cx,cy-7);gc.moveTo(cx,cy+7);gc.lineTo(cx,cy+22);gc.stroke();
- gc.shadowColor='#e6b76c';gc.shadowBlur=17;gc.fillStyle='#e6b76c';gc.beginPath();gc.arc(cx,cy,4.5,0,Math.PI*2);gc.fill();gc.shadowBlur=0;
- gc.strokeStyle=`rgba(230,183,108,${.35+pulse*.45})`;gc.beginPath();gc.arc(cx,cy,11+pulse*7,0,Math.PI*2);gc.stroke();
- gc.fillStyle='#e6b76c';gc.font='bold 11px Share Tech Mono';gc.textAlign='center';gc.fillText('YOKOHAMA',cx,cy+34);
- gc.font='8px Share Tech Mono';gc.fillStyle='rgba(230,183,108,.8)';gc.fillText('35.4437 N / 139.6380 E',cx,cy+46);gc.restore();
+
+ const wave = (now % 4500) / 4500;
+ rc.strokeStyle = `rgba(112,234,255,${((1 - wave) * 0.14).toFixed(3)})`;
+ rc.lineWidth = 1;
+ rc.beginPath(); rc.arc(cx, cy, R * wave, 0, Math.PI * 2); rc.stroke();
+
+ for (let a = 0; a < 360; a += 45) {
+  const r = a * DEG;
+  rc.beginPath(); rc.moveTo(cx, cy); rc.lineTo(cx + Math.sin(r) * R, cy - Math.cos(r) * R);
+  rc.strokeStyle = 'rgba(75,180,210,.09)'; rc.stroke();
+ }
+
+ rc.fillStyle = '#8daeb6'; rc.font = '10px Share Tech Mono'; rc.textAlign = 'center';
+ rc.fillText('N', cx, cy - R - 12); rc.fillText('E', cx + R + 13, cy + 3);
+ rc.fillText('S', cx, cy + R + 17); rc.fillText('W', cx - R - 13, cy + 3);
+
+ const sweep = (now / 2600) % (Math.PI * 2);
+ const grad = rc.createConicGradient(sweep, cx, cy);
+ grad.addColorStop(0, 'rgba(112,234,255,0)');
+ grad.addColorStop(.88, 'rgba(112,234,255,0)');
+ grad.addColorStop(1, 'rgba(112,234,255,.15)');
+ rc.fillStyle = grad; rc.beginPath(); rc.arc(cx, cy, R, 0, Math.PI * 2); rc.fill();
+
+ rc.strokeStyle = 'rgba(112,234,255,.28)'; rc.lineWidth = 1;
+ rc.beginPath(); rc.moveTo(cx, cy);
+ rc.lineTo(cx + Math.cos(sweep) * R, cy + Math.sin(sweep) * R);
+ rc.stroke();
+
+ let visible = 0;
+ for (let i = 0; i < positions.length; i++) {
+  const obj = positions[i];
+  if (obj.elevation < 0) continue;
+  visible++;
+  const r = R * (1 - Math.min(90, obj.elevation) / 90), a = obj.azimuth * DEG;
+  const x = cx + Math.sin(a) * r, y = cy - Math.cos(a) * r;
+  const active = selectedName === obj.name;
+  const roleMatch = !activeRoleFilter || obj.role === activeRoleFilter;
+
+  if (active) {
+   rc.save();
+   rc.strokeStyle = 'rgba(230,183,108,.4)';
+   rc.lineWidth = 1;
+   rc.setLineDash([2, 3]);
+   rc.beginPath(); rc.moveTo(cx, cy); rc.lineTo(x, y); rc.stroke();
+   rc.restore();
+  }
+
+  rc.save();
+  rc.globalAlpha = active ? 1 : (roleMatch ? 0.95 : 0.16);
+  rc.shadowColor = active || (activeRoleFilter && roleMatch) ? '#e6b76c' : '#70eaff';
+  rc.shadowBlur = active ? 15 : 7;
+  rc.fillStyle = active ? '#fff' : (activeRoleFilter && roleMatch ? '#e6b76c' : '#70eaff');
+  rc.beginPath(); rc.arc(x, y, active ? 4.5 : (activeRoleFilter && roleMatch ? 3.4 : 2.6), 0, Math.PI * 2); rc.fill();
+  rc.restore();
+
+  if (active) {
+   const ringPulse = 10 + Math.sin(now / 320) * 2;
+   rc.strokeStyle = '#e6b76c'; rc.lineWidth = 1.2;
+   rc.beginPath(); rc.arc(x, y, ringPulse, 0, Math.PI * 2); rc.stroke();
+   rc.fillStyle = '#fff'; rc.font = '10px Share Tech Mono'; rc.textAlign = 'left';
+   rc.fillText(obj.name.slice(0, 18), x + 13, y + 3);
+  }
+ }
+
+ // 中央の観測地点（横浜）マーカー＋ラベル
+ rc.fillStyle = '#e6b76c'; rc.beginPath(); rc.arc(cx, cy, 3.8, 0, Math.PI * 2); rc.fill();
+ rc.fillStyle = 'rgba(230,183,108,.85)'; rc.font = 'bold 9px Share Tech Mono'; rc.textAlign = 'center';
+ rc.fillText(observer.name, cx, cy + 16);
+
+ const visStr = visible.toString().padStart(2, '0');
+ $('visible-count').textContent = visStr;
+ $('visible-count-top').textContent = visStr + ' 機';
+ $('globe-count').textContent = 'TRACKING: ' + satellites.length + ' / ABOVE ' + observer.name + ': ' + visible;
 }
-function drawRadar(now){
- const w=radarSize.w,h=radarSize.h;rc.clearRect(0,0,w,h);
- const cx=w/2,cy=h/2+8,R=Math.min(w*.37,h*.38);radarSize={...radarSize,cx,cy,R};
- rc.strokeStyle='rgba(75,180,210,.20)';rc.lineWidth=1;
- [1,.75,.5,.25].forEach((s,i)=>{rc.beginPath();rc.arc(cx,cy,R*s,0,Math.PI*2);rc.stroke();rc.fillStyle='rgba(100,180,200,.55)';rc.font='9px Share Tech Mono';rc.textAlign='left';rc.fillText((90-i*22.5)+'°',cx+5,cy-R*s-4)});
- for(let a=0;a<360;a+=30){const r=a*DEG;rc.beginPath();rc.moveTo(cx,cy);rc.lineTo(cx+Math.sin(r)*R,cy-Math.cos(r)*R);rc.strokeStyle='rgba(75,180,210,.10)';rc.stroke()}
- // Cardinal directions
- rc.fillStyle='#8daeb6';rc.font='10px Share Tech Mono';rc.textAlign='center';
- rc.fillText('N',cx,cy-R-13);rc.fillText('E',cx+R+13,cy+3);rc.fillText('S',cx,cy+R+18);rc.fillText('W',cx-R-13,cy+3);
- const sweep=(now/1800)%(Math.PI*2);
- const gradient=rc.createConicGradient(sweep,cx,cy);
- gradient.addColorStop(0,'rgba(70,220,255,0)');gradient.addColorStop(.82,'rgba(70,220,255,0)');gradient.addColorStop(.96,'rgba(70,220,255,.02)');gradient.addColorStop(1,'rgba(70,220,255,.23)');
- rc.fillStyle=gradient;rc.beginPath();rc.arc(cx,cy,R,0,Math.PI*2);rc.fill();
- rc.beginPath();rc.moveTo(cx,cy);rc.lineTo(cx+Math.sin(sweep)*R,cy-Math.cos(sweep)*R);rc.strokeStyle='rgba(112,234,255,.55)';rc.lineWidth=1.3;rc.stroke();
- let visible=0;
- positions.forEach(obj=>{
-  if(obj.elevation<0)return;visible++;
-  const r=R*(1-Math.min(90,obj.elevation)/90),a=obj.azimuth*DEG,x=cx+Math.sin(a)*r,y=cy-Math.cos(a)*r;
-  const active=selectedName===obj.name,pulse=(Math.sin(now/400+obj.alt)+1)/2;
-  rc.save();rc.shadowColor=active?'#fff':'#70eaff';rc.shadowBlur=active?17:8+pulse*4;rc.fillStyle=active?'#fff':'#70eaff';
-  rc.beginPath();rc.arc(x,y,active?4.5:2.7+pulse*.7,0,Math.PI*2);rc.fill();rc.restore();
-  if(active){rc.strokeStyle='#fff';rc.lineWidth=1;rc.beginPath();rc.arc(x,y,10,0,Math.PI*2);rc.stroke()}
- });
- // The center is Yokohama, not an abstract radar origin
- const pulse=(Math.sin(now/500)+1)/2;
- rc.fillStyle='#e6b76c';rc.beginPath();rc.arc(cx,cy,4,0,Math.PI*2);rc.fill();
- rc.strokeStyle=`rgba(230,183,108,${.3+pulse*.45})`;rc.lineWidth=1.3;rc.beginPath();rc.arc(cx,cy,10+pulse*6,0,Math.PI*2);rc.stroke();
- rc.fillStyle='#e6b76c';rc.font='bold 9px Share Tech Mono';rc.textAlign='center';rc.fillText('YOKOHAMA',cx,cy+25);
- $('visible-count').textContent=visible.toString().padStart(2,'0');
- $('globe-count').textContent='追跡対象：'+satellites.length+'機 / 横浜から見える衛星：'+visible+'機';
+
+function clearSelection() {
+ selectedName = null;
+ selectedOrbit = [];
+ passJob++;
+ $('clear-selection').disabled = true;
+ $('selected-name').textContent = 'NO TARGET SELECTED';
+ $('selected-sub').textContent = 'レーダーまたは地球儀上の衛星をクリックして抽出';
+ ['altitude', 'velocity', 'elevation', 'azimuth'].forEach(id => $(id).textContent = '--');
+ const badge = $('tier-badge');
+ badge.className = 'tier-badge';
+ badge.textContent = 'STANDBY';
+ $('purpose-name').textContent = '未選択';
+ $('purpose-text').textContent = '衛星名に基づき「CONFIRMED（公式確認）」「ESTIMATED（名称推定）」「UNKNOWN（用途不明）」の3段階で分類します。';
+ $('pass-result').textContent = '--';
+ $('pass-meta').textContent = '';
+ $('pass-detail').textContent = '選択した衛星について、今後24時間の' + observer.jpName + '上空の通過時刻・最大仰角・観測可能時間を推算します。';
 }
-function classifyPurpose(name){
- const n=name.toUpperCase();
- const rules=[
-  [/ISS|ZARYA|TIANHE|SHENZHOU|CREW|SOYUZ|PROGRESS/,'有人宇宙活動・宇宙ステーション','宇宙飛行士の滞在、物資輸送、微小重力環境での実験などに関係する衛星・宇宙機です。'],
-  [/HST|HUBBLE|JWST|WEBB/,'宇宙望遠鏡・天文学','地球大気の外から天体を観測し、星や銀河、宇宙の成り立ちを研究するための宇宙望遠鏡です。'],
-  [/STARLINK/,'通信・インターネット','低軌道衛星による通信ネットワークの一部です。地上局や利用者端末と接続し、広域の通信サービスを提供します。'],
-  [/ONEWEB/,'通信・インターネット','低軌道衛星コンステレーションによるブロードバンド通信サービスを構成する衛星です。'],
-  [/IRIDIUM/,'通信','衛星電話やデータ通信など、地上ネットワークが届きにくい地域を含む通信サービスに利用されます。'],
-  [/ORBCOMM/,'通信・IoTデータ','遠隔地の機器や移動体からデータを送る衛星通信サービスに利用されます。'],
-  [/NOAA|METEOR|FENGYUN|GOES|HIMAWARI|METOP|JPSS|SUOMI/,'気象観測','雲、気温、水蒸気、台風などの気象情報を観測し、天気予報や気候監視を支える衛星群に属する可能性が高いです。'],
-  [/LANDSAT|SENTINEL|TERRA|AQUA|WORLDVIEW|PLEIADES|SPOT|RESOURCESAT/,'地球観測・リモートセンシング','地表、森林、海洋、都市、農地などを撮影・観測し、環境監視や地図作成、防災などに利用されます。'],
-  [/GPS|NAVSTAR/,'測位・航法','衛星測位システムの一部として、位置と時刻を求めるための信号を提供する衛星です。'],
-  [/GALILEO/,'測位・航法','欧州の衛星測位システムを構成する衛星です。位置・航法・時刻情報の提供に利用されます。'],
-  [/GLONASS/,'測位・航法','ロシアの衛星測位システムを構成する衛星です。位置・航法・時刻情報の提供に利用されます。'],
-  [/BEIDOU|COMPASS/,'測位・航法','中国の衛星測位システムを構成する衛星です。位置・航法・時刻情報の提供に利用されます。'],
-  [/CUBESAT|LEMUR|FLOCK|DOVE/,'小型衛星・用途個別確認','小型衛星の名称に該当します。地球観測、通信、科学実験など用途は機体ごとに異なるため、名称だけでは特定できません。']
- ];
- for(const [re,title,desc] of rules){if(re.test(n))return {title,desc,confidence:'衛星名に基づく分類'}}
- return {title:'用途を特定できません',desc:'公開されている衛星名だけでは、用途を確実に判断できません。軍事・研究・技術実証などを含め、推測で分類していません。',confidence:'未確認'}
+
+function updateSelected(obj) {
+ selectedName = obj.name;
+ $('clear-selection').disabled = false;
+ buildSelectedOrbit(obj.name);
+ $('selected-name').textContent = obj.name;
+ $('selected-sub').textContent = 'SGP4 PROPAGATION / FROM PUBLIC TLE';
+ $('altitude').textContent = Math.round(obj.alt).toLocaleString() + ' km';
+ $('velocity').textContent = obj.velocity.toFixed(2) + ' km/s';
+ $('elevation').textContent = obj.elevation.toFixed(1) + '°';
+ $('azimuth').textContent = obj.azimuth.toFixed(1) + '°';
+
+ const purpose = classifyPurpose(obj.name);
+ const badge = $('tier-badge');
+ badge.className = 'tier-badge ' + purpose.tier.toLowerCase();
+ badge.textContent = purpose.tier === 'CONFIRMED'
+  ? 'CONFIRMED / 公式確認'
+  : purpose.tier === 'ESTIMATED'
+   ? 'ESTIMATED / 名称から推定'
+   : 'UNKNOWN / 用途不明';
+ $('purpose-name').textContent = purpose.title;
+ $('purpose-text').textContent = purpose.desc;
+
+ const cacheKey = obj.name + '_' + observer.latitude.toFixed(2) + '_' + observer.longitude.toFixed(2);
+ if (passCache.has(cacheKey)) renderPass(passCache.get(cacheKey));
+ else predictPass(obj.name, cacheKey);
 }
-function resetSelected(){
- $('selected-name').textContent='衛星を選択してください';$('selected-sub').textContent='地球またはレーダー上の点をクリック';
- ['altitude','velocity','elevation','azimuth'].forEach(id=>$(id).textContent='--');
- $('purpose-name').textContent='未選択';$('purpose-text').textContent='衛星を選択すると、公開されている衛星名から用途を分類します。';
- $('pass-result').textContent='衛星を選択してください';$('pass-detail').textContent='選択した衛星について、今後24時間の軌道を計算します。';
+
+function renderPass(res) {
+ if (!res) return;
+ if (res.currentlyVisible) {
+  $('pass-result').textContent = 'VISIBLE NOW / 現在' + observer.jpName + '上空を通過中';
+  $('pass-meta').textContent = '現在仰角 ' + res.currentEl.toFixed(1) + '° / 方位 ' + res.azimuth.toFixed(0) + '°（残り滞在推算：約' + res.durationMin + '分）';
+  $('pass-detail').textContent = '※上空を通過中であっても、肉眼での視認には「地上（' + observer.jpName + '）が夜間であること」と「衛星本体に太陽光が当たっていること」の条件が必要です。';
+  return;
+ }
+ if (!res.found) {
+  $('pass-result').textContent = '24時間以内の通過予測なし';
+  $('pass-meta').textContent = '';
+  $('pass-detail').textContent = '現在の軌道要素による推算では、今後24時間に' + observer.jpName + 'の地平線より上へ昇る予測はありません。';
+  return;
+ }
+ const time = res.peakTime.toLocaleString('ja-JP', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false });
+ const level = res.maxElevation >= 60 ? '天頂付近を通過' : res.maxElevation >= 20 ? '中高度を通過' : '低空を通過';
+ $('pass-result').textContent = '次回通過：' + time + '（' + level + '）';
+ $('pass-meta').textContent = '最大仰角 ' + res.maxElevation.toFixed(1) + '° / 方位 ' + res.azimuth.toFixed(0) + '° / 観測可能時間 約' + res.durationMin + '分';
+ $('pass-detail').textContent = '※上記は' + observer.jpName + 'の地平線より上を通過する軌道推算です。実際に肉眼で見えるかどうかは、衛星の反射率と日没後の太陽光条件に左右されます。';
 }
-function updateSelected(obj){
- selectedName=obj.name;
- $('selected-name').textContent=obj.name;$('selected-sub').textContent='公開TLE / 現在位置を軌道計算';
- $('altitude').textContent=Math.round(obj.alt).toLocaleString()+' km';
- $('velocity').textContent=obj.velocity.toFixed(2)+' km/s';
- $('elevation').textContent=obj.elevation.toFixed(1)+'°';
- $('azimuth').textContent=obj.azimuth.toFixed(1)+'°';
- const purpose=classifyPurpose(obj.name);
- $('purpose-name').textContent=purpose.title;$('purpose-text').textContent=purpose.desc+'（'+purpose.confidence+'）';
- if(passCache.has(obj.name))renderPass(passCache.get(obj.name));
- else predictPass(obj.name);
-}
-function renderPass(result){
- if(!result){$('pass-result').textContent='予測できません';$('pass-detail').textContent='軌道計算に必要なデータがありません。';return}
- if(!result.found){$('pass-result').textContent='24時間以内の通過予測なし';$('pass-detail').textContent='現在のTLEを使った計算では、今後24時間に横浜の地平線より上へ来る予測はありません。';return}
- const d=result.peakTime;
- const time=d.toLocaleString('ja-JP',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false});
- let level=result.maxElevation>=60?'高い位置を通過':result.maxElevation>=20?'空の中ほどを通過':'地平線に近い通過';
- $('pass-result').textContent=level+' / 最大仰角 '+result.maxElevation.toFixed(1)+'°';
- $('pass-detail').textContent='予測時刻：'+time+'（日本時間） / 方位：'+result.azimuth.toFixed(0)+'°。仰角0°以上を横浜から見える範囲としています。';
-}
-function predictPass(name){
- const sat=satellites.find(s=>s.name===name);if(!sat)return;
- const job=++passJob;$('pass-result').textContent='計算中...';$('pass-detail').textContent='今後24時間を60秒間隔で軌道計算しています。';
- // Run only for the selected satellite to avoid burdening the live display.
- setTimeout(()=>{
-  if(job!==passJob)return;
-  const now=new Date(),step=60*1000,horizon=24*60*60*1000;
-  let current=calculate(sat,now),currentlyVisible=current&&current.elevation>=0;
-  let inPass=currentlyVisible,peak=currentlyVisible?now:null;
-  let peakElevation=currentlyVisible?current.elevation:-90;
-  let peakAzimuth=currentlyVisible?current.azimuth:0,found=false;
-  for(let t=step;t<=horizon;t+=step){
-   const dt=new Date(now.getTime()+t),p=calculate(sat,dt);if(!p)continue;
-   if(!inPass&&p.elevation>=0){inPass=true;passStarted=true;peak=null;peakElevation=-90}
-   if(inPass&&p.elevation>=0){
-    if(p.elevation>peakElevation){peakElevation=p.elevation;peak=dt;peakAzimuth=p.azimuth}
-   }else if(inPass&&p.elevation<0){
-    if(peak){found=true;break}
-    inPass=false
+
+function predictPass(name, cacheKey) {
+ const sat = satellites.find(s => s.name === name);
+ if (!sat) return;
+ const job = ++passJob;
+ $('pass-result').textContent = '軌道を推算中...';
+ $('pass-meta').textContent = '';
+ $('pass-detail').textContent = '今後24時間の通過時刻と滞在時間を計算しています。';
+ setTimeout(() => {
+  if (job !== passJob) return;
+  const now = new Date(), step = 30000, horizon = 24 * 3600000;
+  const cur = calculate(sat, now);
+  if (cur && cur.elevation >= 0) {
+   let remMin = 0;
+   for (let t = step; t <= 3 * 3600000; t += step) {
+    const p = calculate(sat, new Date(now.getTime() + t));
+    if (!p || p.elevation < 0) break;
+    remMin += 0.5;
+   }
+   const res = { currentlyVisible: true, currentEl: cur.elevation, azimuth: cur.azimuth, durationMin: Math.max(1, Math.round(remMin)), found: true };
+   passCache.set(cacheKey, res);
+   if (selectedName === name && job === passJob) renderPass(res);
+   return;
+  }
+  let inPass = false, startT = null, peak = null, peakEl = -90, peakAz = 0, found = false, durationMin = 0;
+  for (let t = step; t <= horizon; t += step) {
+   const dt = new Date(now.getTime() + t), p = calculate(sat, dt);
+   if (!p) continue;
+   if (!inPass && p.elevation >= 0) {
+    inPass = true; startT = dt; peak = dt; peakEl = p.elevation; peakAz = p.azimuth;
+   } else if (inPass && p.elevation >= 0) {
+    if (p.elevation > peakEl) { peakEl = p.elevation; peak = dt; peakAz = p.azimuth; }
+   } else if (inPass && p.elevation < 0) {
+    if (peak && startT) {
+     durationMin = Math.max(1, Math.round((dt.getTime() - startT.getTime()) / 60000));
+     found = true;
+     break;
+    }
+    inPass = false;
    }
   }
-  const result={found,peakTime:peak,maxElevation:peakElevation,azimuth:peakAzimuth,currentlyVisible};
-  passCache.set(name,result);
-  if(selectedName===name&&job===passJob)renderPass(result);
- },40);
+  const res = { currentlyVisible: false, found, peakTime: peak, maxElevation: peakEl, azimuth: peakAz, durationMin };
+  passCache.set(cacheKey, res);
+  if (selectedName === name && job === passJob) renderPass(res);
+ }, 30);
 }
-function hitTest(canvas,e,kind){
- const rect=canvas.getBoundingClientRect(),x=e.clientX-rect.left,y=e.clientY-rect.top;
- let nearest=null,min=22;
- positions.forEach(obj=>{
+
+function hitTest(canvas, e, kind) {
+ const rect = canvas.getBoundingClientRect(), x = e.clientX - rect.left, y = e.clientY - rect.top;
+ const { cx, cy, R } = globeSize;
+ let nearest = null, min = 22;
+ for (let i = 0; i < positions.length; i++) {
+  const obj = positions[i];
   let p;
-  if(kind==='globe'){p=project(obj.lat,obj.lon,obj.alt);if(p.z<-.05)return}
-  else{if(obj.elevation<0)return;const {cx,cy,R}=radarSize,r=R*(1-Math.min(90,obj.elevation)/90),a=obj.azimuth*DEG;p={x:cx+Math.sin(a)*r,y:cy-Math.cos(a)*r}}
-  const d=Math.hypot(p.x-x,p.y-y);if(d<min){min=d;nearest=obj}
+  if (kind === 'globe') {
+   p = project(obj.lat, obj.lon, obj.alt);
+   if (p.z < 0 && Math.hypot(p.x - cx, p.y - cy) < R) continue;
+  } else {
+   if (obj.elevation < 0) continue;
+   const r = radarSize.R * (1 - Math.min(90, obj.elevation) / 90), a = obj.azimuth * DEG;
+   p = { x: radarSize.cx + Math.sin(a) * r, y: radarSize.cy - Math.cos(a) * r };
+  }
+  const d = Math.hypot(p.x - x, p.y - y);
+  if (d < min) { min = d; nearest = obj; }
+ }
+ if (nearest) updateSelected(nearest);
+}
+
+globe.addEventListener('click', e => hitTest(globe, e, 'globe'));
+radar.addEventListener('click', e => hitTest(radar, e, 'radar'));
+$('clear-selection').addEventListener('click', clearSelection);
+
+document.querySelectorAll('.role-card').forEach(btn => {
+ btn.addEventListener('click', () => {
+  const role = btn.dataset.role;
+  activeRoleFilter = (activeRoleFilter === role) ? null : role;
+  document.querySelectorAll('.role-card').forEach(b => b.classList.toggle('active', b.dataset.role === activeRoleFilter));
+  const labels = { nav: '測位・時刻同期', comm: '通信・ネットワーク', earth: '気象・地球観測', science: '宇宙科学・有人滞在' };
+  $('filter-status').textContent = activeRoleFilter
+   ? 'FILTER ACTIVE: ' + labels[activeRoleFilter] + '（再クリックで解除）'
+   : 'FILTER: ALL（カード選択で上のレーダーと地球儀を強調）';
  });
- if(nearest)updateSelected(nearest)
+});
+
+function applyObserverLabels() {
+ $('obs-label').textContent = 'OBSERVER / ' + observer.name + ' SKY';
+ $('radar-section-label').textContent = '01 / SKY ABOVE ' + observer.name + ' — 360° LOCAL RADAR（' + observer.jpName + 'の上空）';
+ $('radar-badge').innerHTML = '<strong>' + observer.name + ' ZENITH / ' + observer.jpName + '上空</strong><br>中心＝' + observer.jpName + 'の真上（仰角90°） / 外周＝地平線（0°）';
+ $('radar-info-title').textContent = observer.jpName + '上空の投影図';
+ $('radar-visible-label').textContent = observer.jpName + 'の上空を通過中';
+ $('globe-observer-label').textContent = 'CENTERED ON ' + observer.name + ' / ORTHOGRAPHIC';
+ $('globe-bottom-obs').textContent = 'OBSERVER: ' + observer.name;
+ $('horizon-panel-title').textContent = 'ABOVE ' + observer.name + ' HORIZON';
+ $('horizon-unit').textContent = '仰角0°以上 / ' + observer.jpName + 'の地平線より上に推算される衛星';
+ $('pass-label').textContent = 'NEXT PASS / ' + observer.jpName + '上空の通過予測';
+ $('legend-obs').textContent = observer.jpName + ' / 観測地点';
 }
-globe.addEventListener('click',e=>hitTest(globe,e,'globe'));radar.addEventListener('click',e=>hitTest(radar,e,'radar'));
-function animate(){
- const now=Date.now();
- if(now-lastPositionUpdate>=1000)updatePositions(new Date());
- drawGlobe(now);drawRadar(now);
- if(selectedName){const obj=positions.find(o=>o.name===selectedName);if(obj){
-  $('altitude').textContent=Math.round(obj.alt).toLocaleString()+' km';$('velocity').textContent=obj.velocity.toFixed(2)+' km/s';
-  $('elevation').textContent=obj.elevation.toFixed(1)+'°';$('azimuth').textContent=obj.azimuth.toFixed(1)+'°';
- }}
- $('clock').textContent=new Date().toLocaleTimeString('ja-JP');
- requestAnimationFrame(animate)
+
+$('use-gps').addEventListener('click', () => {
+ if (usingGps) {
+  Object.assign(observer, DEFAULT_OBS);
+  usingGps = false;
+  $('loc-coords').textContent = 'YOKOHAMA / 35.4437° N  139.6380° E';
+  $('use-gps').textContent = '現在地で観測 ⌖';
+  applyObserverLabels();
+  updatePositions(new Date());
+  if (selectedName) { const obj = positions.find(o => o.name === selectedName); if (obj) updateSelected(obj); }
+  return;
+ }
+ if (!navigator.geolocation) {
+  $('status').textContent = 'このブラウザでは位置情報が利用できません（横浜の座標を維持します）';
+  return;
+ }
+ $('use-gps').disabled = true;
+ $('use-gps').textContent = '測位中...';
+ navigator.geolocation.getCurrentPosition(pos => {
+  usingGps = true;
+  observer.name = 'CURRENT LOCATION';
+  observer.jpName = '現在地';
+  observer.latitude = pos.coords.latitude * DEG;
+  observer.longitude = pos.coords.longitude * DEG;
+  observer.height = (pos.coords.altitude || 20) / 1000;
+  const latStr = Math.abs(pos.coords.latitude).toFixed(4) + '° ' + (pos.coords.latitude >= 0 ? 'N' : 'S');
+  const lonStr = Math.abs(pos.coords.longitude).toFixed(4) + '° ' + (pos.coords.longitude >= 0 ? 'E' : 'W');
+  $('loc-coords').textContent = 'CURRENT LOCATION / ' + latStr + '  ' + lonStr;
+  $('use-gps').disabled = false;
+  $('use-gps').textContent = '横浜に戻す ↺';
+  applyObserverLabels();
+  updatePositions(new Date());
+  if (selectedName) { const obj = positions.find(o => o.name === selectedName); if (obj) updateSelected(obj); }
+ }, () => {
+  $('use-gps').disabled = false;
+  $('use-gps').textContent = '現在地で観測 ⌖';
+  $('status').textContent = '位置情報の取得が許可されなかったため、横浜を観測地点として維持します。';
+ }, { timeout: 8000 });
+});
+
+function animate() {
+ const now = Date.now();
+ if (now - lastPositionUpdate >= 1000) updatePositions(new Date());
+ drawGlobe(now);
+ drawRadar(now);
+ if (selectedName) {
+  const obj = positions.find(o => o.name === selectedName);
+  if (obj) {
+   $('altitude').textContent = Math.round(obj.alt).toLocaleString() + ' km';
+   $('velocity').textContent = obj.velocity.toFixed(2) + ' km/s';
+   $('elevation').textContent = obj.elevation.toFixed(1) + '°';
+   $('azimuth').textContent = obj.azimuth.toFixed(1) + '°';
+  }
+ }
+ $('clock').textContent = new Date().toLocaleTimeString('ja-JP');
+ requestAnimationFrame(animate);
 }
-$('reload').addEventListener('click',loadData);
-setInterval(()=>{if(lastFetch&&Date.now()-lastFetch.getTime()>30*60*1000)loadData()},60000);
-animate();loadData();
+
+$('reload').addEventListener('click', loadData);
+setInterval(() => { if (lastFetch && Date.now() - lastFetch.getTime() > 30 * 60 * 1000) loadData(); }, 60000);
+animate();
+loadData();
 })();
 </script>
 </body>
