@@ -1,0 +1,471 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>002 — ABOVE US | NAKAJOX EXPERIMENT</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/satellite.js/5.0.0/satellite.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --bg:#05090e; --panel:#09131b; --line:#17313e;
+  --cyan:#70eaff; --blue:#328ca7; --amber:#e6b76c;
+  --white:#e4f1f3; --muted:#69818b; --red:#ff6464;
+}
+*{box-sizing:border-box}
+body {
+  margin:0;background:var(--bg);color:var(--white);
+  font-family:'Share Tech Mono',monospace;overflow-x:hidden;
+}
+body:before {
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:5;
+  background:repeating-linear-gradient(0deg,transparent 0px,transparent 3px,rgba(90,180,210,.025) 4px);
+}
+header {
+  padding:24px 4vw 18px;border-bottom:1px solid var(--line);
+  display:flex;justify-content:space-between;align-items:flex-end;gap:20px;
+}
+.eyebrow{font-size:10px;letter-spacing:3px;color:var(--cyan)}
+h1 {
+  font:500 clamp(36px,6vw,72px)/.9 'Barlow Condensed',sans-serif;
+  letter-spacing:3px;margin:10px 0 4px;
+}
+.subtitle{font:300 14px 'Barlow Condensed',sans-serif;letter-spacing:4px;color:var(--muted)}
+.header-right{text-align:right;font-size:11px;color:var(--muted);line-height:2}
+.live{color:var(--cyan);letter-spacing:2px}
+.live:before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--cyan);margin-right:9px;box-shadow:0 0 12px var(--cyan)}
+main{padding:22px 4vw 40px;max-width:1600px;margin:auto}
+.topline{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;gap:15px;flex-wrap:wrap}
+.section-label{font-size:10px;letter-spacing:2px;color:var(--muted)}
+.location{font-size:11px;color:var(--amber)}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:16px}
+.radar-wrap {
+  position:relative;background:
+  radial-gradient(ellipse at 50% 48%,#0b202b 0%,#07121b 48%,#050a10 100%);
+  border:1px solid var(--line);min-height:520px;overflow:hidden;
+}
+.radar-wrap:after {
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(90deg,transparent 49.9%,rgba(75,180,210,.07) 50%,transparent 50.1%),
+  linear-gradient(0deg,transparent 49.9%,rgba(75,180,210,.07) 50%,transparent 50.1%);
+}
+canvas{display:block;width:100%;height:100%;min-height:520px}
+.radar-caption {
+  position:absolute;left:18px;top:16px;font-size:10px;line-height:1.9;
+  color:var(--muted);pointer-events:none;z-index:2;
+}
+.radar-caption strong{color:var(--cyan);font-weight:normal}
+.radar-bottom {
+  position:absolute;bottom:15px;left:18px;right:18px;display:flex;
+  justify-content:space-between;font-size:9px;color:var(--muted);z-index:2;
+  pointer-events:none;
+}
+.side{display:flex;flex-direction:column;gap:12px}
+.panel{border:1px solid var(--line);background:var(--panel);padding:17px}
+.panel-title{font-size:10px;letter-spacing:2px;color:var(--muted);margin-bottom:14px}
+.big-number{font:400 46px/.95 'Barlow Condensed',sans-serif;color:var(--cyan)}
+.big-unit{font-size:10px;color:var(--muted);margin-top:7px}
+.stat-row{display:flex;justify-content:space-between;border-top:1px solid #142832;padding:10px 0;font-size:10px}
+.stat-row span:first-child{color:var(--muted)}
+.stat-row span:last-child{color:var(--white)}
+.selected-name{font:500 23px/1.1 'Barlow Condensed',sans-serif;color:var(--cyan);min-height:26px}
+.selected-sub{font-size:9px;color:var(--muted);margin:7px 0 13px}
+.empty{font-size:11px;line-height:1.8;color:var(--muted)}
+.data-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.data-cell{border-top:1px solid #142832;padding-top:9px}
+.data-cell small{display:block;color:var(--muted);font-size:9px;margin-bottom:5px}
+.data-cell strong{font:400 22px 'Barlow Condensed',sans-serif;color:var(--white)}
+.footer-grid{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:12px;margin-top:16px}
+.info{border:1px solid var(--line);padding:15px 17px;background:#071018}
+.info h3{font-size:10px;letter-spacing:2px;color:var(--amber);font-weight:normal;margin:0 0 9px}
+.info p{font-size:10px;color:#8da1a8;line-height:1.8;margin:0}
+.info a{color:var(--cyan);text-decoration:none}
+.info a:hover{text-decoration:underline}
+.statusline{font-size:10px;color:var(--muted);margin-top:14px;min-height:16px}
+.statusline.error{color:var(--red)}
+button {
+  background:transparent;border:1px solid var(--line);color:var(--cyan);
+  font:10px 'Share Tech Mono';letter-spacing:1px;padding:8px 12px;cursor:pointer;
+}
+button:hover{background:#102532}
+@media(max-width:850px){
+ .layout{grid-template-columns:1fr}
+ .side{display:grid;grid-template-columns:1fr 1fr}
+ .radar-wrap,canvas{min-height:440px}
+ .footer-grid{grid-template-columns:1fr}
+}
+@media(max-width:520px){
+ header{align-items:flex-start;flex-direction:column}
+ .header-right{text-align:left}
+ main{padding:18px 14px 30px}
+ .side{grid-template-columns:1fr}
+ .radar-wrap,canvas{min-height:390px}
+}
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <div class="eyebrow">NAKAJOX EXPERIMENT / 002</div>
+    <h1>ABOVE US</h1>
+    <div class="subtitle">THE SKY IS NOT EMPTY.</div>
+  </div>
+  <div class="header-right">
+    <div class="live">ORBITAL MONITOR</div>
+    <div id="clock">--:--:--</div>
+    <div>OBSERVER / YOKOHAMA, JAPAN</div>
+  </div>
+</header>
+
+<main>
+  <div class="topline">
+    <div class="section-label">01 / LIVE SKY SURVEILLANCE</div>
+    <div class="location">35.4437° N &nbsp; 139.6380° E</div>
+  </div>
+
+  <div class="layout">
+    <section class="radar-wrap">
+      <div class="radar-caption">
+        <strong>SKY RADAR / 360°</strong><br>
+        CENTER = ZENITH<br>
+        OUTER RING = HORIZON
+      </div>
+      <canvas id="radar"></canvas>
+      <div class="radar-bottom">
+        <span id="radar-count">TRACKING: --</span>
+        <span>AZIMUTH / ELEVATION</span>
+        <span>YOKOHAMA / JP</span>
+      </div>
+    </section>
+
+    <aside class="side">
+      <section class="panel">
+        <div class="panel-title">SATELLITES IN VIEW</div>
+        <div class="big-number" id="visible-count">--</div>
+        <div class="big-unit">ABOVE LOCAL HORIZON</div>
+        <div class="stat-row"><span>OBJECTS TRACKED</span><span id="tracked-count">--</span></div>
+        <div class="stat-row"><span>DATA SOURCE</span><span>CELESTRAK</span></div>
+        <div class="stat-row"><span>LAST TLE UPDATE</span><span id="update-time">--</span></div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-title">SELECTED OBJECT</div>
+        <div class="selected-name" id="selected-name">NO TARGET</div>
+        <div class="selected-sub" id="selected-id">SELECT A POINT ON RADAR</div>
+        <div class="data-grid">
+          <div class="data-cell"><small>ALTITUDE</small><strong id="altitude">--</strong></div>
+          <div class="data-cell"><small>VELOCITY</small><strong id="velocity">--</strong></div>
+          <div class="data-cell"><small>ELEVATION</small><strong id="elevation">--</strong></div>
+          <div class="data-cell"><small>AZIMUTH</small><strong id="azimuth">--</strong></div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-title">SYSTEM</div>
+        <div class="stat-row"><span>ORBITAL ENGINE</span><span id="engine-status">LOADING</span></div>
+        <div class="stat-row"><span>POSITION UPDATE</span><span>1 SEC</span></div>
+        <div class="stat-row"><span>OBSERVATION</span><span>YOKOHAMA</span></div>
+        <button id="reload">RELOAD ORBITAL DATA ↻</button>
+      </section>
+    </aside>
+  </div>
+
+  <div class="statusline" id="status">INITIALIZING ORBITAL SYSTEM...</div>
+
+  <div class="footer-grid">
+    <section class="info">
+      <h3>02 / WHAT YOU ARE SEEING</h3>
+      <p>Each point represents an artificial satellite calculated from publicly available orbital elements. Its position is recalculated continuously against the observer's location in Yokohama.</p>
+    </section>
+    <section class="info">
+      <h3>03 / NOT A SIMULATION</h3>
+      <p>The satellite positions are calculated from real orbital data. The radar display is a visual projection of direction and elevation, not a photograph of the sky.</p>
+    </section>
+    <section class="info">
+      <h3>04 / DATA SOURCE</h3>
+      <p>Orbital elements: <a href="https://celestrak.org/" target="_blank" rel="noopener">CelesTrak</a><br>
+      Position engine: satellite.js<br>
+      TLE data is periodically refreshed. Positions are calculated locally in this browser.</p>
+    </section>
+  </div>
+  <div style="display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap;margin-top:28px;border-top:1px solid var(--line);padding-top:15px;color:#526b75;font-size:9px;letter-spacing:1px">
+    <span>NAKAJOX EXPERIMENT / ELECTRICLADY</span>
+    <a href="https://electriclady.xyz" target="_blank" rel="noopener" style="color:var(--muted);text-decoration:none">© electriclady.xyz</a>
+  </div>
+</main>
+
+<script>
+(() => {
+  const canvas = document.getElementById('radar');
+  const ctx = canvas.getContext('2d');
+  const observer = {
+    latitude: 35.4437 * Math.PI / 180,
+    longitude: 139.6380 * Math.PI / 180,
+    height: 0.02
+  };
+
+  let satellites = [];
+  let selected = null;
+  let lastFetch = null;
+  let fetchBusy = false;
+  let width = 0, height = 0, cx = 0, cy = 0, radius = 0;
+  let trails = new Map();
+  let lastFrame = 0;
+
+  const $ = id => document.getElementById(id);
+  const radToDeg = v => v * 180 / Math.PI;
+
+  function resize() {
+    const rect = canvas.getBoundingClientRect();
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    width = rect.width; height = rect.height;
+    canvas.width = Math.round(width * dpr);
+    canvas.height = Math.round(height * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    cx = width / 2;
+    cy = height / 2 + 12;
+    radius = Math.min(width * 0.39, height * 0.42);
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  function parseTLE(text) {
+    const lines = text.trim().split(/\r?\n/);
+    const result = [];
+    for (let i = 0; i < lines.length - 2; i++) {
+      if (lines[i+1].startsWith('1 ') && lines[i+2].startsWith('2 ')) {
+        try {
+          result.push({
+            name: lines[i].trim().replace(/^0 /,''),
+            line1: lines[i+1],
+            line2: lines[i+2],
+            satrec: satellite.twoline2satrec(lines[i+1], lines[i+2])
+          });
+          i += 2;
+        } catch(e) {}
+      }
+    }
+    return result;
+  }
+
+  async function loadData() {
+    if (fetchBusy) return;
+    fetchBusy = true;
+    $('status').className = 'statusline';
+    $('status').textContent = 'CONNECTING TO CELESTRAK / FETCHING ORBITAL ELEMENTS...';
+    $('engine-status').textContent = 'CONNECTING';
+
+    try {
+      const url = 'https://celestrak.org/NORAD/elements/gp.php?GROUP=visual&FORMAT=tle&_=' + Date.now();
+      const response = await fetch(url, {cache:'no-store'});
+      if (!response.ok) throw new Error('HTTP ' + response.status);
+      const text = await response.text();
+      const parsed = parseTLE(text);
+      if (!parsed.length) throw new Error('No valid orbital elements received');
+
+      satellites = parsed;
+      lastFetch = new Date();
+      trails.clear();
+      $('tracked-count').textContent = satellites.length;
+      $('update-time').textContent = lastFetch.toLocaleTimeString('en-GB');
+      $('engine-status').textContent = 'ONLINE';
+      $('status').textContent = 'ORBITAL DATA RECEIVED / ' + satellites.length + ' OBJECTS / LIVE POSITION CALCULATION ACTIVE';
+    } catch (err) {
+      $('engine-status').textContent = 'OFFLINE';
+      $('status').className = 'statusline error';
+      $('status').textContent = 'DATA CONNECTION FAILED: ' + err.message + ' / Check network or browser access. No simulated satellite positions are shown.';
+    } finally {
+      fetchBusy = false;
+    }
+  }
+
+  function calculate(sat, now) {
+    try {
+      const positionAndVelocity = satellite.propagate(sat.satrec, now);
+      const positionEci = positionAndVelocity.position;
+      const velocityEci = positionAndVelocity.velocity;
+      if (!positionEci || !velocityEci) return null;
+
+      const gmst = satellite.gstime(now);
+      const geodetic = satellite.eciToGeodetic(positionEci, gmst);
+      const ecf = satellite.eciToEcf(positionEci, gmst);
+      const look = satellite.ecfToLookAngles(observer, ecf);
+      const altitude = geodetic.height;
+      const velocity = Math.sqrt(
+        velocityEci.x ** 2 + velocityEci.y ** 2 + velocityEci.z ** 2
+      );
+
+      return {
+        name: sat.name,
+        satrec: sat.satrec,
+        altitude,
+        velocity,
+        elevation: radToDeg(look.elevation),
+        azimuth: (radToDeg(look.azimuth) + 360) % 360
+      };
+    } catch(e) { return null; }
+  }
+
+  function polarPoint(obj) {
+    const r = radius * (1 - Math.max(0, Math.min(90, obj.elevation)) / 90);
+    const a = obj.azimuth * Math.PI / 180;
+    return {x:cx + Math.sin(a)*r, y:cy - Math.cos(a)*r};
+  }
+
+  function drawGrid() {
+    ctx.save();
+    ctx.strokeStyle = 'rgba(75,180,210,.19)';
+    ctx.lineWidth = 1;
+    [1, .75, .5, .25].forEach((scale, i) => {
+      ctx.beginPath();
+      ctx.arc(cx, cy, radius * scale, 0, Math.PI*2);
+      ctx.stroke();
+      ctx.fillStyle = 'rgba(100,180,200,.5)';
+      ctx.font = '9px Share Tech Mono';
+      ctx.fillText((90 - i*22.5) + '°', cx + 5, cy - radius*scale - 4);
+    });
+    for (let a=0; a<360; a+=30) {
+      const r = a*Math.PI/180;
+      ctx.beginPath();
+      ctx.moveTo(cx,cy);
+      ctx.lineTo(cx+Math.sin(r)*radius,cy-Math.cos(r)*radius);
+      ctx.strokeStyle = 'rgba(75,180,210,.10)';
+      ctx.stroke();
+    }
+    const labels = [
+      ['N',0, -radius-12,0],['E',radius+12,0,0],
+      ['S',0,radius+20,0],['W',-radius-12,0,0]
+    ];
+    ctx.fillStyle = '#70a5b2';
+    ctx.font = '11px Share Tech Mono';
+    ctx.textAlign = 'center';
+    ctx.fillText('N',cx,cy-radius-14);
+    ctx.fillText('E',cx+radius+14,cy+4);
+    ctx.fillText('S',cx,cy+radius+22);
+    ctx.fillText('W',cx-radius-14,cy+4);
+
+    ctx.beginPath();
+    ctx.arc(cx,cy,4,0,Math.PI*2);
+    ctx.fillStyle = '#e6b76c';ctx.fill();
+    ctx.shadowColor = '#e6b76c';ctx.shadowBlur = 15;
+    ctx.beginPath();ctx.arc(cx,cy,9,0,Math.PI*2);
+    ctx.strokeStyle='rgba(230,183,108,.5)';ctx.stroke();
+    ctx.shadowBlur=0;
+    ctx.fillStyle='#e6b76c';ctx.font='9px Share Tech Mono';
+    ctx.fillText('YOKOHAMA',cx,cy+22);
+    ctx.restore();
+  }
+
+  function draw() {
+    ctx.clearRect(0,0,width,height);
+    drawGrid();
+
+    const now = new Date();
+    const visible = [];
+
+    satellites.forEach(sat => {
+      const obj = calculate(sat, now);
+      if (!obj) return;
+      if (obj.elevation >= 0) visible.push(obj);
+
+      if (obj.elevation > -2) {
+        const p = polarPoint(obj);
+        const key = sat.name;
+        if (!trails.has(key)) trails.set(key, []);
+        const trail = trails.get(key);
+        if (obj.elevation >= 0) {
+          trail.push({x:p.x,y:p.y});
+          if (trail.length > 18) trail.shift();
+        }
+      }
+    });
+
+    $('visible-count').textContent = visible.length.toString().padStart(2,'0');
+    $('radar-count').textContent = 'TRACKING: ' + satellites.length + ' / VISIBLE: ' + visible.length;
+
+    trails.forEach((trail, key) => {
+      if (trail.length < 2) return;
+      ctx.beginPath();
+      trail.forEach((p,i) => i===0 ? ctx.moveTo(p.x,p.y) : ctx.lineTo(p.x,p.y));
+      ctx.strokeStyle='rgba(75,220,255,.25)';
+      ctx.lineWidth=1;
+      ctx.stroke();
+    });
+
+    visible.forEach(obj => {
+      const p = polarPoint(obj);
+      const isSelected = selected && selected.name === obj.name;
+      ctx.save();
+      ctx.shadowColor = isSelected ? '#ffffff' : '#70eaff';
+      ctx.shadowBlur = isSelected ? 22 : 12;
+      ctx.beginPath();
+      ctx.arc(p.x,p.y,isSelected ? 5 : 3,0,Math.PI*2);
+      ctx.fillStyle = isSelected ? '#ffffff' : '#70eaff';
+      ctx.fill();
+      ctx.restore();
+
+      if (isSelected) {
+        ctx.beginPath();ctx.arc(p.x,p.y,11,0,Math.PI*2);
+        ctx.strokeStyle='rgba(255,255,255,.8)';ctx.stroke();
+      }
+      if (isSelected || width > 700) {
+        ctx.fillStyle = isSelected ? '#ffffff' : 'rgba(140,220,235,.8)';
+        ctx.font='9px Share Tech Mono';
+        ctx.fillText(obj.name.slice(0,19),p.x+9,p.y-8);
+      }
+    });
+
+    if (selected) {
+      const current = visible.find(o => o.name === selected.name);
+      if (current) updateSelected(current);
+      else {
+        $('elevation').textContent = '--';
+      }
+    }
+  }
+
+  function updateSelected(obj) {
+    selected = obj;
+    $('selected-name').textContent = obj.name;
+    $('selected-id').textContent = 'OBJECT / LIVE ORBITAL SOLUTION';
+    $('altitude').textContent = Math.round(obj.altitude).toLocaleString() + ' km';
+    $('velocity').textContent = obj.velocity.toFixed(2) + ' km/s';
+    $('elevation').textContent = obj.elevation.toFixed(1) + '°';
+    $('azimuth').textContent = obj.azimuth.toFixed(1) + '°';
+  }
+
+  canvas.addEventListener('click', e => {
+    const rect = canvas.getBoundingClientRect();
+    const x = e.clientX - rect.left, y = e.clientY - rect.top;
+    const now = new Date();
+    let nearest = null, min = 22;
+    satellites.forEach(sat => {
+      const obj = calculate(sat, now);
+      if (!obj || obj.elevation < 0) return;
+      const p = polarPoint(obj);
+      const d = Math.hypot(p.x-x,p.y-y);
+      if (d < min) { min=d;nearest=obj; }
+    });
+    if (nearest) updateSelected(nearest);
+  });
+
+  function tickClock() {
+    $('clock').textContent = new Date().toLocaleTimeString('en-GB');
+  }
+
+  $('reload').addEventListener('click', loadData);
+  tickClock();
+  setInterval(tickClock,1000);
+  setInterval(draw,1000);
+  setInterval(() => {
+    if (lastFetch && Date.now()-lastFetch.getTime() > 30*60*1000) loadData();
+  },60000);
+
+  loadData();
+  draw();
+})();
+</script>
+</body>
+</html>
