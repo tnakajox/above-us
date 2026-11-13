@@ -71,13 +71,13 @@ main{padding:20px 4vw 40px;max-width:1600px;margin:auto}
 #globe{width:100%;height:570px;display:block}
 .globe-caption{
  position:absolute;top:15px;left:18px;font-size:10px;
- line-height:1.9;color:var(--muted);pointer-events:none;
+ line-height:1.9;color:var(--muted);pointer-events:none;z-index:2;
 }
 .globe-caption strong{color:var(--cyan);font-weight:normal}
 .globe-bottom{
  position:absolute;bottom:14px;left:18px;right:18px;
  display:flex;justify-content:space-between;gap:10px;
- font-size:9px;color:var(--muted);pointer-events:none;
+ font-size:9px;color:var(--muted);pointer-events:none;z-index:2;
 }
 .side{display:flex;flex-direction:column;gap:12px}
 .panel{border:1px solid var(--line);background:var(--panel);padding:16px}
@@ -94,11 +94,20 @@ main{padding:20px 4vw 40px;max-width:1600px;margin:auto}
  font:500 22px/1.2 'Barlow Condensed';color:var(--cyan);
  min-height:25px;overflow-wrap:anywhere;
 }
-.selected-sub{font-size:9px;color:var(--muted);margin:6px 0 13px}
+.selected-sub{font-size:9px;color:var(--muted);margin:6px 0 13px;line-height:1.7}
 .data-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .data-cell{border-top:1px solid #142832;padding-top:8px}
 .data-cell small{display:block;color:var(--muted);font-size:9px;margin-bottom:5px}
 .data-cell strong{font:400 20px 'Barlow Condensed'}
+.pass-time{
+ font:400 25px 'Barlow Condensed';
+ color:var(--amber);
+ min-height:30px;
+ overflow-wrap:anywhere;
+}
+.pass-note{
+ color:var(--muted);font-size:9px;line-height:1.8;margin-top:9px;
+}
 button{
  background:transparent;border:1px solid var(--line);color:var(--cyan);
  font:10px 'Share Tech Mono';letter-spacing:1px;padding:9px 11px;cursor:pointer;
@@ -136,7 +145,7 @@ button:hover{background:#102532}
  font:300 11px/2 'Noto Sans JP',sans-serif;color:#9aadb4;
 }
 .radar-info .panel-title{margin-top:20px}
-.status{font-size:10px;color:var(--muted);margin:12px 0;min-height:16px}
+.status{font-size:10px;color:var(--muted);margin:12px 0;min-height:16px;line-height:1.8}
 .status.error{color:var(--red)}
 .footer{
  display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap;
@@ -221,10 +230,21 @@ button:hover{background:#102532}
    </section>
 
    <section class="panel">
+    <div class="panel-title">次回 / 横浜上空への接近予測</div>
+    <div class="pass-time" id="next-pass">衛星を選択してください</div>
+    <div class="stat-row"><span>通過予定</span><span id="pass-time">--</span></div>
+    <div class="stat-row"><span>最大仰角</span><span id="pass-elevation">--</span></div>
+    <div class="stat-row"><span>通過時間</span><span id="pass-duration">--</span></div>
+    <div class="pass-note" id="pass-note">
+     衛星を選択すると、現在の軌道データから次回の接近を予測します。
+    </div>
+   </section>
+
+   <section class="panel">
     <div class="panel-title">システム状態</div>
     <div class="stat-row"><span>軌道計算</span><span id="engine-status">準備中</span></div>
     <div class="stat-row"><span>位置更新</span><span>毎秒</span></div>
-    <div class="stat-row"><span>軌跡表示</span><span>移動履歴</span></div>
+    <div class="stat-row"><span>軌跡保存</span><span>最大180秒</span></div>
     <button id="reload">軌道データを再取得 ↻</button>
    </section>
   </aside>
@@ -266,13 +286,17 @@ button:hover{background:#102532}
    </div>
    <div class="radar-info">
     <div class="panel-title">レーダーの見方</div>
-    <p>横浜を中心に、現在見える衛星を表示しています。</p>
+    <p>横浜を中心に、現在、幾何学的な地平線より上にある衛星を表示しています。</p>
     <p>中央は真上。外側の円は地平線です。衛星の点が動くことで、空を通過していく様子がわかります。</p>
-    <p>点をクリックすると、その衛星の高度や速度を確認できます。</p>
+    <p>点をクリックすると、その衛星の高度や速度、用途、次回の接近予測を確認できます。</p>
+    <p>地平線より上にあることは、肉眼で見えることを意味しません。天候・空の明るさ・建物などにも左右されます。</p>
+
     <div class="panel-title">この作品について</div>
-    <p>表示している衛星の位置は、公開された軌道データから計算しています。</p>
-    <p>地球の図は作品用の模式的な立体表現です。正確な地形図ではありません。</p>
-    <p>生活との関係は衛星インフラ全体の一般的な役割を説明しています。表示された個々の衛星の用途を特定するものではありません。</p>
+    <p>表示している衛星の位置は、CELESTRAKが公開する軌道データをもとに計算しています。位置の計算は毎秒行っています。</p>
+    <p>衛星の光跡は、この画面を開いてから蓄積した位置履歴です。過去の実測映像ではありません。</p>
+    <p>地球の地形・都市光・雲は作品用の模式表現です。実際の衛星画像ではありません。</p>
+    <p>用途表示は衛星名に含まれる情報からの分類です。個別のミッションを公式に確認した表示ではありません。</p>
+    <p>次回通過時刻は現在の軌道データからの概算予測です。TLEの精度や更新時刻に依存します。</p>
    </div>
   </div>
  </section>
@@ -286,7 +310,10 @@ button:hover{background:#102532}
 
 <script>
 (() => {
+'use strict';
+
 const $ = id => document.getElementById(id);
+
 const observer = {
  latitude:35.4437*Math.PI/180,
  longitude:139.6380*Math.PI/180,
@@ -299,19 +326,20 @@ const radar=$('radar'),rc=radar.getContext('2d');
 let satellites=[];
 let positions=[];
 let selectedName=null;
+let predictionFor=null;
 let lastFetch=null;
 let fetching=false;
 let lastPositionUpdate=0;
-let frame=0;
 let history=new Map();
 let globeSize={},radarSize={};
+let predictionToken=0;
 
 const DEG=Math.PI/180;
 const radToDeg=x=>x/DEG;
 
 function resizeCanvas(canvas,ctx,store){
  const r=canvas.getBoundingClientRect();
- const dpr=Math.min(devicePixelRatio||1,2);
+ const dpr=Math.min(window.devicePixelRatio||1,2);
  canvas.width=Math.round(r.width*dpr);
  canvas.height=Math.round(r.height*dpr);
  ctx.setTransform(dpr,0,0,dpr,0,0);
@@ -326,9 +354,12 @@ function resize(){
 window.addEventListener('resize',resize);
 resize();
 
+/* TLE data */
+
 function parseTLE(text){
  const lines=text.trim().split(/\r?\n/);
  const out=[];
+
  for(let i=0;i<lines.length-2;i++){
   if(lines[i+1].startsWith('1 ')&&lines[i+2].startsWith('2 ')){
    try{
@@ -346,13 +377,19 @@ function parseTLE(text){
 async function loadData(){
  if(fetching)return;
  fetching=true;
+
  $('status').className='status';
  $('status').textContent='CELESTRAKに接続中 / 軌道データを取得しています...';
  $('engine-status').textContent='接続中';
 
  try{
+  if(typeof satellite==='undefined'){
+   throw Error('Satellite.jsを読み込めませんでした');
+  }
+
   const url='https://celestrak.org/NORAD/elements/gp.php?GROUP=visual&FORMAT=tle&_='+Date.now();
   const res=await fetch(url,{cache:'no-store'});
+
   if(!res.ok)throw Error('HTTP '+res.status);
 
   const parsed=parseTLE(await res.text());
@@ -363,11 +400,23 @@ async function loadData(){
   history.clear();
   positions=[];
   lastPositionUpdate=0;
+  selectedName=null;
+  predictionFor=null;
+  predictionToken++;
 
   $('tracked-count').textContent=satellites.length;
   $('update-time').textContent=lastFetch.toLocaleTimeString('ja-JP');
   $('engine-status').textContent='稼働中';
   $('status').textContent='軌道データ取得成功 / '+satellites.length+'機を追跡中 / 現在位置を計算しています';
+
+  $('selected-name').textContent='衛星を選択してください';
+  $('selected-sub').textContent='地球またはレーダー上の点をクリック';
+  $('next-pass').textContent='衛星を選択してください';
+  $('pass-time').textContent='--';
+  $('pass-elevation').textContent='--';
+  $('pass-duration').textContent='--';
+  $('pass-note').textContent='衛星を選択すると、現在の軌道データから次回の接近を予測します。';
+
  }catch(e){
   $('engine-status').textContent='停止';
   $('status').className='status error';
@@ -376,6 +425,8 @@ async function loadData(){
   fetching=false;
  }
 }
+
+/* Orbital calculation */
 
 function calculate(sat,now){
  try{
@@ -396,27 +447,39 @@ function calculate(sat,now){
    elevation:radToDeg(look.elevation),
    azimuth:(radToDeg(look.azimuth)+360)%360
   };
- }catch(e){return null;}
+ }catch(e){
+  return null;
+ }
 }
 
 function updatePositions(now){
  positions=[];
+
  satellites.forEach(sat=>{
   const obj=calculate(sat,now);
   if(!obj)return;
+
   positions.push(obj);
 
+  // 地平線の下も含めて位置履歴を保存する
   const arr=history.get(obj.name)||[];
-  if(obj.elevation>=0){
-   arr.push({lat:obj.lat,lon:obj.lon,alt:obj.alt});
-   if(arr.length>45)arr.shift();
-  }
+  arr.push({
+   lat:obj.lat,
+   lon:obj.lon,
+   alt:obj.alt,
+   time:now.getTime()
+  });
+
+  // 1秒間隔で最大180点
+  if(arr.length>180)arr.shift();
   history.set(obj.name,arr);
  });
+
  lastPositionUpdate=now.getTime();
 }
 
-// Earth projection centered on Yokohama.
+/* Earth projection */
+
 function project(lat,lon,alt=0){
  const lat0=observer.latitude;
  const lon0=observer.longitude;
@@ -424,6 +487,7 @@ function project(lat,lon,alt=0){
 
  const z=Math.sin(lat0)*Math.sin(lat)+
  Math.cos(lat0)*Math.cos(lat)*Math.cos(dl);
+
  const x=Math.cos(lat)*Math.sin(dl);
  const y=Math.cos(lat0)*Math.sin(lat)-
  Math.sin(lat0)*Math.cos(lat)*Math.cos(dl);
@@ -438,6 +502,54 @@ function project(lat,lon,alt=0){
  };
 }
 
+/* Approximate position of the Sun */
+
+function sunPosition(date){
+ const start=new Date(Date.UTC(date.getUTCFullYear(),0,0));
+ const day=Math.floor((date-start)/86400000);
+
+ const hour=
+  date.getUTCHours()+
+  date.getUTCMinutes()/60+
+  date.getUTCSeconds()/3600;
+
+ const gamma=2*Math.PI/365*(day-1+(hour-12)/24);
+
+ const declination=
+  .006918
+  -.399912*Math.cos(gamma)
+  +.070257*Math.sin(gamma)
+  -.006758*Math.cos(2*gamma)
+  +.000907*Math.sin(2*gamma)
+  -.002697*Math.cos(3*gamma)
+  +.00148*Math.sin(3*gamma);
+
+ const equation=229.18*(
+  .000075
+  +.001868*Math.cos(gamma)
+  -.032077*Math.sin(gamma)
+  -.014615*Math.cos(2*gamma)
+  -.040849*Math.sin(2*gamma)
+ );
+
+ const solarLongitude=((12-hour)*15-equation/4)*DEG;
+
+ return {
+  lat:declination,
+  lon:((solarLongitude+Math.PI*3)%(Math.PI*2))-Math.PI
+ };
+}
+
+function isNight(lat,lon,sun){
+ const dot=
+  Math.sin(lat)*Math.sin(sun.lat)+
+  Math.cos(lat)*Math.cos(sun.lat)*Math.cos(lon-sun.lon);
+
+ return dot<-.08;
+}
+
+/* Draw the Earth */
+
 function drawGlobe(now){
  const w=globeSize.w,h=globeSize.h;
  gc.clearRect(0,0,w,h);
@@ -446,21 +558,41 @@ function drawGlobe(now){
  const cx=w/2,cy=h/2+10;
  globeSize={...globeSize,R,cx,cy};
 
+ const sun=sunPosition(new Date(now));
+
  // Atmospheric glow
- const glow=gc.createRadialGradient(cx,cy,R*.7,cx,cy,R*1.4);
- glow.addColorStop(0,'rgba(30,145,190,.12)');
- glow.addColorStop(.7,'rgba(30,145,190,.07)');
+ const glow=gc.createRadialGradient(cx,cy,R*.72,cx,cy,R*1.48);
+ glow.addColorStop(0,'rgba(30,145,190,.16)');
+ glow.addColorStop(.58,'rgba(30,145,190,.10)');
+ glow.addColorStop(.82,'rgba(30,145,190,.035)');
  glow.addColorStop(1,'rgba(30,145,190,0)');
+
  gc.fillStyle=glow;
  gc.beginPath();
- gc.arc(cx,cy,R*1.4,0,Math.PI*2);
+ gc.arc(cx,cy,R*1.48,0,Math.PI*2);
  gc.fill();
 
- // Earth
- const earth=gc.createRadialGradient(cx-R*.35,cy-R*.4,R*.05,cx,cy,R*1.1);
- earth.addColorStop(0,'#1b5365');
- earth.addColorStop(.55,'#0c2a39');
- earth.addColorStop(1,'#030b12');
+ // Outer atmospheric rim
+ gc.save();
+ gc.shadowColor='#42c9ed';
+ gc.shadowBlur=24;
+ gc.strokeStyle='rgba(75,195,225,.38)';
+ gc.lineWidth=2;
+ gc.beginPath();
+ gc.arc(cx,cy,R+1,0,Math.PI*2);
+ gc.stroke();
+ gc.restore();
+
+ // Earth surface gradient
+ const earth=gc.createRadialGradient(
+  cx-R*.38,cy-R*.42,R*.04,
+  cx,cy,R*1.08
+ );
+ earth.addColorStop(0,'#286879');
+ earth.addColorStop(.34,'#164454');
+ earth.addColorStop(.72,'#0b2635');
+ earth.addColorStop(1,'#020810');
+
  gc.fillStyle=earth;
  gc.beginPath();
  gc.arc(cx,cy,R,0,Math.PI*2);
@@ -471,48 +603,143 @@ function drawGlobe(now){
  gc.arc(cx,cy,R,0,Math.PI*2);
  gc.clip();
 
- // Stylized landforms
- gc.fillStyle='rgba(65,139,130,.19)';
- [[-.35,-.22,.20,.30],[.12,-.38,.20,.12],[.38,.10,.18,.25],[-.12,.35,.16,.22]].forEach(([x,y,rx,ry])=>{
+ // Stylized continents
+ const landforms=[
+  [[-.78,-.32],[-.62,-.52],[-.40,-.47],[-.32,-.25],[-.43,-.04],[-.58,.04],[-.72,-.10]],
+  [[-.45,.12],[-.28,.16],[-.19,.40],[-.30,.72],[-.42,.55],[-.49,.30]],
+  [[-.08,-.48],[.13,-.57],[.31,-.44],[.27,-.20],[.08,-.12],[-.08,-.25]],
+  [[.10,-.06],[.36,-.10],[.53,.12],[.43,.42],[.23,.50],[.10,.26]],
+  [[.47,-.40],[.69,-.32],[.77,-.08],[.63,.08],[.47,-.05]],
+  [[.53,.33],[.70,.25],[.77,.43],[.65,.61],[.50,.53]]
+ ];
+
+ landforms.forEach(poly=>{
   gc.beginPath();
-  gc.ellipse(cx+x*R,cy+y*R,rx*R,ry*R,-.4,0,Math.PI*2);
+  poly.forEach(([x,y],i)=>{
+   const px=cx+x*R,py=cy+y*R;
+   if(i===0)gc.moveTo(px,py);
+   else gc.lineTo(px,py);
+  });
+  gc.closePath();
+  gc.fillStyle='rgba(78,145,124,.24)';
   gc.fill();
+  gc.strokeStyle='rgba(115,183,157,.13)';
+  gc.lineWidth=1;
+  gc.stroke();
  });
 
+ // Night-side shading: approximate terminator
+ const sunPoint=project(sun.lat,sun.lon);
+ const nightX=cx-(sunPoint.x-cx);
+ const nightY=cy-(sunPoint.y-cy);
+
+ const night=gc.createRadialGradient(
+  nightX,nightY,R*.05,
+  nightX,nightY,R*1.5
+ );
+ night.addColorStop(0,'rgba(0,2,10,.72)');
+ night.addColorStop(.45,'rgba(0,4,12,.52)');
+ night.addColorStop(.78,'rgba(0,5,14,.22)');
+ night.addColorStop(1,'rgba(0,5,14,0)');
+
+ gc.fillStyle=night;
+ gc.fillRect(cx-R,cy-R,R*2,R*2);
+
+ // City lights on the night side
+ const cities=[
+  [35.68,139.69],[34.69,135.50],[43.06,141.35],[33.59,130.40],
+  [37.57,126.98],[31.23,121.47],[39.90,116.40],[22.32,114.17],
+  [40.71,-74.00],[34.05,-118.24],[41.88,-87.63],
+  [51.50,-.12],[48.85,2.35],[52.52,13.40],[55.75,37.61],
+  [28.61,77.20],[19.07,72.87],[25.20,55.27],[30.04,31.23],
+  [-23.55,-46.63],[-33.86,151.20],[-37.81,144.96],
+  [1.35,103.82],[13.75,100.50],[14.59,120.98],
+  [36.17,129.07],[34.69,135.19],[35.01,135.76],
+  [45.46,9.19],[41.90,12.49],[40.42,-3.70],
+  [19.43,-99.13],[-34.60,-58.38],[ -1.29,36.82]
+ ];
+
+ cities.forEach(([lat,lon])=>{
+  const la=lat*DEG,lo=lon*DEG;
+  const p=project(la,lo);
+  if(p.z<=0||!isNight(la,lo,sun))return;
+
+  const flicker=.65+.35*Math.sin(now/1700+lat*lon);
+  gc.fillStyle=`rgba(255,190,105,${.65*flicker})`;
+  gc.shadowColor='#ffb76a';
+  gc.shadowBlur=5;
+  gc.beginPath();
+  gc.arc(p.x,p.y,1.2+flicker*.7,0,Math.PI*2);
+  gc.fill();
+ });
+ gc.shadowBlur=0;
+
+ // Cloud texture
+ gc.save();
+ gc.globalAlpha=.16;
+ gc.strokeStyle='#b9e5e9';
+ gc.lineWidth=2;
+
+ for(let i=0;i<18;i++){
+  const x=cx+Math.sin(i*8.31+now/70000)*R*.72;
+  const y=cy+Math.cos(i*4.17+now/85000)*R*.64;
+  const rw=R*(.06+(i%4)*.025);
+  gc.beginPath();
+  gc.ellipse(x,y,rw,rw*.22,Math.sin(i)*.6,0,Math.PI*2);
+  gc.stroke();
+ }
+ gc.restore();
+
  // Latitude and longitude grid
- gc.strokeStyle='rgba(100,210,230,.20)';
+ gc.strokeStyle='rgba(100,210,230,.18)';
  gc.lineWidth=.7;
 
  for(let lat=-60;lat<=60;lat+=30){
   gc.beginPath();
+  let started=false;
+
   for(let lon=-90;lon<=90;lon+=3){
    const p=project(lat*DEG,lon*DEG);
-   if(lon===-90)gc.moveTo(p.x,p.y);
-   else gc.lineTo(p.x,p.y);
+
+   if(p.z>0){
+    if(!started){gc.moveTo(p.x,p.y);started=true;}
+    else gc.lineTo(p.x,p.y);
+   }else{
+    started=false;
+   }
   }
   gc.stroke();
  }
 
  for(let lon=-75;lon<=75;lon+=25){
   gc.beginPath();
+  let started=false;
+
   for(let lat=-90;lat<=90;lat+=3){
    const p=project(lat*DEG,lon*DEG);
-   if(lat===-90)gc.moveTo(p.x,p.y);
-   else gc.lineTo(p.x,p.y);
+
+   if(p.z>0){
+    if(!started){gc.moveTo(p.x,p.y);started=true;}
+    else gc.lineTo(p.x,p.y);
+   }else{
+    started=false;
+   }
   }
   gc.stroke();
  }
+
  gc.restore();
 
  // Earth outline
- gc.strokeStyle='rgba(100,220,240,.65)';
- gc.lineWidth=1;
+ gc.strokeStyle='rgba(100,220,240,.72)';
+ gc.lineWidth=1.2;
  gc.beginPath();
  gc.arc(cx,cy,R,0,Math.PI*2);
  gc.stroke();
 
  // Yokohama marker
  const pulse=(Math.sin(now/500)+1)/2;
+
  gc.fillStyle='#e6b76c';
  gc.shadowColor='#e6b76c';
  gc.shadowBlur=14;
@@ -520,6 +747,7 @@ function drawGlobe(now){
  gc.arc(cx,cy,3.5,0,Math.PI*2);
  gc.fill();
  gc.shadowBlur=0;
+
  gc.strokeStyle=`rgba(230,183,108,${.25+pulse*.45})`;
  gc.beginPath();
  gc.arc(cx,cy,8+pulse*9,0,Math.PI*2);
@@ -530,42 +758,61 @@ function drawGlobe(now){
  gc.textAlign='center';
  gc.fillText('YOKOHAMA',cx,cy+18);
 
- // Orbit rings
+ // Decorative orbit rings
  const rotation=now/15000;
+
  gc.save();
  gc.translate(cx,cy);
  gc.rotate(rotation);
  gc.strokeStyle='rgba(80,180,210,.13)';
  gc.setLineDash([3,8]);
+
  gc.beginPath();
  gc.ellipse(0,0,R*1.17,R*.37,-.4,0,Math.PI*2);
  gc.stroke();
+
  gc.beginPath();
  gc.ellipse(0,0,R*1.22,R*.48,.8,0,Math.PI*2);
  gc.stroke();
+
  gc.restore();
  gc.setLineDash([]);
 
- // Satellite trails and moving points
+ // Satellite trails
  positions.forEach(obj=>{
-  const p=project(obj.lat,obj.lon,obj.alt);
-  if(p.z<=-.05)return;
-
   const arr=history.get(obj.name)||[];
-  if(arr.length>2){
-   gc.beginPath();
-   let started=false;
-   arr.forEach(pt=>{
-    const q=project(pt.lat,pt.lon,pt.alt);
-    if(q.z>-.05){
-     if(!started){gc.moveTo(q.x,q.y);started=true;}
-     else gc.lineTo(q.x,q.y);
-    }else started=false;
-   });
-   gc.strokeStyle='rgba(95,220,255,.38)';
-   gc.lineWidth=1.2;
-   gc.stroke();
+  if(arr.length>1){
+   gc.save();
+   gc.lineCap='round';
+   gc.lineJoin='round';
+
+   for(let i=1;i<arr.length;i++){
+    const a=arr[i-1],b=arr[i];
+    const pa=project(a.lat,a.lon,a.alt);
+    const pb=project(b.lat,b.lon,b.alt);
+
+    // 地球の裏側にある線分は描かない
+    if(pa.z<=0||pb.z<=0)continue;
+
+    const progress=i/(arr.length-1);
+    const alpha=.07+progress*.72;
+    const width=.5+progress*1.8;
+
+    gc.beginPath();
+    gc.moveTo(pa.x,pa.y);
+    gc.lineTo(pb.x,pb.y);
+    gc.strokeStyle=`rgba(105,225,255,${alpha})`;
+    gc.lineWidth=width;
+    gc.shadowColor='#70eaff';
+    gc.shadowBlur=progress*10;
+    gc.stroke();
+   }
+   gc.restore();
   }
+
+  // Current satellite point
+  const p=project(obj.lat,obj.lon,obj.alt);
+  if(p.z<=0)return;
 
   const active=selectedName===obj.name;
   const pulse=(Math.sin(now/280+obj.alt)+1)/2;
@@ -580,7 +827,6 @@ function drawGlobe(now){
   gc.fill();
   gc.restore();
 
-  // Satellite pulse ring
   gc.beginPath();
   gc.arc(p.x,p.y,7+pulse*9,0,Math.PI*2);
   gc.strokeStyle=`rgba(112,234,255,${.42-pulse*.25})`;
@@ -600,6 +846,8 @@ function drawGlobe(now){
  });
 }
 
+/* Radar */
+
 function drawRadar(now){
  const w=radarSize.w,h=radarSize.h;
  rc.clearRect(0,0,w,h);
@@ -608,7 +856,6 @@ function drawRadar(now){
  const R=Math.min(w*.37,h*.38);
  radarSize={...radarSize,cx,cy,R};
 
- // Radar circles
  rc.strokeStyle='rgba(75,180,210,.20)';
  rc.lineWidth=1;
 
@@ -616,6 +863,7 @@ function drawRadar(now){
   rc.beginPath();
   rc.arc(cx,cy,R*s,0,Math.PI*2);
   rc.stroke();
+
   rc.fillStyle='rgba(100,180,200,.55)';
   rc.font='9px Share Tech Mono';
   rc.fillText((90-i*22.5)+'°',cx+5,cy-R*s-4);
@@ -631,9 +879,10 @@ function drawRadar(now){
   rc.stroke();
  }
 
- // Rotating radar sweep
+ // Radar sweep
  const sweep=(now/1800)%(Math.PI*2);
  const gradient=rc.createConicGradient(sweep,cx,cy);
+
  gradient.addColorStop(0,'rgba(70,220,255,0)');
  gradient.addColorStop(.82,'rgba(70,220,255,0)');
  gradient.addColorStop(.96,'rgba(70,220,255,.02)');
@@ -644,7 +893,6 @@ function drawRadar(now){
  rc.arc(cx,cy,R,0,Math.PI*2);
  rc.fill();
 
- // Sweep line
  rc.beginPath();
  rc.moveTo(cx,cy);
  rc.lineTo(cx+Math.sin(sweep)*R,cy-Math.cos(sweep)*R);
@@ -652,7 +900,6 @@ function drawRadar(now){
  rc.lineWidth=1.3;
  rc.stroke();
 
- // Satellites
  let visible=0;
 
  positions.forEach(obj=>{
@@ -690,10 +937,12 @@ function drawRadar(now){
 
  // Center marker
  const pulse=(Math.sin(now/500)+1)/2;
+
  rc.fillStyle='#e6b76c';
  rc.beginPath();
  rc.arc(cx,cy,3.5,0,Math.PI*2);
  rc.fill();
+
  rc.strokeStyle=`rgba(230,183,108,${.25+pulse*.4})`;
  rc.beginPath();
  rc.arc(cx,cy,8+pulse*8,0,Math.PI*2);
@@ -708,61 +957,240 @@ function drawRadar(now){
  $('globe-count').textContent='追跡対象：'+satellites.length+'機 / 現在見える衛星：'+visible+'機';
 }
 
+/* Satellite purpose classification */
+
+function classifyPurpose(name){
+ const n=name.toUpperCase();
+
+ if(/ISS|ZARYA|TIANGONG/.test(n)){
+  return '有人宇宙施設・宇宙実験';
+ }
+ if(/STARLINK|ONEWEB|IRIDIUM|GLOBALSTAR|ORBCOMM/.test(n)){
+  return '通信・インターネット';
+ }
+ if(/GPS|NAVSTAR|GALILEO|BEIDOU|COMPASS|GLONASS/.test(n)){
+  return '測位・位置情報';
+ }
+ if(/NOAA|METOP|GOES|HIMAWARI|WEATHER|FENGYUN/.test(n)){
+  return '気象観測';
+ }
+ if(/LANDSAT|SENTINEL|WORLDVIEW|PLEIADES|TERRA|AQUA|RESOURCESAT/.test(n)){
+  return '地球観測・環境監視';
+ }
+ if(/HUBBLE|HST|JWST|TELESCOP/.test(n)){
+  return '天体観測・宇宙科学';
+ }
+ if(/COSMOS|MILSTAR|WGS|AEHF|USA[ -]/.test(n)){
+  return '軍事・政府関連の可能性';
+ }
+
+ return '用途未確認';
+}
+
+/* Next pass prediction */
+
+function predictNextPass(sat){
+ const now=Date.now();
+ const step=30*1000;
+ const limit=48*60*60*1000;
+
+ let waitingForSet=false;
+ let inPass=false;
+ let passStart=null;
+ let maxElevation=-90;
+ let maxTime=null;
+
+ const current=calculate(sat,new Date(now));
+
+ if(current&&current.elevation>=0){
+  waitingForSet=true;
+ }
+
+ for(let t=now+step;t<=now+limit;t+=step){
+  const obj=calculate(sat,new Date(t));
+  if(!obj)continue;
+
+  if(waitingForSet){
+   if(obj.elevation<0){
+    waitingForSet=false;
+   }
+   continue;
+  }
+
+  if(!inPass&&obj.elevation>=0){
+   inPass=true;
+   passStart=t;
+   maxElevation=obj.elevation;
+   maxTime=t;
+  }
+
+  if(inPass){
+   if(obj.elevation>maxElevation){
+    maxElevation=obj.elevation;
+    maxTime=t;
+   }
+
+   if(obj.elevation<0){
+    return {
+     start:passStart,
+     end:t,
+     duration:Math.max(0,Math.round((t-passStart)/60000)),
+     maxElevation,
+     maxTime
+    };
+   }
+  }
+ }
+
+ return null;
+}
+
+function updatePass(sat){
+ const token=++predictionToken;
+
+ $('next-pass').textContent='予測を計算中...';
+ $('pass-time').textContent='計算中';
+ $('pass-elevation').textContent='--';
+ $('pass-duration').textContent='--';
+ $('pass-note').textContent='現在の軌道データから、48時間先まで30秒間隔で予測しています。';
+
+ // 画面更新を先に行ってから計算する
+ setTimeout(()=>{
+  if(token!==predictionToken)return;
+
+  const pass=predictNextPass(sat);
+
+  if(token!==predictionToken)return;
+
+  if(!pass){
+   $('next-pass').textContent='予測範囲内に通過なし';
+   $('pass-time').textContent='--';
+   $('pass-elevation').textContent='--';
+   $('pass-duration').textContent='--';
+   $('pass-note').textContent='48時間以内に横浜の地平線上へ現れる通過を検出できませんでした。';
+   return;
+  }
+
+  const start=new Date(pass.start);
+  const end=new Date(pass.end);
+
+  const dateText=start.toLocaleDateString('ja-JP',{
+   month:'2-digit',day:'2-digit',weekday:'short'
+  });
+
+  const timeText=start.toLocaleTimeString('ja-JP',{
+   hour:'2-digit',minute:'2-digit'
+  });
+
+  $('next-pass').textContent=dateText+' '+timeText;
+  $('pass-time').textContent=timeText;
+  $('pass-elevation').textContent=pass.maxElevation.toFixed(1)+'°';
+  $('pass-duration').textContent=pass.duration+'分';
+
+  $('pass-note').textContent=
+   '通過終了予測：'+end.toLocaleTimeString('ja-JP',{
+    hour:'2-digit',minute:'2-digit'
+   })+
+   ' / 30秒間隔の概算です。肉眼で見えることを保証するものではありません。';
+
+ },50);
+}
+
+/* Selected satellite */
+
 function updateSelected(obj){
  selectedName=obj.name;
+
  $('selected-name').textContent=obj.name;
- $('selected-sub').textContent='公開軌道データ / 現在位置を計算中';
+
+ const purpose=classifyPurpose(obj.name);
+
+ $('selected-sub').textContent=
+  '用途：'+purpose+' / 衛星名からの分類';
+
  $('altitude').textContent=Math.round(obj.alt).toLocaleString()+' km';
  $('velocity').textContent=obj.velocity.toFixed(2)+' km/s';
  $('elevation').textContent=obj.elevation.toFixed(1)+'°';
  $('azimuth').textContent=obj.azimuth.toFixed(1)+'°';
+
+ if(predictionFor!==obj.name){
+  predictionFor=obj.name;
+
+  const sat=satellites.find(s=>s.name===obj.name);
+  if(sat)updatePass(sat);
+ }
 }
+
+/* Click selection */
 
 function hitTest(canvas,e,kind){
  const rect=canvas.getBoundingClientRect();
  const x=e.clientX-rect.left;
  const y=e.clientY-rect.top;
+
  let nearest=null,min=25;
 
  positions.forEach(obj=>{
   let p;
+
   if(kind==='globe'){
    p=project(obj.lat,obj.lon,obj.alt);
-   if(p.z<-.05)return;
+   if(p.z<=0)return;
   }else{
    if(obj.elevation<0)return;
+
    const {cx,cy,R}=radarSize;
    const r=R*(1-Math.min(90,obj.elevation)/90);
    const a=obj.azimuth*DEG;
-   p={x:cx+Math.sin(a)*r,y:cy-Math.cos(a)*r};
+
+   p={
+    x:cx+Math.sin(a)*r,
+    y:cy-Math.cos(a)*r
+   };
   }
+
   const d=Math.hypot(p.x-x,p.y-y);
-  if(d<min){min=d;nearest=obj;}
+
+  if(d<min){
+   min=d;
+   nearest=obj;
+  }
  });
+
  if(nearest)updateSelected(nearest);
 }
+
 globe.addEventListener('click',e=>hitTest(globe,e,'globe'));
 radar.addEventListener('click',e=>hitTest(radar,e,'radar'));
 
+/* Main animation */
+
 function animate(){
- frame++;
  const now=Date.now();
 
- // Satellite orbital calculations run once per second.
+ // Satellite orbital calculations run once per second
  if(now-lastPositionUpdate>=1000){
   updatePositions(new Date());
  }
 
- // Visual animation runs independently.
+ // Visual animation runs independently
  drawGlobe(now);
  drawRadar(now);
 
  if(selectedName){
   const obj=positions.find(o=>o.name===selectedName);
-  if(obj)updateSelected(obj);
+
+  if(obj){
+   // 選択情報は毎秒更新するが、予測計算は衛星変更時だけ
+   $('altitude').textContent=Math.round(obj.alt).toLocaleString()+' km';
+   $('velocity').textContent=obj.velocity.toFixed(2)+' km/s';
+   $('elevation').textContent=obj.elevation.toFixed(1)+'°';
+   $('azimuth').textContent=obj.azimuth.toFixed(1)+'°';
+  }
  }
 
  $('clock').textContent=new Date().toLocaleTimeString('ja-JP');
+
  requestAnimationFrame(animate);
 }
 
@@ -776,6 +1204,7 @@ setInterval(()=>{
 
 animate();
 loadData();
+
 })();
 </script>
 </body>
