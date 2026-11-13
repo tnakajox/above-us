@@ -3,468 +3,437 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>002 — ABOVE US | NAKAJOX EXPERIMENT</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/satellite.js/5.0.0/satellite.min.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@300;400;500;600;700&display=swap');
-
-:root {
-  --bg:#05090e; --panel:#09131b; --line:#17313e;
-  --cyan:#70eaff; --blue:#328ca7; --amber:#e6b76c;
-  --white:#e4f1f3; --muted:#69818b; --red:#ff6464;
-}
+:root{--bg:#05090e;--panel:#09131b;--line:#17313e;--cyan:#70eaff;--amber:#e6b76c;--white:#e4f1f3;--muted:#69818b;--red:#ff6464}
 *{box-sizing:border-box}
-body {
-  margin:0;background:var(--bg);color:var(--white);
-  font-family:'Share Tech Mono',monospace;overflow-x:hidden;
-}
-body:before {
-  content:"";position:fixed;inset:0;pointer-events:none;z-index:5;
-  background:repeating-linear-gradient(0deg,transparent 0px,transparent 3px,rgba(90,180,210,.025) 4px);
-}
-header {
-  padding:24px 4vw 18px;border-bottom:1px solid var(--line);
-  display:flex;justify-content:space-between;align-items:flex-end;gap:20px;
-}
+body{margin:0;background:var(--bg);color:var(--white);font-family:'Share Tech Mono',monospace}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:10;background:repeating-linear-gradient(0deg,transparent 0 3px,rgba(90,180,210,.025) 4px)}
+header{padding:22px 4vw 17px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:flex-end;gap:20px}
 .eyebrow{font-size:10px;letter-spacing:3px;color:var(--cyan)}
-h1 {
-  font:500 clamp(36px,6vw,72px)/.9 'Barlow Condensed',sans-serif;
-  letter-spacing:3px;margin:10px 0 4px;
-}
-.subtitle{font:300 14px 'Barlow Condensed',sans-serif;letter-spacing:4px;color:var(--muted)}
-.header-right{text-align:right;font-size:11px;color:var(--muted);line-height:2}
+h1{font:500 clamp(38px,6vw,72px)/.9 'Barlow Condensed';letter-spacing:3px;margin:10px 0 5px}
+.subtitle{font:300 14px 'Barlow Condensed';letter-spacing:4px;color:var(--muted)}
+.header-right{text-align:right;font-size:10px;color:var(--muted);line-height:2}
 .live{color:var(--cyan);letter-spacing:2px}
-.live:before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--cyan);margin-right:9px;box-shadow:0 0 12px var(--cyan)}
-main{padding:22px 4vw 40px;max-width:1600px;margin:auto}
-.topline{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;gap:15px;flex-wrap:wrap}
-.section-label{font-size:10px;letter-spacing:2px;color:var(--muted)}
-.location{font-size:11px;color:var(--amber)}
-.layout{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:16px}
-.radar-wrap {
-  position:relative;background:
-  radial-gradient(ellipse at 50% 48%,#0b202b 0%,#07121b 48%,#050a10 100%);
-  border:1px solid var(--line);min-height:520px;overflow:hidden;
-}
-.radar-wrap:after {
-  content:"";position:absolute;inset:0;pointer-events:none;
-  background:linear-gradient(90deg,transparent 49.9%,rgba(75,180,210,.07) 50%,transparent 50.1%),
-  linear-gradient(0deg,transparent 49.9%,rgba(75,180,210,.07) 50%,transparent 50.1%);
-}
-canvas{display:block;width:100%;height:100%;min-height:520px}
-.radar-caption {
-  position:absolute;left:18px;top:16px;font-size:10px;line-height:1.9;
-  color:var(--muted);pointer-events:none;z-index:2;
-}
-.radar-caption strong{color:var(--cyan);font-weight:normal}
-.radar-bottom {
-  position:absolute;bottom:15px;left:18px;right:18px;display:flex;
-  justify-content:space-between;font-size:9px;color:var(--muted);z-index:2;
-  pointer-events:none;
-}
+.live:before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--cyan);margin-right:8px;box-shadow:0 0 12px var(--cyan)}
+main{padding:20px 4vw 40px;max-width:1600px;margin:auto}
+.topline{display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap;margin-bottom:12px}
+.label{font-size:10px;letter-spacing:2px;color:var(--muted)}
+.location{font-size:10px;color:var(--amber)}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:14px}
+.globe-panel{position:relative;min-height:570px;border:1px solid var(--line);overflow:hidden;background:radial-gradient(ellipse at 50% 48%,#102b38 0%,#07141e 48%,#04080d 100%)}
+#globe{width:100%;height:570px;display:block}
+.globe-caption{position:absolute;top:15px;left:18px;font-size:10px;line-height:1.9;color:var(--muted);pointer-events:none}
+.globe-caption strong{color:var(--cyan);font-weight:normal}
+.globe-bottom{position:absolute;bottom:14px;left:18px;right:18px;display:flex;justify-content:space-between;gap:10px;font-size:9px;color:var(--muted);pointer-events:none}
 .side{display:flex;flex-direction:column;gap:12px}
-.panel{border:1px solid var(--line);background:var(--panel);padding:17px}
-.panel-title{font-size:10px;letter-spacing:2px;color:var(--muted);margin-bottom:14px}
-.big-number{font:400 46px/.95 'Barlow Condensed',sans-serif;color:var(--cyan)}
-.big-unit{font-size:10px;color:var(--muted);margin-top:7px}
-.stat-row{display:flex;justify-content:space-between;border-top:1px solid #142832;padding:10px 0;font-size:10px}
+.panel{border:1px solid var(--line);background:var(--panel);padding:16px}
+.panel-title{font-size:10px;letter-spacing:2px;color:var(--muted);margin-bottom:13px}
+.big-number{font:400 45px/.95 'Barlow Condensed';color:var(--cyan)}
+.big-unit{font-size:9px;color:var(--muted);margin-top:7px}
+.stat-row{display:flex;justify-content:space-between;gap:8px;border-top:1px solid #142832;padding:9px 0;font-size:9px}
 .stat-row span:first-child{color:var(--muted)}
-.stat-row span:last-child{color:var(--white)}
-.selected-name{font:500 23px/1.1 'Barlow Condensed',sans-serif;color:var(--cyan);min-height:26px}
-.selected-sub{font-size:9px;color:var(--muted);margin:7px 0 13px}
-.empty{font-size:11px;line-height:1.8;color:var(--muted)}
+.stat-row span:last-child{text-align:right}
+.selected-name{font:500 22px/1.1 'Barlow Condensed';color:var(--cyan);min-height:25px;overflow-wrap:anywhere}
+.selected-sub{font-size:9px;color:var(--muted);margin:6px 0 13px}
 .data-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.data-cell{border-top:1px solid #142832;padding-top:9px}
+.data-cell{border-top:1px solid #142832;padding-top:8px}
 .data-cell small{display:block;color:var(--muted);font-size:9px;margin-bottom:5px}
-.data-cell strong{font:400 22px 'Barlow Condensed',sans-serif;color:var(--white)}
-.footer-grid{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:12px;margin-top:16px}
-.info{border:1px solid var(--line);padding:15px 17px;background:#071018}
-.info h3{font-size:10px;letter-spacing:2px;color:var(--amber);font-weight:normal;margin:0 0 9px}
-.info p{font-size:10px;color:#8da1a8;line-height:1.8;margin:0}
-.info a{color:var(--cyan);text-decoration:none}
-.info a:hover{text-decoration:underline}
-.statusline{font-size:10px;color:var(--muted);margin-top:14px;min-height:16px}
-.statusline.error{color:var(--red)}
-button {
-  background:transparent;border:1px solid var(--line);color:var(--cyan);
-  font:10px 'Share Tech Mono';letter-spacing:1px;padding:8px 12px;cursor:pointer;
-}
+.data-cell strong{font:400 20px 'Barlow Condensed'}
+button{background:transparent;border:1px solid var(--line);color:var(--cyan);font:10px 'Share Tech Mono';letter-spacing:1px;padding:8px 11px;cursor:pointer}
 button:hover{background:#102532}
-@media(max-width:850px){
- .layout{grid-template-columns:1fr}
- .side{display:grid;grid-template-columns:1fr 1fr}
- .radar-wrap,canvas{min-height:440px}
- .footer-grid{grid-template-columns:1fr}
-}
-@media(max-width:520px){
- header{align-items:flex-start;flex-direction:column}
- .header-right{text-align:left}
- main{padding:18px 14px 30px}
- .side{grid-template-columns:1fr}
- .radar-wrap,canvas{min-height:390px}
-}
+.services{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}
+.service{border:1px solid var(--line);background:#071018;padding:15px;min-height:125px}
+.service-icon{font-size:19px;color:var(--cyan);margin-bottom:10px}
+.service h3{font:500 18px 'Barlow Condensed';letter-spacing:1px;margin:0 0 7px}
+.service p{font-size:9px;line-height:1.8;color:#8da1a8;margin:0}
+.radar-section{margin-top:24px}
+.radar-layout{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:14px}
+.radar-panel{border:1px solid var(--line);background:radial-gradient(ellipse at center,#0b202b,#050a10 75%);position:relative}
+#radar{width:100%;height:360px;display:block}
+.radar-info{border:1px solid var(--line);background:var(--panel);padding:18px}
+.radar-info p{font-size:10px;color:#8da1a8;line-height:1.9}
+.status{font-size:10px;color:var(--muted);margin:12px 0;min-height:15px}
+.status.error{color:var(--red)}
+.footer{display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap;margin-top:30px;border-top:1px solid var(--line);padding-top:15px;color:#526b75;font-size:9px;letter-spacing:1px}
+.footer a{color:var(--muted);text-decoration:none}
+@media(max-width:900px){.layout,.radar-layout{grid-template-columns:1fr}.side{display:grid;grid-template-columns:1fr 1fr}.services{grid-template-columns:1fr 1fr}}
+@media(max-width:550px){header{align-items:flex-start;flex-direction:column}.header-right{text-align:left}main{padding:18px 12px 30px}.side{grid-template-columns:1fr}.services{grid-template-columns:1fr 1fr}.globe-panel{min-height:390px}#globe{height:390px}.globe-bottom{font-size:8px}#radar{height:300px}}
 </style>
 </head>
 <body>
 <header>
-  <div>
-    <div class="eyebrow">NAKAJOX EXPERIMENT / 002</div>
-    <h1>ABOVE US</h1>
-    <div class="subtitle">THE SKY IS NOT EMPTY.</div>
-  </div>
-  <div class="header-right">
-    <div class="live">ORBITAL MONITOR</div>
-    <div id="clock">--:--:--</div>
-    <div>OBSERVER / YOKOHAMA, JAPAN</div>
-  </div>
+ <div>
+  <div class="eyebrow">NAKAJOX EXPERIMENT / 002</div>
+  <h1>ABOVE US</h1>
+  <div class="subtitle">THE SKY IS NOT EMPTY.</div>
+ </div>
+ <div class="header-right">
+  <div class="live">ORBITAL MONITOR / LIVE</div>
+  <div id="clock">--:--:--</div>
+  <div>OBSERVER / YOKOHAMA, JAPAN</div>
+ </div>
 </header>
 
 <main>
+ <div class="topline">
+  <div class="label">01 / EARTH ORBITAL SYSTEM</div>
+  <div class="location">35.4437° N &nbsp; 139.6380° E</div>
+ </div>
+
+ <div class="layout">
+  <section class="globe-panel">
+   <div class="globe-caption"><strong>EARTH / ORBITAL VIEW</strong><br>LIVE POSITION CALCULATION<br>OBSERVER: YOKOHAMA</div>
+   <canvas id="globe"></canvas>
+   <div class="globe-bottom">
+    <span id="globe-count">OBJECTS: --</span>
+    <span>ORBITAL POSITIONS / PROJECTED</span>
+    <span>EARTH / 3D PROJECTION</span>
+   </div>
+  </section>
+
+  <aside class="side">
+   <section class="panel">
+    <div class="panel-title">SATELLITES IN VIEW</div>
+    <div class="big-number" id="visible-count">--</div>
+    <div class="big-unit">ABOVE LOCAL HORIZON</div>
+    <div class="stat-row"><span>OBJECTS TRACKED</span><span id="tracked-count">--</span></div>
+    <div class="stat-row"><span>DATA SOURCE</span><span>CELESTRAK</span></div>
+    <div class="stat-row"><span>LAST TLE UPDATE</span><span id="update-time">--</span></div>
+   </section>
+
+   <section class="panel">
+    <div class="panel-title">SELECTED OBJECT</div>
+    <div class="selected-name" id="selected-name">NO TARGET</div>
+    <div class="selected-sub" id="selected-sub">SELECT A SATELLITE ON THE GLOBE OR RADAR</div>
+    <div class="data-grid">
+     <div class="data-cell"><small>ALTITUDE</small><strong id="altitude">--</strong></div>
+     <div class="data-cell"><small>VELOCITY</small><strong id="velocity">--</strong></div>
+     <div class="data-cell"><small>ELEVATION</small><strong id="elevation">--</strong></div>
+     <div class="data-cell"><small>AZIMUTH</small><strong id="azimuth">--</strong></div>
+    </div>
+   </section>
+
+   <section class="panel">
+    <div class="panel-title">SYSTEM STATUS</div>
+    <div class="stat-row"><span>ORBITAL ENGINE</span><span id="engine-status">LOADING</span></div>
+    <div class="stat-row"><span>POSITION UPDATE</span><span>1 SEC</span></div>
+    <div class="stat-row"><span>ORBITAL TRAILS</span><span>LOCAL HISTORY</span></div>
+    <button id="reload">REFRESH ORBITAL DATA ↻</button>
+   </section>
+  </aside>
+ </div>
+
+ <div class="status" id="status">INITIALIZING ORBITAL SYSTEM...</div>
+
+ <div class="services">
+  <article class="service">
+   <div class="service-icon">⌖</div>
+   <h3>GPS / NAVIGATION</h3>
+   <p>Satellite positioning helps smartphones, vehicles and other systems estimate where they are on Earth.</p>
+  </article>
+  <article class="service">
+   <div class="service-icon">⌁</div>
+   <h3>COMMUNICATION</h3>
+   <p>Satellite systems can relay information across oceans, remote regions and areas without terrestrial networks.</p>
+  </article>
+  <article class="service">
+   <div class="service-icon">◉</div>
+   <h3>WEATHER / CLIMATE</h3>
+   <p>Earth observation satellites monitor clouds, storms, oceans and changes across the planet.</p>
+  </article>
+  <article class="service">
+   <div class="service-icon">✳</div>
+   <h3>DISASTER RESPONSE</h3>
+   <p>Satellite imagery and positioning can support damage assessment, mapping and emergency coordination.</p>
+  </article>
+ </div>
+
+ <section class="radar-section">
   <div class="topline">
-    <div class="section-label">01 / LIVE SKY SURVEILLANCE</div>
-    <div class="location">35.4437° N &nbsp; 139.6380° E</div>
+   <div class="label">02 / WHAT PASSES ABOVE YOKOHAMA</div>
+   <div class="location">LOCAL SKY / 360° RADAR</div>
   </div>
-
-  <div class="layout">
-    <section class="radar-wrap">
-      <div class="radar-caption">
-        <strong>SKY RADAR / 360°</strong><br>
-        CENTER = ZENITH<br>
-        OUTER RING = HORIZON
-      </div>
-      <canvas id="radar"></canvas>
-      <div class="radar-bottom">
-        <span id="radar-count">TRACKING: --</span>
-        <span>AZIMUTH / ELEVATION</span>
-        <span>YOKOHAMA / JP</span>
-      </div>
-    </section>
-
-    <aside class="side">
-      <section class="panel">
-        <div class="panel-title">SATELLITES IN VIEW</div>
-        <div class="big-number" id="visible-count">--</div>
-        <div class="big-unit">ABOVE LOCAL HORIZON</div>
-        <div class="stat-row"><span>OBJECTS TRACKED</span><span id="tracked-count">--</span></div>
-        <div class="stat-row"><span>DATA SOURCE</span><span>CELESTRAK</span></div>
-        <div class="stat-row"><span>LAST TLE UPDATE</span><span id="update-time">--</span></div>
-      </section>
-
-      <section class="panel">
-        <div class="panel-title">SELECTED OBJECT</div>
-        <div class="selected-name" id="selected-name">NO TARGET</div>
-        <div class="selected-sub" id="selected-id">SELECT A POINT ON RADAR</div>
-        <div class="data-grid">
-          <div class="data-cell"><small>ALTITUDE</small><strong id="altitude">--</strong></div>
-          <div class="data-cell"><small>VELOCITY</small><strong id="velocity">--</strong></div>
-          <div class="data-cell"><small>ELEVATION</small><strong id="elevation">--</strong></div>
-          <div class="data-cell"><small>AZIMUTH</small><strong id="azimuth">--</strong></div>
-        </div>
-      </section>
-
-      <section class="panel">
-        <div class="panel-title">SYSTEM</div>
-        <div class="stat-row"><span>ORBITAL ENGINE</span><span id="engine-status">LOADING</span></div>
-        <div class="stat-row"><span>POSITION UPDATE</span><span>1 SEC</span></div>
-        <div class="stat-row"><span>OBSERVATION</span><span>YOKOHAMA</span></div>
-        <button id="reload">RELOAD ORBITAL DATA ↻</button>
-      </section>
-    </aside>
+  <div class="radar-layout">
+   <div class="radar-panel">
+    <canvas id="radar"></canvas>
+   </div>
+   <div class="radar-info">
+    <div class="panel-title">HOW TO READ THIS</div>
+    <p>Each point is a satellite calculated from its orbital data.</p>
+    <p>The radar is centered on Yokohama. The center represents directly overhead; the outer circle represents the horizon.</p>
+    <p>Click a point to inspect the satellite. The globe and radar use the same live orbital calculations.</p>
+    <div class="panel-title" style="margin-top:22px">DATA TRANSPARENCY</div>
+    <p>Satellite positions are calculated from public orbital elements. The globe is a stylized projection, not a photographic or exact geographic map.</p>
+    <p>Service descriptions explain general satellite infrastructure. They do not identify the function of each displayed satellite.</p>
+   </div>
   </div>
+ </section>
 
-  <div class="statusline" id="status">INITIALIZING ORBITAL SYSTEM...</div>
-
-  <div class="footer-grid">
-    <section class="info">
-      <h3>02 / WHAT YOU ARE SEEING</h3>
-      <p>Each point represents an artificial satellite calculated from publicly available orbital elements. Its position is recalculated continuously against the observer's location in Yokohama.</p>
-    </section>
-    <section class="info">
-      <h3>03 / NOT A SIMULATION</h3>
-      <p>The satellite positions are calculated from real orbital data. The radar display is a visual projection of direction and elevation, not a photograph of the sky.</p>
-    </section>
-    <section class="info">
-      <h3>04 / DATA SOURCE</h3>
-      <p>Orbital elements: <a href="https://celestrak.org/" target="_blank" rel="noopener">CelesTrak</a><br>
-      Position engine: satellite.js<br>
-      TLE data is periodically refreshed. Positions are calculated locally in this browser.</p>
-    </section>
-  </div>
-  <div style="display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap;margin-top:28px;border-top:1px solid var(--line);padding-top:15px;color:#526b75;font-size:9px;letter-spacing:1px">
-    <span>NAKAJOX EXPERIMENT / ELECTRICLADY</span>
-    <a href="https://electriclady.xyz" target="_blank" rel="noopener" style="color:var(--muted);text-decoration:none">© electriclady.xyz</a>
-  </div>
+ <div class="footer">
+  <span>NAKAJOX EXPERIMENT / 002</span>
+  <span>ORBITAL DATA: <a href="https://celestrak.org/" target="_blank" rel="noopener">CELESTRAK</a> / POSITION ENGINE: SATELLITE.JS</span>
+  <a href="https://electriclady.xyz" target="_blank" rel="noopener">© electriclady.xyz</a>
+ </div>
 </main>
 
 <script>
 (() => {
-  const canvas = document.getElementById('radar');
-  const ctx = canvas.getContext('2d');
-  const observer = {
-    latitude: 35.4437 * Math.PI / 180,
-    longitude: 139.6380 * Math.PI / 180,
-    height: 0.02
+const $ = id => document.getElementById(id);
+const observer = {
+ latitude:35.4437*Math.PI/180,
+ longitude:139.6380*Math.PI/180,
+ height:0.02
+};
+const globe=$('globe'), gc=globe.getContext('2d');
+const radar=$('radar'), rc=radar.getContext('2d');
+let satellites=[],selectedName=null,lastFetch=null,fetching=false;
+let globeSize={},radarSize={},history=new Map(),visibleNow=[];
+const DEG=Math.PI/180;
+const radToDeg=x=>x/DEG;
+
+function resizeCanvas(canvas,ctx,store) {
+ const r=canvas.getBoundingClientRect(),dpr=Math.min(devicePixelRatio||1,2);
+ canvas.width=Math.round(r.width*dpr);canvas.height=Math.round(r.height*dpr);
+ ctx.setTransform(dpr,0,0,dpr,0,0);
+ store.w=r.width;store.h=r.height;
+}
+function resize(){
+ resizeCanvas(globe,gc,globeSize);
+ resizeCanvas(radar,rc,radarSize);
+}
+window.addEventListener('resize',resize);resize();
+
+function parseTLE(text){
+ const lines=text.trim().split(/\r?\n/),out=[];
+ for(let i=0;i<lines.length-2;i++){
+  if(lines[i+1].startsWith('1 ')&&lines[i+2].startsWith('2 ')){
+   try{
+    out.push({name:lines[i].trim().replace(/^0 /,''),l1:lines[i+1],l2:lines[i+2],
+     satrec:satellite.twoline2satrec(lines[i+1],lines[i+2])});
+    i+=2;
+   }catch(e){}
+  }
+ }
+ return out;
+}
+
+async function loadData(){
+ if(fetching)return;
+ fetching=true;$('status').className='status';
+ $('status').textContent='CONNECTING TO CELESTRAK / FETCHING ORBITAL ELEMENTS...';
+ $('engine-status').textContent='CONNECTING';
+ try{
+  const url='https://celestrak.org/NORAD/elements/gp.php?GROUP=visual&FORMAT=tle&_='+Date.now();
+  const res=await fetch(url,{cache:'no-store'});
+  if(!res.ok)throw Error('HTTP '+res.status);
+  const parsed=parseTLE(await res.text());
+  if(!parsed.length)throw Error('No valid orbital elements received');
+  satellites=parsed;lastFetch=new Date();history.clear();
+  $('tracked-count').textContent=satellites.length;
+  $('update-time').textContent=lastFetch.toLocaleTimeString('en-GB');
+  $('engine-status').textContent='ONLINE';
+  $('status').textContent='ORBITAL DATA RECEIVED / '+satellites.length+' OBJECTS / LIVE POSITION CALCULATION ACTIVE';
+ }catch(e){
+  $('engine-status').textContent='OFFLINE';
+  $('status').className='status error';
+  $('status').textContent='DATA CONNECTION FAILED: '+e.message+' / No simulated satellite positions are shown.';
+ }finally{fetching=false;}
+}
+
+function calculate(sat,now){
+ try{
+  const pv=satellite.propagate(sat.satrec,now);
+  if(!pv.position||!pv.velocity)return null;
+  const gmst=satellite.gstime(now);
+  const geo=satellite.eciToGeodetic(pv.position,gmst);
+  const ecf=satellite.eciToEcf(pv.position,gmst);
+  const look=satellite.ecfToLookAngles(observer,ecf);
+  return {
+   name:sat.name,lat:geo.latitude,lon:geo.longitude,alt:geo.height,
+   velocity:Math.hypot(pv.velocity.x,pv.velocity.y,pv.velocity.z),
+   elevation:radToDeg(look.elevation),
+   azimuth:(radToDeg(look.azimuth)+360)%360
   };
+ }catch(e){return null;}
+}
 
-  let satellites = [];
-  let selected = null;
-  let lastFetch = null;
-  let fetchBusy = false;
-  let width = 0, height = 0, cx = 0, cy = 0, radius = 0;
-  let trails = new Map();
-  let lastFrame = 0;
+// Orthographic globe projection centered on Yokohama.
+function project(lat,lon,alt=0){
+ const lat0=observer.latitude,lon0=observer.longitude;
+ const dl=lon-lon0;
+ const z=Math.sin(lat0)*Math.sin(lat)+Math.cos(lat0)*Math.cos(lat)*Math.cos(dl);
+ const x=Math.cos(lat)*Math.sin(dl);
+ const y=Math.cos(lat0)*Math.sin(lat)-Math.sin(lat0)*Math.cos(lat)*Math.cos(dl);
+ const scale=1+Math.max(0,Math.min(3000,alt))/6371;
+ const R=globeSize.R||150;
+ return {x:globeSize.cx+x*R*scale,y:globeSize.cy-y*R*scale,z};
+}
 
-  const $ = id => document.getElementById(id);
-  const radToDeg = v => v * 180 / Math.PI;
+function drawGlobe(now){
+ const w=globeSize.w,h=globeSize.h;
+ gc.clearRect(0,0,w,h);
+ const R=Math.min(w*.34,h*.36),cx=w/2,cy=h/2+10;
+ globeSize={...globeSize,R,cx,cy};
+ // Atmospheric glow
+ const glow=gc.createRadialGradient(cx,cy,R*.7,cx,cy,R*1.35);
+ glow.addColorStop(0,'rgba(30,145,190,.12)');
+ glow.addColorStop(.65,'rgba(30,145,190,.09)');
+ glow.addColorStop(1,'rgba(30,145,190,0)');
+ gc.fillStyle=glow;gc.beginPath();gc.arc(cx,cy,R*1.4,0,Math.PI*2);gc.fill();
+ // Earth sphere
+ const earth=gc.createRadialGradient(cx-R*.35,cy-R*.4,R*.05,cx,cy,R*1.1);
+ earth.addColorStop(0,'#1b5365');earth.addColorStop(.55,'#0c2a39');earth.addColorStop(1,'#030b12');
+ gc.fillStyle=earth;gc.beginPath();gc.arc(cx,cy,R,0,Math.PI*2);gc.fill();
+ gc.save();gc.beginPath();gc.arc(cx,cy,R,0,Math.PI*2);gc.clip();
+ // Stylized land-like forms, deliberately not a geographic map
+ gc.fillStyle='rgba(65,139,130,.19)';
+ [[-.35,-.22,.20,.30],[.12,-.38,.20,.12],[.38,.10,.18,.25],[-.12,.35,.16,.22]].forEach(([x,y,rx,ry])=>{
+  gc.beginPath();gc.ellipse(cx+x*R,cy+y*R,rx*R,ry*R,-.4,0,Math.PI*2);gc.fill();
+ });
+ // Latitude and longitude lines
+ gc.strokeStyle='rgba(100,210,230,.20)';gc.lineWidth=.7;
+ for(let lat=-60;lat<=60;lat+=30){
+  gc.beginPath();
+  for(let lon=-90;lon<=90;lon+=3){
+   const p=project(lat*DEG,lon*DEG);
+   if(lon===-90)gc.moveTo(p.x,p.y);else gc.lineTo(p.x,p.y);
+  }gc.stroke();
+ }
+ for(let lon=-75;lon<=75;lon+=25){
+  gc.beginPath();
+  for(let lat=-90;lat<=90;lat+=3){
+   const p=project(lat*DEG,lon*DEG);
+   if(lat===-90)gc.moveTo(p.x,p.y);else gc.lineTo(p.x,p.y);
+  }gc.stroke();
+ }
+ gc.restore();
+ gc.strokeStyle='rgba(100,220,240,.65)';gc.lineWidth=1;
+ gc.beginPath();gc.arc(cx,cy,R,0,Math.PI*2);gc.stroke();
 
-  function resize() {
-    const rect = canvas.getBoundingClientRect();
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    width = rect.width; height = rect.height;
-    canvas.width = Math.round(width * dpr);
-    canvas.height = Math.round(height * dpr);
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    cx = width / 2;
-    cy = height / 2 + 12;
-    radius = Math.min(width * 0.39, height * 0.42);
-  }
-  window.addEventListener('resize', resize);
-  resize();
+ // Yokohama marker
+ gc.fillStyle='#e6b76c';gc.shadowColor='#e6b76c';gc.shadowBlur=14;
+ gc.beginPath();gc.arc(cx,cy,3.5,0,Math.PI*2);gc.fill();gc.shadowBlur=0;
+ gc.fillStyle='#e6b76c';gc.font='9px Share Tech Mono';gc.textAlign='center';
+ gc.fillText('YOKOHAMA',cx,cy+17);
 
-  function parseTLE(text) {
-    const lines = text.trim().split(/\r?\n/);
-    const result = [];
-    for (let i = 0; i < lines.length - 2; i++) {
-      if (lines[i+1].startsWith('1 ') && lines[i+2].startsWith('2 ')) {
-        try {
-          result.push({
-            name: lines[i].trim().replace(/^0 /,''),
-            line1: lines[i+1],
-            line2: lines[i+2],
-            satrec: satellite.twoline2satrec(lines[i+1], lines[i+2])
-          });
-          i += 2;
-        } catch(e) {}
-      }
-    }
-    return result;
-  }
+ // Orbit traces and satellite positions
+ satellites.forEach(sat=>{
+  const obj=calculate(sat,now);if(!obj)return;
+  const p=project(obj.lat,obj.lon,obj.alt);
+  const key=sat.name;
+  if(!history.has(key))history.set(key,[]);
+  const arr=history.get(key);
+  arr.push({lat:obj.lat,lon:obj.lon,alt:obj.alt});
+  if(arr.length>30)arr.shift();
 
-  async function loadData() {
-    if (fetchBusy) return;
-    fetchBusy = true;
-    $('status').className = 'statusline';
-    $('status').textContent = 'CONNECTING TO CELESTRAK / FETCHING ORBITAL ELEMENTS...';
-    $('engine-status').textContent = 'CONNECTING';
-
-    try {
-      const url = 'https://celestrak.org/NORAD/elements/gp.php?GROUP=visual&FORMAT=tle&_=' + Date.now();
-      const response = await fetch(url, {cache:'no-store'});
-      if (!response.ok) throw new Error('HTTP ' + response.status);
-      const text = await response.text();
-      const parsed = parseTLE(text);
-      if (!parsed.length) throw new Error('No valid orbital elements received');
-
-      satellites = parsed;
-      lastFetch = new Date();
-      trails.clear();
-      $('tracked-count').textContent = satellites.length;
-      $('update-time').textContent = lastFetch.toLocaleTimeString('en-GB');
-      $('engine-status').textContent = 'ONLINE';
-      $('status').textContent = 'ORBITAL DATA RECEIVED / ' + satellites.length + ' OBJECTS / LIVE POSITION CALCULATION ACTIVE';
-    } catch (err) {
-      $('engine-status').textContent = 'OFFLINE';
-      $('status').className = 'statusline error';
-      $('status').textContent = 'DATA CONNECTION FAILED: ' + err.message + ' / Check network or browser access. No simulated satellite positions are shown.';
-    } finally {
-      fetchBusy = false;
-    }
-  }
-
-  function calculate(sat, now) {
-    try {
-      const positionAndVelocity = satellite.propagate(sat.satrec, now);
-      const positionEci = positionAndVelocity.position;
-      const velocityEci = positionAndVelocity.velocity;
-      if (!positionEci || !velocityEci) return null;
-
-      const gmst = satellite.gstime(now);
-      const geodetic = satellite.eciToGeodetic(positionEci, gmst);
-      const ecf = satellite.eciToEcf(positionEci, gmst);
-      const look = satellite.ecfToLookAngles(observer, ecf);
-      const altitude = geodetic.height;
-      const velocity = Math.sqrt(
-        velocityEci.x ** 2 + velocityEci.y ** 2 + velocityEci.z ** 2
-      );
-
-      return {
-        name: sat.name,
-        satrec: sat.satrec,
-        altitude,
-        velocity,
-        elevation: radToDeg(look.elevation),
-        azimuth: (radToDeg(look.azimuth) + 360) % 360
-      };
-    } catch(e) { return null; }
-  }
-
-  function polarPoint(obj) {
-    const r = radius * (1 - Math.max(0, Math.min(90, obj.elevation)) / 90);
-    const a = obj.azimuth * Math.PI / 180;
-    return {x:cx + Math.sin(a)*r, y:cy - Math.cos(a)*r};
-  }
-
-  function drawGrid() {
-    ctx.save();
-    ctx.strokeStyle = 'rgba(75,180,210,.19)';
-    ctx.lineWidth = 1;
-    [1, .75, .5, .25].forEach((scale, i) => {
-      ctx.beginPath();
-      ctx.arc(cx, cy, radius * scale, 0, Math.PI*2);
-      ctx.stroke();
-      ctx.fillStyle = 'rgba(100,180,200,.5)';
-      ctx.font = '9px Share Tech Mono';
-      ctx.fillText((90 - i*22.5) + '°', cx + 5, cy - radius*scale - 4);
+  // Only draw points on the visible hemisphere
+  if(p.z>-.05){
+   if(arr.length>2){
+    gc.beginPath();let started=false;
+    arr.forEach(pt=>{
+     const q=project(pt.lat,pt.lon,pt.alt);
+     if(q.z>-.05){if(!started){gc.moveTo(q.x,q.y);started=true;}else gc.lineTo(q.x,q.y);}
     });
-    for (let a=0; a<360; a+=30) {
-      const r = a*Math.PI/180;
-      ctx.beginPath();
-      ctx.moveTo(cx,cy);
-      ctx.lineTo(cx+Math.sin(r)*radius,cy-Math.cos(r)*radius);
-      ctx.strokeStyle = 'rgba(75,180,210,.10)';
-      ctx.stroke();
-    }
-    const labels = [
-      ['N',0, -radius-12,0],['E',radius+12,0,0],
-      ['S',0,radius+20,0],['W',-radius-12,0,0]
-    ];
-    ctx.fillStyle = '#70a5b2';
-    ctx.font = '11px Share Tech Mono';
-    ctx.textAlign = 'center';
-    ctx.fillText('N',cx,cy-radius-14);
-    ctx.fillText('E',cx+radius+14,cy+4);
-    ctx.fillText('S',cx,cy+radius+22);
-    ctx.fillText('W',cx-radius-14,cy+4);
-
-    ctx.beginPath();
-    ctx.arc(cx,cy,4,0,Math.PI*2);
-    ctx.fillStyle = '#e6b76c';ctx.fill();
-    ctx.shadowColor = '#e6b76c';ctx.shadowBlur = 15;
-    ctx.beginPath();ctx.arc(cx,cy,9,0,Math.PI*2);
-    ctx.strokeStyle='rgba(230,183,108,.5)';ctx.stroke();
-    ctx.shadowBlur=0;
-    ctx.fillStyle='#e6b76c';ctx.font='9px Share Tech Mono';
-    ctx.fillText('YOKOHAMA',cx,cy+22);
-    ctx.restore();
+    gc.strokeStyle='rgba(95,220,255,.24)';gc.lineWidth=1;gc.stroke();
+   }
+   const active=selectedName===sat.name;
+   gc.save();gc.shadowColor=active?'#ffffff':'#70eaff';gc.shadowBlur=active?20:12;
+   gc.fillStyle=active?'#ffffff':'#70eaff';
+   gc.beginPath();gc.arc(p.x,p.y,active?4.5:2.5,0,Math.PI*2);gc.fill();gc.restore();
+   if(active){
+    gc.strokeStyle='rgba(255,255,255,.8)';gc.beginPath();gc.arc(p.x,p.y,10,0,Math.PI*2);gc.stroke();
+    gc.fillStyle='#fff';gc.font='10px Share Tech Mono';gc.fillText(sat.name.slice(0,22),p.x+12,p.y-10);
+   }
   }
+ });
+ // Subtle orbital rings
+ gc.strokeStyle='rgba(80,180,210,.10)';gc.setLineDash([3,8]);
+ gc.beginPath();gc.ellipse(cx,cy,R*1.16,R*.36,-.4,0,Math.PI*2);gc.stroke();
+ gc.beginPath();gc.ellipse(cx,cy,R*1.22,R*.48,.8,0,Math.PI*2);gc.stroke();
+ gc.setLineDash([]);
+}
 
-  function draw() {
-    ctx.clearRect(0,0,width,height);
-    drawGrid();
+function drawRadar(now){
+ const w=radarSize.w,h=radarSize.h;
+ rc.clearRect(0,0,w,h);
+ const cx=w/2,cy=h/2+8,R=Math.min(w*.37,h*.38);
+ radarSize={...radarSize,cx,cy,R};
+ rc.strokeStyle='rgba(75,180,210,.20)';rc.lineWidth=1;
+ [1,.75,.5,.25].forEach((s,i)=>{
+  rc.beginPath();rc.arc(cx,cy,R*s,0,Math.PI*2);rc.stroke();
+  rc.fillStyle='rgba(100,180,200,.55)';rc.font='9px Share Tech Mono';
+  rc.fillText((90-i*22.5)+'°',cx+5,cy-R*s-4);
+ });
+ for(let a=0;a<360;a+=30){
+  const r=a*DEG;rc.beginPath();rc.moveTo(cx,cy);rc.lineTo(cx+Math.sin(r)*R,cy-Math.cos(r)*R);
+  rc.strokeStyle='rgba(75,180,210,.10)';rc.stroke();
+ }
+ rc.fillStyle='#e6b76c';rc.beginPath();rc.arc(cx,cy,3.5,0,Math.PI*2);rc.fill();
+ visibleNow=[];
+ satellites.forEach(sat=>{
+  const obj=calculate(sat,now);if(!obj||obj.elevation<0)return;
+  visibleNow.push(obj);
+  const r=R*(1-Math.min(90,obj.elevation)/90),a=obj.azimuth*DEG;
+  const x=cx+Math.sin(a)*r,y=cy-Math.cos(a)*r;
+  const active=selectedName===sat.name;
+  rc.save();rc.shadowColor=active?'#fff':'#70eaff';rc.shadowBlur=active?18:10;
+  rc.fillStyle=active?'#fff':'#70eaff';rc.beginPath();rc.arc(x,y,active?5:3,0,Math.PI*2);rc.fill();rc.restore();
+  if(active){rc.strokeStyle='#fff';rc.beginPath();rc.arc(x,y,10,0,Math.PI*2);rc.stroke();}
+ });
+ rc.fillStyle='#e6b76c';rc.font='9px Share Tech Mono';rc.textAlign='center';rc.fillText('YOKOHAMA',cx,cy+17);
+ $('visible-count').textContent=visibleNow.length.toString().padStart(2,'0');
+ $('globe-count').textContent='OBJECTS: '+satellites.length+' / VISIBLE: '+visibleNow.length;
+}
 
-    const now = new Date();
-    const visible = [];
+function updateSelected(obj){
+ selectedName=obj.name;
+ $('selected-name').textContent=obj.name;
+ $('selected-sub').textContent='LIVE ORBITAL SOLUTION / PUBLIC TLE';
+ $('altitude').textContent=Math.round(obj.alt).toLocaleString()+' km';
+ $('velocity').textContent=obj.velocity.toFixed(2)+' km/s';
+ $('elevation').textContent=obj.elevation.toFixed(1)+'°';
+ $('azimuth').textContent=obj.azimuth.toFixed(1)+'°';
+}
 
-    satellites.forEach(sat => {
-      const obj = calculate(sat, now);
-      if (!obj) return;
-      if (obj.elevation >= 0) visible.push(obj);
-
-      if (obj.elevation > -2) {
-        const p = polarPoint(obj);
-        const key = sat.name;
-        if (!trails.has(key)) trails.set(key, []);
-        const trail = trails.get(key);
-        if (obj.elevation >= 0) {
-          trail.push({x:p.x,y:p.y});
-          if (trail.length > 18) trail.shift();
-        }
-      }
-    });
-
-    $('visible-count').textContent = visible.length.toString().padStart(2,'0');
-    $('radar-count').textContent = 'TRACKING: ' + satellites.length + ' / VISIBLE: ' + visible.length;
-
-    trails.forEach((trail, key) => {
-      if (trail.length < 2) return;
-      ctx.beginPath();
-      trail.forEach((p,i) => i===0 ? ctx.moveTo(p.x,p.y) : ctx.lineTo(p.x,p.y));
-      ctx.strokeStyle='rgba(75,220,255,.25)';
-      ctx.lineWidth=1;
-      ctx.stroke();
-    });
-
-    visible.forEach(obj => {
-      const p = polarPoint(obj);
-      const isSelected = selected && selected.name === obj.name;
-      ctx.save();
-      ctx.shadowColor = isSelected ? '#ffffff' : '#70eaff';
-      ctx.shadowBlur = isSelected ? 22 : 12;
-      ctx.beginPath();
-      ctx.arc(p.x,p.y,isSelected ? 5 : 3,0,Math.PI*2);
-      ctx.fillStyle = isSelected ? '#ffffff' : '#70eaff';
-      ctx.fill();
-      ctx.restore();
-
-      if (isSelected) {
-        ctx.beginPath();ctx.arc(p.x,p.y,11,0,Math.PI*2);
-        ctx.strokeStyle='rgba(255,255,255,.8)';ctx.stroke();
-      }
-      if (isSelected || width > 700) {
-        ctx.fillStyle = isSelected ? '#ffffff' : 'rgba(140,220,235,.8)';
-        ctx.font='9px Share Tech Mono';
-        ctx.fillText(obj.name.slice(0,19),p.x+9,p.y-8);
-      }
-    });
-
-    if (selected) {
-      const current = visible.find(o => o.name === selected.name);
-      if (current) updateSelected(current);
-      else {
-        $('elevation').textContent = '--';
-      }
-    }
+function hitTest(canvas,e,kind){
+ const rect=canvas.getBoundingClientRect(),x=e.clientX-rect.left,y=e.clientY-rect.top;
+ const now=new Date();let nearest=null,min=24;
+ satellites.forEach(sat=>{
+  const o=calculate(sat,now);if(!o)return;
+  let p;
+  if(kind==='globe'){
+   p=project(o.lat,o.lon,o.alt);
+   if(p.z<-.05)return;
+  }else{
+   if(o.elevation<0)return;
+   const {cx,cy,R}=radarSize,r=R*(1-Math.min(90,o.elevation)/90),a=o.azimuth*DEG;
+   p={x:cx+Math.sin(a)*r,y:cy-Math.cos(a)*r};
   }
+  const d=Math.hypot(p.x-x,p.y-y);
+  if(d<min){min=d;nearest=o;}
+ });
+ if(nearest)updateSelected(nearest);
+}
+globe.addEventListener('click',e=>hitTest(globe,e,'globe'));
+radar.addEventListener('click',e=>hitTest(radar,e,'radar'));
 
-  function updateSelected(obj) {
-    selected = obj;
-    $('selected-name').textContent = obj.name;
-    $('selected-id').textContent = 'OBJECT / LIVE ORBITAL SOLUTION';
-    $('altitude').textContent = Math.round(obj.altitude).toLocaleString() + ' km';
-    $('velocity').textContent = obj.velocity.toFixed(2) + ' km/s';
-    $('elevation').textContent = obj.elevation.toFixed(1) + '°';
-    $('azimuth').textContent = obj.azimuth.toFixed(1) + '°';
-  }
-
-  canvas.addEventListener('click', e => {
-    const rect = canvas.getBoundingClientRect();
-    const x = e.clientX - rect.left, y = e.clientY - rect.top;
-    const now = new Date();
-    let nearest = null, min = 22;
-    satellites.forEach(sat => {
-      const obj = calculate(sat, now);
-      if (!obj || obj.elevation < 0) return;
-      const p = polarPoint(obj);
-      const d = Math.hypot(p.x-x,p.y-y);
-      if (d < min) { min=d;nearest=obj; }
-    });
-    if (nearest) updateSelected(nearest);
-  });
-
-  function tickClock() {
-    $('clock').textContent = new Date().toLocaleTimeString('en-GB');
-  }
-
-  $('reload').addEventListener('click', loadData);
-  tickClock();
-  setInterval(tickClock,1000);
-  setInterval(draw,1000);
-  setInterval(() => {
-    if (lastFetch && Date.now()-lastFetch.getTime() > 30*60*1000) loadData();
-  },60000);
-
-  loadData();
-  draw();
+function tick(){
+ const now=new Date();
+ $('clock').textContent=now.toLocaleTimeString('en-GB');
+ drawGlobe(now);drawRadar(now);
+ if(selectedName){
+  const sat=satellites.find(s=>s.name===selectedName);
+  if(sat){const o=calculate(sat,now);if(o)updateSelected(o);}
+ }
+}
+$('reload').addEventListener('click',loadData);
+setInterval(tick,1000);
+setInterval(()=>{if(lastFetch&&Date.now()-lastFetch.getTime()>30*60*1000)loadData();},60000);
+tick();loadData();
 })();
 </script>
 </body>
